@@ -1,0 +1,16 @@
+{
+  "name": "@amplifiers/amplify-graphql-create-model-post-confirmation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@amplifiers/amplify-graphql-amplifiers-core": "^1.0.0"
+  },
+  "scripts": {
+    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
