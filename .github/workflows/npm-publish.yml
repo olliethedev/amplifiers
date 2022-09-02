@@ -12,7 +12,8 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
+      - run: npm ci -ws
+      - run: npm run compile -ws
       - run: npm publish --workspaces --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
