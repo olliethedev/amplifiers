@@ -1,0 +1,25 @@
+type User
+  @model
+  @createModelPostConfirmation
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: owner, operations: [read, update], ownerField: "id" }
+    ]
+  ) {
+  id: ID!
+  firstName: String
+  lastName: String
+  todos: [Todo] @hasMany
+}
+
+type Todo @model @auth(
+    rules: [
+      { allow: owner }
+    ]
+  )  {
+  id: ID!
+  name: String!
+  description: String
+  user: User @belongsTo
+}

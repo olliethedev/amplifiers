@@ -3,7 +3,9 @@
         "**/*.test.ts",
         "**/*.stub.ts",
         "node_modules",
-        "dist"
+        "dist",
+        "resources",
+        "examples"
     ],
     "compilerOptions": {
         "target": "ES2015",

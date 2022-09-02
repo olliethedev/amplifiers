@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-createmodelpostconf-dev-160620-authRole",
+      "UnauthRoleArn": "arn:aws:iam::446581856886:role/amplify-createmodelpostconf-dev-160620-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::446581856886:role/amplify-createmodelpostconf-dev-160620-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-createmodelpostconf-dev-160620-deployment",
+      "UnauthRoleName": "amplify-createmodelpostconf-dev-160620-unauthRole",
+      "StackName": "amplify-createmodelpostconf-dev-160620",
+      "StackId": "arn:aws:cloudformation:us-east-1:446581856886:stack/amplify-createmodelpostconf-dev-160620/b6a06930-2afa-11ed-bf21-1277a47e4127",
+      "AmplifyAppId": "d2tpf24b6kgxj6"
+    },
+    "categories": {
+      "auth": {
+        "createmodelpostconf36e3f1f0": {}
+      }
+    }
+  }
+}

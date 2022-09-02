@@ -1,5 +1,3 @@
-import { isEven } from '@amplifiers/amplify-graphql-amplifiers-core';
+import { Transformer } from "./amplify-graphql-create-model-post-confirmation-transformer";
 
-export function isOdd(i: number): boolean {
-    return isEven(i) === false;
-}
+export default Transformer;

@@ -6,10 +6,25 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@amplifiers/amplify-graphql-amplifiers-core": "^1.0.0",
-    "@aws-amplify/graphql-transformer-core": "^0.17.11"
+    "@aws-amplify/graphql-transformer-core": "^0.17.11",
+    "@aws-amplify/graphql-transformer-interfaces": "1.14.7",
+    "@aws-cdk/aws-appsync": "~1.124.0",
+    "@aws-cdk/aws-iam": "~1.124.0",
+    "@aws-cdk/aws-lambda": "~1.124.0",
+    "@aws-cdk/core": "~1.124.0",
+    "graphql-mapping-template": "4.20.5",
+    "graphql-transformer-common": "4.24.0"
+  },
+  "devDependencies": {
+    "@aws-amplify/graphql-model-transformer": "0.15.6",
+    "@aws-amplify/graphql-relational-transformer": "0.11.7",
+    "@aws-amplify/graphql-searchable-transformer": "0.15.6",
+    "bestzip": "^2.1.5",
+    "graphql": "^14.5.8",
+    "mkdirp": "^0.5.5"
   },
   "scripts": {
-    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json",
+    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json && mkdirp dist/assets && mkdirp dist/assets && cd resources/lambda-functions && bestzip --force node ../../dist/assets/lambda.zip index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
