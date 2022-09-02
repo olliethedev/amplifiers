@@ -12,6 +12,6 @@ module.exports = {
         "/dist/",
     ],
     moduleNameMapper: {
-        '^@acme-corp/(.*)$': '<rootDir>/packages/$1/'
+        '^@amplifiers/(.*)$': '<rootDir>/packages/$1/'
     }
 };
