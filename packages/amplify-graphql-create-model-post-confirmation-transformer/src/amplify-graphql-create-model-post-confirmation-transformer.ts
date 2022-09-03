@@ -1,65 +1,104 @@
 import {
+    InvalidDirectiveError,
     TransformerPluginBase,
-  } from '@aws-amplify/graphql-transformer-core';
-  import {
+} from '@aws-amplify/graphql-transformer-core';
+import {
+    TransformerContext,
+} from 'graphql-transformer-core';
+import { ModelResourceIDs, ResourceConstants } from "graphql-transformer-common";
+import {
     TransformerContextProvider,
-  } from '@aws-amplify/graphql-transformer-interfaces';
+} from '@aws-amplify/graphql-transformer-interfaces';
 import { TransformerSchemaVisitStepContextProvider } from '@aws-amplify/graphql-transformer-interfaces/src';
 import { DirectiveNode, ObjectTypeDefinitionNode } from 'graphql';
 import { createLambda } from './create-post-confirmation-lambda';
-  
-  const directiveName = "createModelPostConfirmation";
+import { Table } from '@aws-cdk/aws-dynamodb';
+import { DynamoDbDataSource } from '@aws-cdk/aws-appsync';
+import { CfnParameter, IConstruct } from '@aws-cdk/core';
+import { IFunction } from '@aws-cdk/aws-lambda';
+import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 
-  export class Transformer extends TransformerPluginBase {
+const STACK_NAME = 'CreatePostConfirmation';
+
+const directiveName = "createModelPostConfirmation";
+
+interface DirectiveObjectTypeDefinition {
+    node: ObjectTypeDefinitionNode;
+    fieldName: string;
+}
+
+export class Transformer extends TransformerPluginBase {
+    directiveObjectTypeDefinitions: DirectiveObjectTypeDefinition[];
+
     constructor() {
-      super(
-        'amplify-graphql-create-model-post-confirmation-transformer',
+        super(
+            'amplify-graphql-create-model-post-confirmation-transformer',
         /* GraphQL */ `
           directive @${ directiveName } on OBJECT
         `,
-      );
-    }
-    object = (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerSchemaVisitStepContextProvider) => {
-        
-      };
-    generateResolvers = (context: TransformerContextProvider): void => {
-        // const { Env } = ResourceConstants.PARAMETERS;
-        // const { HasEnvironmentParameter } = ResourceConstants.CONDITIONS;
-    
-        // const stack = context.stackManager.createStack(STACK_NAME);
-    
-        // creates region mapping for stack
-        // setMappings(stack);
-    
-        // const envParam = context.stackManager.getParameter(Env) as CfnParameter;
-        // eslint-disable-next-line no-new
-        // new CfnCondition(stack, HasEnvironmentParameter, {
-        //   expression: Fn.conditionNot(Fn.conditionEquals(envParam, ResourceConstants.NONE)),
-        // });
-    
-        // stack.templateOptions.description = 'An auto-generated nested stack for algolia.';
-        // stack.templateOptions.templateFormatVersion = '2010-09-09';
-    
-        // // creates parameters map
-        // const defaultFieldParams = this.searchableObjectTypeDefinitions.reduce((acc, { fieldNameRaw, directiveArguments }) => {
-        //   return { [fieldNameRaw]: directiveArguments.fields, ...acc }
-        // }, {} as Record<string, FieldList>);
-        // const defaultSettingsParams = this.searchableObjectTypeDefinitions.reduce((acc, { fieldNameRaw, directiveArguments }) => {
-        //   return { [fieldNameRaw]: directiveArguments.settings, ...acc }
-        // }, {} as Record<string, string>);
-        // const parameterMap = createParametersInStack(context.stackManager.rootStack, defaultFieldParams, defaultSettingsParams);
-    
-    
-        // streaming lambda role
-        // const lambdaRole = createLambdaRole(context, stack, parameterMap);
-    
-        // creates algolia lambda
-        createLambda(
-            context.api.host, context.stackManager
         );
-        console.log(`Created lambda...`);
-    
+
+        this.directiveObjectTypeDefinitions = [];
+    }
+    object = (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerSchemaVisitStepContextProvider): void => {
+        validateModelDirective(definition);
+
+        this.directiveObjectTypeDefinitions.push({
+            node: definition,
+            fieldName: definition.name.value,
+        });
+
+    };
+    generateResolvers = (context: TransformerContextProvider): void => {
+
+        const stack = context.stackManager.createStack(STACK_NAME);
+
+        const tableNames = this.directiveObjectTypeDefinitions.map(def => (getTable(context, def.node) as Table).tableName);
+        console.log(tableNames);
+
+        // streaming lambda role
+        const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+        });
+
+        // creates algolia lambda
+        const lambda = createLambda(
+            stack, context.api.host, role, tableNames?.[0] ?? ""
+        );
+
         // // creates event source mapping for each table
-        // createSourceMappings(this.searchableObjectTypeDefinitions, context, lambda, parameterMap);
-      };
-  }
+        createSourceMappings(this.directiveObjectTypeDefinitions, context, lambda);
+    };
+
+}
+
+const getTable = (context: TransformerContextProvider, definition: ObjectTypeDefinitionNode): IConstruct => {
+    const ddbDataSource = context.dataSources.get(definition) as DynamoDbDataSource;
+    const tableName = ModelResourceIDs.ModelTableResourceID(definition.name.value);
+    const table = ddbDataSource.ds.stack.node.findChild(tableName);
+    return table;
+};
+
+const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
+    const modelDirective = object.directives!.find(
+        (dir) => dir.name.value === "model"
+    );
+    if (!modelDirective) {
+        throw new InvalidDirectiveError(
+            `Types annotated with @${ directiveName } must also be annotated with @model.`
+        );
+    }
+}
+
+const createSourceMappings = (typeDefinitions: DirectiveObjectTypeDefinition[], context: TransformerContextProvider, lambda: IFunction): void => {
+    for (const def of typeDefinitions) {
+        const table = getTable(context, def.node);
+        const ddbTable = table as Table;
+        if (!ddbTable) {
+            throw new Error('Failed to find ddb table for searchable');
+        }
+        if (lambda.role) {
+            ddbTable.grantReadWriteData(lambda.role);
+        }
+    }
+}
