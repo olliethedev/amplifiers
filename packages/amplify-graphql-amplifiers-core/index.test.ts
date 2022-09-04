@@ -1,5 +1,5 @@
 import * as Transformer from './index'
-describe('amplify-graphql-create-model-post-confirmation-transformer', () => {
+describe('amplify-graphql-amplifiers-core-transformer', () => {
     test('it exists', () => {
         expect(Transformer).toBeDefined();
     });

@@ -14,7 +14,7 @@ function App() {
         <p>
           Register to see User model created in the backend.
         </p>
-        <Authenticator >
+        <Authenticator signUpAttributes={["birthdate", "email", "family_name", "given_name", "middle_name", "name", "nickname", "phone_number", "preferred_username", "profile", "website"]}>
             {({ signOut, user }) => (
               <div>
                 <img src={logo} className="App-logo" alt="logo" />

@@ -1,6 +1,12 @@
 type User
   @model
-  @createModelPostConfirmation
+  @createModelPostConfirmation(
+    fieldMap: [
+      { cognitoField: "email", modelField: "email" }
+      { cognitoField: "given_name", modelField: "firstName" }
+      { cognitoField: "family_name", modelField: "lastName" }
+    ]
+  )
   @auth(
     rules: [
       { allow: public, operations: [read] }
@@ -10,14 +16,11 @@ type User
   id: ID!
   firstName: String
   lastName: String
+  email: AWSEmail
   todos: [Todo] @hasMany
 }
 
-type Todo @model @auth(
-    rules: [
-      { allow: owner }
-    ]
-  )  {
+type Todo @model @createModelPostConfirmation @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
   description: String
