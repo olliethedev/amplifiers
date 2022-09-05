@@ -3,7 +3,7 @@ var ddb = new aws.DynamoDB();
 
 /** @type {string | undefined} */
 const tableName = process.env.API_USERTABLE_NAME;
-/** @type {[{[sourceField:string]: { type: string, source: string }}] | undefined} */
+/** @type {[{[destinationField:string]: { type: string, source: string }}] | undefined} */
 const tableFieldTypeMap = process.env.API_FIELD_TYPE_MAP; // { email: { type: "String", source: "email" }};
 
 exports.handler = async (event, context) => {

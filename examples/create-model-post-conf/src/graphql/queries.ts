@@ -8,6 +8,7 @@ export const getUser = /* GraphQL */ `
       id
       firstName
       lastName
+      email
       todos {
         items {
           id
@@ -36,6 +37,7 @@ export const listUsers = /* GraphQL */ `
         id
         firstName
         lastName
+        email
         todos {
           nextToken
         }
@@ -56,6 +58,7 @@ export const getTodo = /* GraphQL */ `
         id
         firstName
         lastName
+        email
         todos {
           nextToken
         }
@@ -84,6 +87,7 @@ export const listTodos = /* GraphQL */ `
           id
           firstName
           lastName
+          email
           createdAt
           updatedAt
         }

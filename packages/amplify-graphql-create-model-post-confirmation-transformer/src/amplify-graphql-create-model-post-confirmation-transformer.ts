@@ -15,19 +15,23 @@ import { DynamoDbDataSource } from '@aws-cdk/aws-appsync';
 import { IConstruct } from '@aws-cdk/core';
 import { IFunction } from '@aws-cdk/aws-lambda';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { FieldMappingItem } from './directive-type';
 
 const STACK_NAME = 'CreatePostConfirmation';
 
 const directiveName = "createModelPostConfirmation";
 
-interface DirectiveArgs {
-    cognitoField: String | null
-    modelField: String | null
-  }
+type DirectiveArgs = {
+    [key: string]: [{
+        cognitoField: String | null
+        modelField: String | null
+    }];
+}
 
 interface DirectiveObjectTypeDefinition {
     node: ObjectTypeDefinitionNode;
     fieldName: string;
+    fieldParams: DirectiveArgs;
 }
 
 export class Transformer extends TransformerPluginBase {
@@ -48,16 +52,15 @@ export class Transformer extends TransformerPluginBase {
         this.directiveObjectTypeDefinitions = [];
     }
     object = (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerSchemaVisitStepContextProvider): void => {
-        
+
         validateModelDirective(definition);
         const directiveArguments = getDirectiveArguments(directive);
-        //todo: validate directive arguments, to make sure they set valid mappings from cognito to model fields, and the fields exist and of right type
-        // console.log(JSON.stringify(definition, null, 2));
-        console.log(JSON.stringify(directiveArguments, null, 2));
+        validateDirectiveArguments(directiveArguments, definition);
+        // console.log(JSON.stringify(directiveArguments, null, 2));
         this.directiveObjectTypeDefinitions.push({
             node: definition,
             fieldName: definition.name.value,
-            //todo: add field directive arguments
+            fieldParams: directiveArguments,
         });
 
     };
@@ -66,16 +69,26 @@ export class Transformer extends TransformerPluginBase {
         const stack = context.stackManager.createStack(STACK_NAME);
         console.log('directiveObjectTypeDefinitions', this.directiveObjectTypeDefinitions);
         const tableNames = this.directiveObjectTypeDefinitions.map(def => (getTable(context, def.node) as Table).tableName);
-        console.log({tableNames});
+        console.log({ tableNames });
 
         // streaming lambda role
         const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
         });
 
+        const fieldMappings = this.directiveObjectTypeDefinitions[0].fieldParams.fieldMap.map(fieldMap => {
+            const item: FieldMappingItem = {
+                [fieldMap.modelField as string]: {
+                    type: 'string',
+                    source: fieldMap.cognitoField as string,
+                },
+            }
+            return item;
+        });
+
         // creates algolia lambda
         const lambda = createLambda(
-            stack, context.api.host, role, tableNames?.[0] ?? "" //todo: pass fieldMapppings to lambda
+            stack, context.api.host, role, tableNames?.[0] ?? "", fieldMappings
         );
 
         // // creates event source mapping for each table
@@ -87,10 +100,12 @@ export class Transformer extends TransformerPluginBase {
 const getDirectiveArguments = (directive: DirectiveNode): DirectiveArgs => {
     const directiveWrapped = new DirectiveWrapper(directive);
     return directiveWrapped.getArguments({
-        cognitoField: null,
-        modelField: null
+        fieldMap: [{
+            cognitoField: null,
+            modelField: null
+        }]
     }) as (DirectiveArgs);
-  }
+}
 
 const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
     const modelDirective = object.directives!.find(
@@ -99,6 +114,24 @@ const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
     if (!modelDirective) {
         throw new InvalidDirectiveError(
             `Types annotated with @${ directiveName } must also be annotated with @model.`
+        );
+    }
+}
+
+const validateDirectiveArguments = (directiveArguments: DirectiveArgs, definition: ObjectTypeDefinitionNode): void => {
+    console.log("validateDirectiveArguments")
+    console.log(JSON.stringify({ directiveArguments }, null, 2))
+    if (!directiveArguments.fieldMap) {
+        throw new InvalidDirectiveError(
+            `Types annotated with @${ directiveName } must specify fieldMap.`
+        );
+    }
+    const isFieldMapValid = directiveArguments.fieldMap.every(fieldMap => {
+        return fieldMap.cognitoField && fieldMap.modelField;
+    });
+    if (!isFieldMapValid) {
+        throw new InvalidDirectiveError(
+            `Types annotated with @${ directiveName } must have fieldMap[] with both cognitoField and modelField provided.`
         );
     }
 }

@@ -3,12 +3,13 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from '@aws-cdk/aws-iam';
 import * as cdk from '@aws-cdk/core';
 import * as path from 'path';
-import { CfnParameter, Stack } from '@aws-cdk/core';
+import { Stack } from '@aws-cdk/core';
 import { IRole } from '@aws-cdk/aws-iam';
+import { FieldMappingItem } from './directive-type';
 
 const LogicalName = "CreatePostConfirmation"
 
-export const createLambda = (stack: Stack, host: TransformHostProvider, role: IRole, tableName: string) => {
+export const createLambda = (stack: Stack, host: TransformHostProvider, role: IRole, tableName: string, fieldMappings: FieldMappingItem[]) => {
 
     // create lambda
     const funcLogicalId = `${ LogicalName }LambdaFunction`;
@@ -22,6 +23,7 @@ export const createLambda = (stack: Stack, host: TransformHostProvider, role: IR
         role, // execution role,
         {
             "API_USERTABLE_NAME": tableName,
+            "API_FIELD_TYPE_MAP": JSON.stringify(fieldMappings),
         }, // env vars
         undefined, // lambda timeout
         stack,

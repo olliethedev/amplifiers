@@ -1,0 +1,1 @@
+export type FieldMappingItem = { [destinationField: string]: { type: string, source: string } };
