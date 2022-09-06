@@ -147,7 +147,6 @@ test('it generates expected resources', () => {
       },
     }),
   );
-  console.log(JSON.stringify(stack, null, 2));
   cdkExpect(stack).to(
     haveResource('AWS::Lambda::Function'),
   );
