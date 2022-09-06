@@ -14,10 +14,10 @@ export const getUser = /* GraphQL */ `
           id
           name
           description
+          owner
           createdAt
           updatedAt
           userTodosId
-          owner
         }
         nextToken
       }
@@ -54,6 +54,7 @@ export const getTodo = /* GraphQL */ `
       id
       name
       description
+      owner
       user {
         id
         firstName
@@ -68,7 +69,6 @@ export const getTodo = /* GraphQL */ `
       createdAt
       updatedAt
       userTodosId
-      owner
     }
   }
 `;
@@ -83,6 +83,7 @@ export const listTodos = /* GraphQL */ `
         id
         name
         description
+        owner
         user {
           id
           firstName
@@ -94,7 +95,6 @@ export const listTodos = /* GraphQL */ `
         createdAt
         updatedAt
         userTodosId
-        owner
       }
       nextToken
     }

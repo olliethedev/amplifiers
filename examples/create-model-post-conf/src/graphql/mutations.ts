@@ -17,10 +17,10 @@ export const createUser = /* GraphQL */ `
           id
           name
           description
+          owner
           createdAt
           updatedAt
           userTodosId
-          owner
         }
         nextToken
       }
@@ -44,10 +44,10 @@ export const deleteUser = /* GraphQL */ `
           id
           name
           description
+          owner
           createdAt
           updatedAt
           userTodosId
-          owner
         }
         nextToken
       }
@@ -71,10 +71,10 @@ export const updateUser = /* GraphQL */ `
           id
           name
           description
+          owner
           createdAt
           updatedAt
           userTodosId
-          owner
         }
         nextToken
       }
@@ -92,6 +92,7 @@ export const createTodo = /* GraphQL */ `
       id
       name
       description
+      owner
       user {
         id
         firstName
@@ -106,7 +107,6 @@ export const createTodo = /* GraphQL */ `
       createdAt
       updatedAt
       userTodosId
-      owner
     }
   }
 `;
@@ -119,6 +119,7 @@ export const updateTodo = /* GraphQL */ `
       id
       name
       description
+      owner
       user {
         id
         firstName
@@ -133,7 +134,6 @@ export const updateTodo = /* GraphQL */ `
       createdAt
       updatedAt
       userTodosId
-      owner
     }
   }
 `;
@@ -146,6 +146,7 @@ export const deleteTodo = /* GraphQL */ `
       id
       name
       description
+      owner
       user {
         id
         firstName
@@ -160,7 +161,6 @@ export const deleteTodo = /* GraphQL */ `
       createdAt
       updatedAt
       userTodosId
-      owner
     }
   }
 `;

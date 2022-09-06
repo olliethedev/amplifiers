@@ -1,16 +1,14 @@
-import { StackManagerProvider, TransformHostProvider } from '@aws-amplify/graphql-transformer-interfaces';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as iam from '@aws-cdk/aws-iam';
-import * as cdk from '@aws-cdk/core';
+import { TransformHostProvider } from '@aws-amplify/graphql-transformer-interfaces';
+import {Runtime} from '@aws-cdk/aws-lambda';
+import {IRole, Policy, PolicyStatement, Effect} from '@aws-cdk/aws-iam';
+import {Stack, Fn}  from '@aws-cdk/core';
 import * as path from 'path';
-import { Stack } from '@aws-cdk/core';
-import { IRole } from '@aws-cdk/aws-iam';
 import { FieldMappingItem } from './directive-type';
 
 const LogicalName = "CreatePostConfirmation"
 
-export const createLambda = (stack: Stack, host: TransformHostProvider, role: IRole, tableName: string, fieldMappings: FieldMappingItem[]) => {
-
+export const createLambda = (stack: Stack, host: TransformHostProvider, role: IRole, fieldMappings: {[tableName:string]:FieldMappingItem[]}) => {
+    console.log("creating");
     // create lambda
     const funcLogicalId = `${ LogicalName }LambdaFunction`;
     const lambdaFunc = host.addLambdaFunction(
@@ -18,11 +16,10 @@ export const createLambda = (stack: Stack, host: TransformHostProvider, role: IR
         `functions/${ funcLogicalId }.zip`, // function key
         'index.handler', // function handler
         path.join(__dirname, 'assets', 'lambda.zip'),
-        lambda.Runtime.NODEJS_14_X,
+        Runtime.NODEJS_14_X,
         undefined, // layers
         role, // execution role,
         {
-            "API_USERTABLE_NAME": tableName,
             "API_FIELD_TYPE_MAP": JSON.stringify(fieldMappings),
         }, // env vars
         undefined, // lambda timeout
@@ -30,13 +27,13 @@ export const createLambda = (stack: Stack, host: TransformHostProvider, role: IR
     );
 
     role.attachInlinePolicy(
-        new iam.Policy(stack, `${ LogicalName }CloudWatchLogAccess`, {
+        new Policy(stack, `${ LogicalName }CloudWatchLogAccess`, {
             statements: [
-                new iam.PolicyStatement({
+                new PolicyStatement({
                     actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'],
-                    effect: iam.Effect.ALLOW,
+                    effect: Effect.ALLOW,
                     resources: [
-                        cdk.Fn.sub(`arn:aws:logs:\${AWS::Region}:\${AWS::AccountId}:log-group:/aws/lambda/\${funcName}:log-stream:*`, {
+                        Fn.sub(`arn:aws:logs:\${AWS::Region}:\${AWS::AccountId}:log-group:/aws/lambda/\${funcName}:log-stream:*`, {
                             funcName: lambdaFunc.functionName,
                         }),
                     ],
@@ -44,6 +41,7 @@ export const createLambda = (stack: Stack, host: TransformHostProvider, role: IR
             ],
         }),
     );
+    
 
     return lambdaFunc;
 };

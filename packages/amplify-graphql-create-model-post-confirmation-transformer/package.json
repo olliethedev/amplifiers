@@ -16,10 +16,9 @@
     "graphql-transformer-common": "4.24.0"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1090.0",
     "@aws-amplify/graphql-model-transformer": "0.15.6",
-    "@aws-amplify/graphql-relational-transformer": "0.11.7",
-    "@aws-amplify/graphql-searchable-transformer": "0.15.6",
+    "@aws-cdk/assert": "~1.124.0",
+    "aws-sdk": "^2.1090.0",
     "bestzip": "^2.1.5",
     "graphql": "^14.5.8",
     "mkdirp": "^0.5.5"

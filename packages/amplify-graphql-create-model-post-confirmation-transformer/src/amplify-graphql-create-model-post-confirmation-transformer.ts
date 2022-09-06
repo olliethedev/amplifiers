@@ -55,8 +55,9 @@ export class Transformer extends TransformerPluginBase {
 
         validateModelDirective(definition);
         const directiveArguments = getDirectiveArguments(directive);
-        validateDirectiveArguments(directiveArguments, definition);
-        // console.log(JSON.stringify(directiveArguments, null, 2));
+        console.log("directiveArguments", JSON.stringify(directiveArguments, null, 2));
+        validateDirectiveArguments(directiveArguments);
+
         this.directiveObjectTypeDefinitions.push({
             node: definition,
             fieldName: definition.name.value,
@@ -65,30 +66,31 @@ export class Transformer extends TransformerPluginBase {
 
     };
     generateResolvers = (context: TransformerContextProvider): void => {
-
         const stack = context.stackManager.createStack(STACK_NAME);
-        console.log('directiveObjectTypeDefinitions', this.directiveObjectTypeDefinitions);
-        const tableNames = this.directiveObjectTypeDefinitions.map(def => (getTable(context, def.node) as Table).tableName);
-        console.log({ tableNames });
 
         // streaming lambda role
         const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
         });
 
-        const fieldMappings = this.directiveObjectTypeDefinitions[0].fieldParams.fieldMap.map(fieldMap => {
-            const item: FieldMappingItem = {
-                [fieldMap.modelField as string]: {
-                    type: 'string',
-                    source: fieldMap.cognitoField as string,
-                },
-            }
-            return item;
-        });
+        const fieldMappings = this.directiveObjectTypeDefinitions.reduce((acc, def) => {
+            const tableName = (getTable(context, def.node) as Table).tableName;
+            const fieldMapping = def.fieldParams.fieldMap.map(fieldMap => {
+                const item: FieldMappingItem = {
+                    [fieldMap.modelField as string]: {
+                        type: 'string',
+                        source: fieldMap.cognitoField as string,
+                    },
+                }
+                return item;
+            });
+            acc[tableName] = fieldMapping;
+            return acc;
+        }, {} as { [tableName: string]: FieldMappingItem[] });
 
         // creates algolia lambda
         const lambda = createLambda(
-            stack, context.api.host, role, tableNames?.[0] ?? "", fieldMappings
+            stack, context.api.host, role, fieldMappings
         );
 
         // // creates event source mapping for each table
@@ -118,9 +120,7 @@ const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
     }
 }
 
-const validateDirectiveArguments = (directiveArguments: DirectiveArgs, definition: ObjectTypeDefinitionNode): void => {
-    console.log("validateDirectiveArguments")
-    console.log(JSON.stringify({ directiveArguments }, null, 2))
+const validateDirectiveArguments = (directiveArguments: DirectiveArgs): void => {
     if (!directiveArguments.fieldMap) {
         throw new InvalidDirectiveError(
             `Types annotated with @${ directiveName } must specify fieldMap.`

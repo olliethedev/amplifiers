@@ -1,16 +1,17 @@
 type User
   @model
-  @createModelPostConfirmation(
-    fieldMap: [
-      { cognitoField: "email", modelField: "email" }
-      { cognitoField: "given_name", modelField: "firstName" }
-      { cognitoField: "family_name", modelField: "lastName" }
-    ]
-  )
   @auth(
     rules: [
       { allow: public, operations: [read] }
       { allow: owner, operations: [read, update], ownerField: "id" }
+    ]
+  )
+  @createModelPostConfirmation(
+    fieldMap: [
+      { modelField: "id", cognitoField: "sub" }
+      { modelField: "firstName", cognitoField: "given_name" }
+      { modelField: "lastName", cognitoField: "family_name" }
+      { modelField: "email", cognitoField: "email" }
     ]
   ) {
   id: ID!
@@ -20,9 +21,19 @@ type User
   todos: [Todo] @hasMany
 }
 
-type Todo @model @auth(rules: [{ allow: owner }]) {
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, ownerField: "owner" }])
+  @createModelPostConfirmation(
+    fieldMap: [
+      { modelField: "owner", cognitoField: "sub" }
+      { modelField: "userTodosId", cognitoField: "sub" }
+    ]
+  ) {
   id: ID!
-  name: String!
-  description: String
+  name: String! @default(value: "My first Todo")
+  description: String! @default(value: "Enter text here...")
+
+  owner: String
   user: User @belongsTo
 }
