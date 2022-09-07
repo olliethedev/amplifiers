@@ -1,5 +1,11 @@
+[![Code Coverage](https://github.com/olliethedev/amplifiers/actions/workflows/coverage.yml/badge.svg)](https://github.com/olliethedev/amplifiers/actions/workflows/coverage.yml)
 
 # Amplifiers #
+
+Packages  | Description
+------------- | -------------
+[Amplifiers Core](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-amplifiers-core)  | Core shared functionality for the Amplifiers library
+[Create Model Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-create-model-transformer)  | Creates a model on trigger event (ex. Cognito Post Confirmation)
 
 ## Development ##
 - This project uses workspaces. To install dependencies run `npm install -ws` from the root directory.
