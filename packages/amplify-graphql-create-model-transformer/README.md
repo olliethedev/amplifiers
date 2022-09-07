@@ -81,7 +81,7 @@ type Todo
 
 In the example above we create a new `User` and `Todo` models after user finishes the sign up flow in the front end. An important thing to note is that the User `id` field is also the record owner, and the value is set from the cognito `sub` field.  In this example our sign up page has extra attributes `signUpAttributes={["family_name", "given_name"]}` :
 
-![alt text](/read-me-sign-up.png)
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/read-me-sign-up.png)
 
 All possible cognito fields: `"username", "email", "phone_number", "birthdate", "email", "family_name", "given_name", "middle_name", "name", "nickname", "phone_number", "preferred_username", "profile", "website", "confirmation_code", "password", "confirm_password", "address", "gender", "locale", "picture", "updated_at", "zoneinfo"`
 
@@ -92,7 +92,7 @@ NOTE: Right now you will need to manually link the lambda function to the cognit
 
 In the future we are looking to make this automatic.
 
-![alt text](/read-me-trigger.png)
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/read-me-trigger.png)
 
 ## Development ##
 Dev docs are [here](https://github.com/olliethedev/amplifiers)
