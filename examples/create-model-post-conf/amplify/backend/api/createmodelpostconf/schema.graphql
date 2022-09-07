@@ -6,7 +6,7 @@ type User
       { allow: owner, operations: [read, update], ownerField: "id" }
     ]
   )
-  @createModelPostConfirmation(
+  @createModel(
     fieldMap: [
       { modelField: "id", cognitoField: "sub" }
       { modelField: "firstName", cognitoField: "given_name" }
@@ -24,7 +24,7 @@ type User
 type Todo
   @model
   @auth(rules: [{ allow: owner, ownerField: "owner" }])
-  @createModelPostConfirmation(
+  @createModel(
     fieldMap: [
       { modelField: "owner", cognitoField: "sub" }
       { modelField: "userTodosId", cognitoField: "sub" }

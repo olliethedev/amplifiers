@@ -17,15 +17,16 @@ import { IFunction } from '@aws-cdk/aws-lambda';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { FieldMappingItem } from './directive-type';
 
-const STACK_NAME = 'CreatePostConfirmation';
+const STACK_NAME = 'CreateModelTransformer';
 
-const directiveName = "createModelPostConfirmation";
+const directiveName = "createModel";
 
 type DirectiveArgs = {
-    [key: string]: [{
+    fieldMap: [{
         cognitoField: String | null
         modelField: String | null
     }];
+    trigger: "postConfirmation";
 }
 
 interface DirectiveObjectTypeDefinition {
@@ -39,9 +40,9 @@ export class Transformer extends TransformerPluginBase {
 
     constructor() {
         super(
-            'amplify-graphql-create-model-post-confirmation-transformer',
+            'amplify-graphql-create-model-transformer',
         /* GraphQL */ `
-          directive @${ directiveName }(fieldMap: [FieldMap]) on OBJECT
+          directive @${ directiveName }(trigger:String="postConfirmation", fieldMap: [FieldMap]) on OBJECT
           input FieldMap {
             cognitoField: String!
             modelField: String!
@@ -55,8 +56,7 @@ export class Transformer extends TransformerPluginBase {
 
         validateModelDirective(definition);
         const directiveArguments = getDirectiveArguments(directive);
-        console.log("directiveArguments", JSON.stringify(directiveArguments, null, 2));
-        validateDirectiveArguments(directiveArguments);
+        validateDirectiveArguments(directiveArguments, definition);
 
         this.directiveObjectTypeDefinitions.push({
             node: definition,
@@ -102,6 +102,7 @@ export class Transformer extends TransformerPluginBase {
 const getDirectiveArguments = (directive: DirectiveNode): DirectiveArgs => {
     const directiveWrapped = new DirectiveWrapper(directive);
     return directiveWrapped.getArguments({
+        trigger: "postConfirmation",
         fieldMap: [{
             cognitoField: null,
             modelField: null
@@ -120,18 +121,23 @@ const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
     }
 }
 
-const validateDirectiveArguments = (directiveArguments: DirectiveArgs): void => {
-    if (!directiveArguments.fieldMap) {
-        throw new InvalidDirectiveError(
-            `Types annotated with @${ directiveName } must specify fieldMap.`
-        );
-    }
+const validateDirectiveArguments = (directiveArguments: DirectiveArgs, object: ObjectTypeDefinitionNode): void => {
     const isFieldMapValid = directiveArguments.fieldMap.every(fieldMap => {
+        let hasFieldInModel = object.fields!.some(field => field.name.value === fieldMap.modelField);
+        if(!hasFieldInModel) {
+            console.warn(`Field ${ fieldMap.modelField } does not exist in ${ object.name.value }`);
+        }
         return fieldMap.cognitoField && fieldMap.modelField;
     });
     if (!isFieldMapValid) {
         throw new InvalidDirectiveError(
             `Types annotated with @${ directiveName } must have fieldMap[] with both cognitoField and modelField provided.`
+        );
+    }
+    const isTriggerValid = directiveArguments.trigger === "postConfirmation";
+    if (!isTriggerValid) {
+        throw new InvalidDirectiveError(
+            `Types annotated with @${ directiveName } only supports postConfirmation as trigger.`
         );
     }
 }
@@ -140,9 +146,6 @@ const createSourceMappings = (typeDefinitions: DirectiveObjectTypeDefinition[], 
     for (const def of typeDefinitions) {
         const table = getTable(context, def.node);
         const ddbTable = table as Table;
-        if (!ddbTable) {
-            throw new Error('Failed to find ddb table for searchable');
-        }
         if (lambda.role) {
             ddbTable.grantReadWriteData(lambda.role);
         }

@@ -18,7 +18,7 @@ To run and example project from the [examples](https://github.com/olliethedev/am
     "Version": 5,
     "ElasticsearchWarning": true,
     "transformers": [
-        "file:///Users/ollie/Work/amplifiers/packages/amplify-graphql-create-model-post-confirmation-transformer/dist/index.js"
+        "file:///Users/ollie/Work/amplifiers/packages/amplify-graphql-create-model-transformer/dist/index.js"
     ]
 }
 ```

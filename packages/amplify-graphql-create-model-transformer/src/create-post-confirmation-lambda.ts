@@ -5,10 +5,9 @@ import {Stack, Fn}  from '@aws-cdk/core';
 import * as path from 'path';
 import { FieldMappingItem } from './directive-type';
 
-const LogicalName = "CreatePostConfirmation"
+const LogicalName = "CreateModelTransformer"
 
 export const createLambda = (stack: Stack, host: TransformHostProvider, role: IRole, fieldMappings: {[tableName:string]:FieldMappingItem[]}) => {
-    console.log("creating");
     // create lambda
     const funcLogicalId = `${ LogicalName }LambdaFunction`;
     const lambdaFunc = host.addLambdaFunction(
