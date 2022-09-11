@@ -4,9 +4,9 @@
 
 export type CreateUserInput = {
   id?: string | null,
-  firstName?: string | null,
-  lastName?: string | null,
-  email?: string | null,
+  firstName: string,
+  lastName: string,
+  email: string,
 };
 
 export type ModelUserConditionInput = {
@@ -61,9 +61,9 @@ export type ModelSizeInput = {
 export type User = {
   __typename: "User",
   id: string,
-  firstName?: string | null,
-  lastName?: string | null,
-  email?: string | null,
+  firstName: string,
+  lastName: string,
+  email: string,
   todos?: ModelTodoConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -180,9 +180,9 @@ export type CreateUserMutation = {
   createUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -211,9 +211,9 @@ export type DeleteUserMutation = {
   deleteUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -242,9 +242,9 @@ export type UpdateUserMutation = {
   updateUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -279,9 +279,9 @@ export type CreateTodoMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -310,9 +310,9 @@ export type UpdateTodoMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -341,9 +341,9 @@ export type DeleteTodoMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -365,9 +365,9 @@ export type GetUserQuery = {
   getUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -399,9 +399,9 @@ export type ListUsersQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -427,9 +427,9 @@ export type GetTodoQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -461,9 +461,9 @@ export type ListTodosQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        firstName?: string | null,
-        lastName?: string | null,
-        email?: string | null,
+        firstName: string,
+        lastName: string,
+        email: string,
         createdAt: string,
         updatedAt: string,
       } | null,
@@ -483,9 +483,9 @@ export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -513,9 +513,9 @@ export type OnUpdateUserSubscription = {
   onUpdateUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -543,9 +543,9 @@ export type OnDeleteUserSubscription = {
   onDeleteUser?:  {
     __typename: "User",
     id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     todos?:  {
       __typename: "ModelTodoConnection",
       items:  Array< {
@@ -579,9 +579,9 @@ export type OnCreateTodoSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -609,9 +609,9 @@ export type OnUpdateTodoSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,
@@ -639,9 +639,9 @@ export type OnDeleteTodoSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
+      firstName: string,
+      lastName: string,
+      email: string,
       todos?:  {
         __typename: "ModelTodoConnection",
         nextToken?: string | null,

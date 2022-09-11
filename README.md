@@ -12,7 +12,7 @@ Packages  | Description
 - To build transformers and to zip the lambda functions `npm run compile -ws`
 - To execute tests `npm test`
 
-## Testing ##
+## Examples & Testing ##
 To run and example project from the [examples](https://github.com/olliethedev/amplifiers/tree/master/examples) directory: 
 
 - `cd examples/create-model-post-conf/`
@@ -31,3 +31,13 @@ To run and example project from the [examples](https://github.com/olliethedev/am
 - Make changes to the transformer and compile.
 - To verify the stack before pushin run `amplify api gql-compile` from the example root directory
 - To test remotely deploy the changes with `amplify push` from the example root directory
+
+## License ##
+[MIT License](https://github.com/olliethedev/amplifiers/blob/master/LICENSE)
+
+## Contributions ##
+Contributions are more than welcome! Please feel free to open an issue or a pull request.
+
+## Credits ##
+The _amplifiers_ library is maintained by 
+- OllieTheDev [OllieTheDev](https://olliecodes.com)

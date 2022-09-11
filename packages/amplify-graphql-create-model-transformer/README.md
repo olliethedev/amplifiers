@@ -1,6 +1,10 @@
-# Create Model Transformer #
+# amplify-graphql-create-model-transformer #
 
-This directive is mainly intended to be used for creating a new user model on Cognito Post Confirmation event, significantly speeding up the development of your AWS Amplify projects. 
+## Description ##
+
+This directive is intended to be used for creating a new model once a Cognito Event is fired, significantly speeding up the development of your AWS Amplify projects. 
+
+## @createModel ##
 
 The `@createModel` GraphQL directive creates a new model on cognito trigger event (ex. Cognito Post Confirmation) initializing the model from the event's fields.
 
@@ -31,7 +35,7 @@ npm install --save @amplifiers/amplify-graphql-create-model-transformer
 ```
 
 ## Usage ##
-Mase sure your project has [authorization](https://docs.amplify.aws/cli/auth/overview/) added.
+Make sure your project has [authorization](https://docs.amplify.aws/cli/auth/overview/) added.
 
 Append directive to target model and specify the trigger event and the field mapping.
 Trigger is optional and the default value is `postConfirmation`.
@@ -94,5 +98,9 @@ In the future we are looking to make this automatic.
 
 ![alt text](https://github.com/olliethedev/amplifiers/raw/master/read-me-trigger.png)
 
-## Development ##
-Dev docs are [here](https://github.com/olliethedev/amplifiers)
+## Development and Contributions ##
+Contributions are more than welcome! Please feel free to open an issue or a pull request.
+Developer docs are [here](https://github.com/olliethedev/amplifiers)
+
+## License ##
+[MIT License](https://github.com/olliethedev/amplifiers/blob/master/LICENSE)

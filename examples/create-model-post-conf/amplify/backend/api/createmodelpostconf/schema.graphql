@@ -15,9 +15,9 @@ type User
     ]
   ) {
   id: ID!
-  firstName: String
-  lastName: String
-  email: AWSEmail
+  firstName: String!
+  lastName: String!
+  email: AWSEmail!
   todos: [Todo] @hasMany
 }
 

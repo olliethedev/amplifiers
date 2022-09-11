@@ -52,6 +52,7 @@ export class Transformer extends TransformerPluginBase {
 
         this.directiveObjectTypeDefinitions = [];
     }
+    
     object = (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerSchemaVisitStepContextProvider): void => {
 
         validateModelDirective(definition);
@@ -63,16 +64,17 @@ export class Transformer extends TransformerPluginBase {
             fieldName: definition.name.value,
             fieldParams: directiveArguments,
         });
-
     };
+
     generateResolvers = (context: TransformerContextProvider): void => {
         const stack = context.stackManager.createStack(STACK_NAME);
 
-        // streaming lambda role
+        // lambda role
         const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
         });
 
+        // create lambda inputs
         const fieldMappings = this.directiveObjectTypeDefinitions.reduce((acc, def) => {
             const tableName = (getTable(context, def.node) as Table).tableName;
             const fieldMapping = def.fieldParams.fieldMap.map(fieldMap => {
@@ -88,7 +90,7 @@ export class Transformer extends TransformerPluginBase {
             return acc;
         }, {} as { [tableName: string]: FieldMappingItem[] });
 
-        // creates algolia lambda
+        // create lambda function
         const lambda = createLambda(
             stack, context.api.host, role, fieldMappings
         );
@@ -96,7 +98,6 @@ export class Transformer extends TransformerPluginBase {
         // // creates event source mapping for each table
         createSourceMappings(this.directiveObjectTypeDefinitions, context, lambda);
     };
-
 }
 
 const getDirectiveArguments = (directive: DirectiveNode): DirectiveArgs => {

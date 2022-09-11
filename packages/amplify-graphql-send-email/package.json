@@ -1,15 +1,15 @@
 {
-  "name": "@amplifiers/amplify-graphql-create-model-transformer",
-  "version": "1.0.6",
-  "description": "Amplify GraphQL @createModel transformer. This directive is intended to be used for creating a new model once a Cognito Event is fired.",
+  "name": "@amplifiers/amplify-graphql-send-email",
+  "version": "1.0.5",
+  "description": "Amplify GraphQL @sendEmail transformer.",
   "keywords": [
     "aws",
     "amplify",
     "grapqhl",
-    "cognito",
     "serverless",
     "transformer",
-    "dynamodb"
+    "dynamodb",
+    "ses"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,6 +36,6 @@
     "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json && mkdirp dist/assets && mkdirp dist/assets && cd resources/lambda-functions && bestzip --force node ../../dist/assets/lambda.zip index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "olliethedev",
+  "author": "OllieTheDev",
   "license": "MIT"
 }
