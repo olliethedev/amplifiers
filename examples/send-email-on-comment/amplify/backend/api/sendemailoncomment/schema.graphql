@@ -1,0 +1,23 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+
+type Todo
+  @model
+  @sendEmail(
+    trigger: "INSERT"
+    template: {
+      subject: "Welcome to Amplify"
+      bodyHtml: "<body><h1>Hello, {{name}}! Welcome to Amplify!</h1><p style='font-size:18px'>Message here</p></body>"
+      bodyText: "Hello, {{name}}! Welcome to Amplify!\nMessage here"
+      sender: "no-reply@eventhost.io",
+      recipient: "{{email}}"
+    }
+  ) {
+  id: ID!
+  name: String!
+  email: String!
+  description: String!
+}
