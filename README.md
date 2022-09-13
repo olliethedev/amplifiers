@@ -6,6 +6,7 @@ Packages  | Description
 ------------- | -------------
 [Amplifiers Core](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-amplifiers-core)  | Core shared functionality for the Amplifiers library
 [Create Model Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-create-model-transformer)  | Creates a model on trigger event (ex. Cognito Post Confirmation)
+[Send Email Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-send-email-transformer)  | Sends an email on DynamoDB mutation
 
 ## Development ##
 - This project uses workspaces. To install dependencies run `npm install -ws` from the root directory.
