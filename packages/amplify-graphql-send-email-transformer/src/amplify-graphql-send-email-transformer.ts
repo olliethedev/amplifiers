@@ -34,7 +34,7 @@ export class Transformer extends TransformerPluginBase {
 
     constructor() {
         super(
-            'amplify-graphql-create-model-transformer',
+            'amplify-graphql-send-email-transformer',
         /* GraphQL */ `
           directive @${ directiveName }(template:Template, trigger:String="INSERT") on OBJECT
           input Template {

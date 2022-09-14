@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-graphql-amplifiers-core",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Amplify GraphQL @createModel transformer. This directive is intended to be used for creating a new model once a Cognito Event is fired.",
   "keywords": [
     "aws",
