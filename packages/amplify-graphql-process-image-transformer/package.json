@@ -1,15 +1,17 @@
 {
-  "name": "@amplifiers/amplify-graphql-create-model-transformer",
-  "version": "1.0.7",
-  "description": "Amplify GraphQL @createModel transformer. This directive is intended to be used for creating a new model once a Cognito Event is fired.",
+  "name": "@amplifiers/amplify-graphql-process-image-transformer",
+  "version": "1.0.0",
+  "description": "This directive allows you to process images.",
   "keywords": [
     "aws",
     "amplify",
     "grapqhl",
-    "cognito",
     "serverless",
     "transformer",
-    "dynamodb"
+    "dynamodb",
+    "image",
+    "s3",
+    "processing"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,6 +47,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/olliethedev/amplifiers.git",
-    "directory": "packages/amplify-graphql-create-model-transformer"
+    "directory": "packages/amplify-graphql-process-image-transformer"
   }
 }
