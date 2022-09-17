@@ -1,0 +1,7 @@
+{
+    "Version": 5,
+    "ElasticsearchWarning": true,
+    "transformers": [
+        "file:///Users/ollie/Work/amplifiers/packages/amplify-graphql-process-image-transformer/dist/index.js"
+    ]
+}
