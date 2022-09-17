@@ -2,7 +2,7 @@
 
 ## Description ##
 
-This directive allows you to send emails from your GraphQL API. It uses AWS SES service to send emails. Once a database INSERT, MODIFY, REMOVE operation is performed, the template is populated with data from the mutation and email is sent out to the recipient.
+This AWS Amplify directive allows you to send emails from your GraphQL API. It uses AWS SES service to send emails. Once a database INSERT, MODIFY, REMOVE operation is performed, the template is populated with data from the mutation and email is sent out to the recipient.
 
 ## @sendEmail ##
 
