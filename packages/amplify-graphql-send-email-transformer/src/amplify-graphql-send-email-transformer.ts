@@ -115,8 +115,6 @@ const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
 }
 
 const validateDirectiveArguments = (directiveArguments: DirectiveArgs, object: ObjectTypeDefinitionNode): void => {
-    console.log("directiveArguments", JSON.stringify(directiveArguments, null, 2));
-    console.log("object", JSON.stringify(object, null, 2));
     const isTriggerValid = ["INSERT", "MODIFY", "REMOVE"].includes(directiveArguments.trigger);
     if (!isTriggerValid) {
         throw new InvalidDirectiveError(

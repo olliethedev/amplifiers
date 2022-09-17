@@ -35,7 +35,7 @@
     "mkdirp": "^0.5.5"
   },
   "scripts": {
-    "compile": "",
+    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json && mkdirp dist/assets && mkdirp dist/assets && cd resources/lambda-functions && npm install && npm run fix_sharp_aws && bestzip --force node ../../dist/assets/lambda.zip index.js node_modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "olliethedev",

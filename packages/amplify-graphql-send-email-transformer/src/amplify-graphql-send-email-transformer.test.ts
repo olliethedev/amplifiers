@@ -8,7 +8,7 @@ import { parse } from 'graphql';
 import { Transformer } from './amplify-graphql-send-email-transformer';
 
 
-test('CreateModel Transformer validation happy case', () => {
+test('Send Email Transformer validation happy case', () => {
   const validSchema = `
   type Todo
   @model
