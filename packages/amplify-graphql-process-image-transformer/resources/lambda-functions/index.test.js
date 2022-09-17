@@ -256,9 +256,7 @@ describe("lambda-functions", () => {
     process.env.API_FIELD_DATA_MAP = JSON.stringify(fieldMap);
     mockToBuffer.mockImplementationOnce(() => {
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(Buffer.from("foo"));
-            }, 1000);
+            //never resolve
         });
     });
     //load lambda function
