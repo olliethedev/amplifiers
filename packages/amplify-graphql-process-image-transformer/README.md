@@ -91,6 +91,10 @@ Medium:
 
 For full example see the [example](https://github.com/olliethedev/amplifiers/tree/master/examples/process-image-example) folder.
 
+## Architecture ##
+
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/read-me-process-images-giagram.png)
+
 
 ## Development and Contributions ##
 Contributions are more than welcome! Please feel free to open an issue or a pull request.
