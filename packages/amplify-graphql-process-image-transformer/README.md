@@ -93,7 +93,7 @@ For full example see the [example](https://github.com/olliethedev/amplifiers/tre
 
 ## Architecture ##
 
-![alt text](https://github.com/olliethedev/amplifiers/blob/master/amplifiers-image-processing-diagram.png)
+![alt text](https://github.com/olliethedev/amplifiers/blob/master/read-me-image-processing-diagram.png)
 
 ## Development and Contributions ##
 Contributions are more than welcome! Please feel free to open an issue or a pull request.
