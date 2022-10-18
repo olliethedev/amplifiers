@@ -25,5 +25,8 @@
     "type": "git",
     "url": "git+https://github.com/olliethedev/amplifiers.git",
     "directory": "packages/amplify-graphql-amplifiers-core"
+  },
+  "dependencies": {
+    "amplify-prompts": "^2.6.0"
   }
 }
