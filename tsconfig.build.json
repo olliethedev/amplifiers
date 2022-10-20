@@ -1,6 +1,7 @@
 {
     "exclude": [
         "**/*.test.ts",
+        "**/*.test.tsx",
         "**/*.stub.ts",
         "node_modules",
         "dist",
@@ -17,6 +18,7 @@
         "declaration": true,
         "paths": {
             "@amplifiers/*": ["./packages/*/"]
-        }
+        },
+        "jsx": "react-jsx"
     }
 }

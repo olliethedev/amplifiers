@@ -28,3 +28,7 @@ jobs:
 
     - name: Run the tests
       run: npm test -- --coverage
+    
+    - name: Storybook Tests
+      run: cd packages/amplify-frontend-schema-form/ && npm run test-storybook:ci && cd ../../
+      
