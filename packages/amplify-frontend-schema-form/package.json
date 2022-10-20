@@ -1,12 +1,23 @@
 {
-  "name": "amplify-frontend-schema-form",
-  "version": "0.1.0",
+  "name": "@amplifiers/amplify-frontend-schema-form",
+  "version": "0.0.1",
+  "description": "This library helps you create forms from amplify graphql schema.",
+  "keywords": [
+    "aws",
+    "amplify",
+    "grapqhl",
+    "react",
+    "schema",
+    "form",
+    "frontend"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -21,45 +32,7 @@
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "compile": "rollup -c --bundleConfigAsCjs",
-    "test": "react-scripts test",
-    "test-storybook": "test-storybook",
-    "test-storybook:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && npm run test-storybook\"",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-commonjs": "^23.0.0",
@@ -91,5 +64,55 @@
     "rollup-plugin-uglify": "^6.0.4",
     "wait-on": "^6.0.1",
     "webpack": "^5.74.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "compile": "rollup -c --bundleConfigAsCjs",
+    "test": "react-scripts test",
+    "test-storybook": "test-storybook",
+    "test-storybook:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && npm run test-storybook\"",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "author": "olliethedev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olliethedev/amplifiers/issues"
+  },
+  "homepage": "https://github.com/olliethedev/amplifiers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olliethedev/amplifiers.git",
+    "directory": "packages/amplify-frontend-schema-form"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
