@@ -5,6 +5,7 @@ import json from "@rollup/plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 const packageJson = require("./package.json");
 
@@ -29,8 +30,9 @@ const out = [
     external: ["react", "react-dom"],
     plugins: [
       peerDepsExternal(),
+      nodePolyfills(),
       resolve({
-        preferBuiltins: false
+        preferBuiltins: true
       }),
       commonjs(),
       json(),
