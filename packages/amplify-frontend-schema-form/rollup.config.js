@@ -25,6 +25,7 @@ const out = [
         sourcemap: true,
       },
     ],
+    external: ["react", "react-dom"],
     plugins: [
       peerDepsExternal(),
       resolve(),
@@ -38,7 +39,12 @@ const out = [
           /\.stories.((js|jsx|ts|tsx|mdx))$/,
         ],
       }),
-      postcss(),
+      postcss({
+        minimize: true,
+        modules: true,
+        extract: true,
+      }),
+      
     ],
   },
   {
