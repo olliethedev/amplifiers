@@ -5,6 +5,7 @@ import json from "@rollup/plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const packageJson = require("./package.json");
 
@@ -32,6 +33,7 @@ const out = [
       resolve(),
       commonjs(),
       json(),
+      nodeResolve(),
       typescript({
         useTsconfigDeclarationDir: true,
         exclude: [
