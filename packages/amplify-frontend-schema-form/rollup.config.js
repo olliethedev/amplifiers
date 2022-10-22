@@ -1,6 +1,7 @@
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
@@ -25,10 +26,12 @@ const out = [
         sourcemap: true,
       },
     ],
+    external: ["react", "react-dom"],
     plugins: [
       peerDepsExternal(),
       resolve(),
       commonjs(),
+      json(),
       typescript({
         useTsconfigDeclarationDir: true,
         exclude: [
@@ -38,7 +41,12 @@ const out = [
           /\.stories.((js|jsx|ts|tsx|mdx))$/,
         ],
       }),
-      postcss(),
+      postcss({
+        minimize: true,
+        modules: true,
+        extract: true,
+      }),
+      
     ],
   },
   {

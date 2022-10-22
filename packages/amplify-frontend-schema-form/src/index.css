@@ -1,3 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Amplify UI font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&display=swap");
+
+/* common tailwind components */
+@layer components {
+  .content-body{
+    @apply px-6 py-8 md:px-10 space-y-5 lg:max-w-7xl mx-auto min-h-screen;
+  }
+  .title-lg {
+    @apply font-display text-3xl tracking-tight text-slate-900 sm:text-4xl md:text-5xl;
+  }
+  .title-md {
+    @apply font-display text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900;
+  }
+  .title-sm {
+    @apply font-display text-base font-medium text-slate-600;
+  }
+  .subtitle {
+    @apply font-display text-sm font-semibold text-slate-500;
+  }
+  .body {
+    @apply font-display text-lg tracking-tight text-slate-700;
+  }
+  .body-sm {
+    @apply font-display text-sm font-normal text-slate-600;
+  }
+  .form {
+    @apply flex flex-col w-full;
+  }
+  .form-control {
+    @apply flex flex-col py-3;
+  }
+  .form-input {
+    @apply block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:opacity-75 disabled:cursor-not-allowed;
+  }
+  .form-label {
+    @apply mb-0 block text-sm font-medium text-gray-700;
+  }
+  .form-error {
+    @apply mt-1 block text-sm font-light text-red-400 h-5;
+  }
+
+  .button-link {
+    @apply block text-sm font-medium text-blue-500 rounded-md hover:underline;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:cursor-pointer;
+  }
+
+  .button-secondary {
+    @apply inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm focus:outline-none hover:cursor-pointer;
+  }
+
+  .button-primary-variant-slate {
+    @apply bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900;
+  }
+
+  .button-primary-variant-blue {
+    @apply bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600;
+  }
+
+  .button-primary-variant-white {
+    @apply bg-white text-slate-900 hover:bg-blue-50 active:bg-blue-200 active:text-slate-600 focus-visible:outline-white;
+  }
+  
+  .button-secondary-variant-slate {
+    @apply ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300;
+  }
+
+  .button-secondary-variant-blue {
+    @apply ring-blue-200 text-slate-700 hover:text-slate-900 hover:ring-blue-300 active:bg-blue-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-blue-300;
+  }
+
+  .button-secondary-variant-white {
+    @apply ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white;
+  }
+  
+  .card {
+    @apply bg-white shadow-md rounded-md border border-gray-200 p-4;
+  }
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

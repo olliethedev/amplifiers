@@ -10,7 +10,8 @@ module.exports = {
         "jest.config.js",
         "/node_modules/",
         "/dist/",
-        "/examples/"
+        "/examples/",
+        "/stories/",
     ],
     moduleNameMapper: {
         '^@amplifiers/(.*)$': '<rootDir>/packages/$1/'
