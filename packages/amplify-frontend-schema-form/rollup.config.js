@@ -30,7 +30,6 @@ const out = [
     external: ["react", "react-dom"],
     plugins: [
       peerDepsExternal(),
-      nodePolyfills(),
       resolve({
         browser: true,
         preferBuiltins: false
@@ -53,6 +52,23 @@ const out = [
       }),
       
     ],
+    optimizeDeps: {
+      esbuildOptions: {
+        // Node.js global to browser globalThis
+        define: {
+          global: "globalThis", //<-- AWS SDK 
+        },
+      },
+    },
+    build: {
+      rollupOptions: {
+        plugins: [
+          // Enable rollup polyfills plugin
+          // used during production bundling
+          nodePolyfills(),
+        ],
+      },
+    },
   },
   {
     // path to your declaration files root
