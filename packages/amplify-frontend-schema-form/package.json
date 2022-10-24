@@ -12,11 +12,19 @@
     "frontend"
   ],
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./primitives.json": "./dist/primitives.json"
+  },
+  "browser": {
+    "./styles.css": "./dist/styles.css"
+  },
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@aws-amplify/datastore": "^3.14.0",
     "@aws-amplify/storage": "^4.5.10",
@@ -54,7 +62,7 @@
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-commonjs": "^23.0.0",
     "@rollup/plugin-json": "^5.0.1",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^9.0.1",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
@@ -83,8 +91,11 @@
     "rollup": "^3.2.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-node-externals": "^5.0.1",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-styles": "^4.0.0",
     "rollup-plugin-typescript2": "^0.34.1",
     "rollup-plugin-uglify": "^6.0.4",
     "storybook-css-modules-preset": "^1.1.1",

@@ -22,7 +22,7 @@
       "isolatedModules": true,
       "noEmit": true,
       "jsx": "react-jsx",
-      "declarationDir": "dist/dts",
+      "declaration": true,
     },
     "include": [
       "src"

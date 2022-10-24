@@ -1,60 +1,51 @@
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import typescript from "rollup-plugin-typescript2";
-import postcss from "rollup-plugin-postcss";
-import dts from "rollup-plugin-dts";
+// rollup.config.js
+import { defineConfig } from 'rollup';
+import typescript from '@rollup/plugin-typescript';
+import { terser } from 'rollup-plugin-terser';
+import styles from 'rollup-plugin-styles';
+import {externals} from 'rollup-plugin-node-externals';
 
-const packageJson = require("./package.json");
-
-console.log(dts);
-const dtsInstance = dts.default();
-
-const out = [
+const config = defineConfig([
+  // CJS config
   {
     input: "src/entry.ts",
-    output: [
-      {
-        file: packageJson.main,
-        format: "cjs",
-        sourcemap: true,
-      },
-      {
-        file: packageJson.module,
-        format: "esm",
-        sourcemap: true,
-      },
-    ],
-    external: ["react", "react-dom"],
+    output: {
+      dir: 'dist',
+      format: 'cjs',
+      sourcemap: false,
+    },
     plugins: [
-      peerDepsExternal(),
-      resolve(),
-      commonjs(),
-      json(),
-      typescript({
-        useTsconfigDeclarationDir: true,
-        exclude: [
-          // Exclude test files
-          /\.test.((js|jsx|ts|tsx))$/,
-          // Exclude story files
-          /\.stories.((js|jsx|ts|tsx|mdx))$/,
-        ],
-      }),
-      postcss({
-        minimize: true,
-        modules: true,
-        extract: true,
-      }),
-      
+      externals({ include: /^@aws-amplify/ }),
+      typescript({ declarationDir: 'dist/types', sourceMap: false }),
+      terser(),
     ],
   },
+  // ESM config
   {
-    // path to your declaration files root
-    input: "./dist/dts/entry.d.ts",
-    output: [{ file: "dist/index.d.ts", format: "es" }],
-    external: [/\.scss$/, /\.css$/],   // ignore .css and .scss files
-    plugins: [dtsInstance],
+    input: "src/entry.ts",
+    output: {
+      dir: 'dist/esm',
+      format: 'es',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+      sourcemap: false,
+    },
+    plugins: [
+      externals({ include: /^@aws-amplify/ }),
+      typescript({ outDir: 'dist/esm', declaration: false, sourceMap: false }),
+      terser(),
+    ],
   },
-];
-export default out;
+  // CSS config
+  {
+    input: 'src/styles.ts',
+    output: {
+      dir: 'dist',
+      format: 'cjs',
+      assetFileNames: '[name][extname]',
+    },
+    plugins: [styles({ mode: ['extract'] })],
+  },
+]);
+
+export default config;
