@@ -8,7 +8,7 @@ import {externals} from 'rollup-plugin-node-externals';
 const config = defineConfig([
   // CJS config
   {
-    input: "src/entry.ts",
+    input: "src/index.ts",
     output: {
       dir: 'dist',
       format: 'cjs',
@@ -22,7 +22,7 @@ const config = defineConfig([
   },
   // ESM config
   {
-    input: "src/entry.ts",
+    input: "src/index.ts",
     output: {
       dir: 'dist/esm',
       format: 'es',

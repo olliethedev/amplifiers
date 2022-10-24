@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-frontend-schema-form",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "This library helps you create forms from amplify graphql schema.",
   "keywords": [
     "aws",
@@ -25,6 +25,9 @@
     "./styles.css": "./dist/styles.css"
   },
   "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@aws-amplify/datastore": "^3.14.0",
     "@aws-amplify/storage": "^4.5.10",
