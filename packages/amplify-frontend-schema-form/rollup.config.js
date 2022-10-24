@@ -32,7 +32,8 @@ const out = [
       peerDepsExternal(),
       nodePolyfills(),
       resolve({
-        preferBuiltins: true
+        browser: true,
+        preferBuiltins: false
       }),
       commonjs(),
       json(),
