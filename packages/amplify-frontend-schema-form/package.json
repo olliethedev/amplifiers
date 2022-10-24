@@ -12,11 +12,19 @@
     "frontend"
   ],
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./primitives.json": "./dist/primitives.json"
+  },
+  "browser": {
+    "./styles.css": "./dist/styles.css"
+  },
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@aws-amplify/datastore": "^3.14.0",
     "@aws-amplify/storage": "^4.5.10",
@@ -87,6 +95,7 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-styles": "^4.0.0",
     "rollup-plugin-typescript2": "^0.34.1",
     "rollup-plugin-uglify": "^6.0.4",
     "storybook-css-modules-preset": "^1.1.1",
