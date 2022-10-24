@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-frontend-schema-form",
-  "version": "0.0.4",
+  "version": "1.1.4",
   "description": "This library helps you create forms from amplify graphql schema.",
   "keywords": [
     "aws",
@@ -45,6 +45,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "aws-amplify": "^4.3.39",
+    "clsx": "^1.2.1",
     "draft-js": "^0.11.7",
     "draft-js-export-markdown": "^1.4.0",
     "draft-js-import-markdown": "^1.4.1",
