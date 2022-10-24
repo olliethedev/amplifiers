@@ -1,11 +1,12 @@
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import resolve from "@rollup/plugin-node-resolve";
+// import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 import nodePolyfills from 'rollup-plugin-node-polyfills';
+import externals from 'rollup-plugin-node-externals';
 
 const packageJson = require("./package.json");
 
@@ -29,11 +30,8 @@ const out = [
     ],
     external: ["react", "react-dom"],
     plugins: [
+      externals({ include: /^@aws-amplify/ }),
       peerDepsExternal(),
-      resolve({
-        browser: true,
-        preferBuiltins: false
-      }),
       commonjs(),
       json(),
       typescript({
