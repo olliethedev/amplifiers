@@ -31,7 +31,7 @@ exports.handler = async (event, context) => {
     const paramsArray = Object.keys(parsedTableFieldTypeMap).map((tableName) => {
     const fieldMap = parsedTableFieldTypeMap[tableName];
 
-    return createDBTransaction(event.request.userAttributes, fieldMap, tableName);
+    return createDBTransaction(event.request.userAttributes, fieldMap, tableName, event.userName);
   });
 
     await Promise.all(paramsArray.map((params) => ddb.putItem(params).promise()));
@@ -41,10 +41,10 @@ exports.handler = async (event, context) => {
   return event;
 };
 
-function createDBTransaction(userAttributes, typeMap, tableName){
+function createDBTransaction(userAttributes, typeMap, tableName, userName){
   const date = new Date();
   /** @type {[{[destinationField:string]: { type: string, source: string }}] | undefined} */
-  const fieldArray = convertFieldMapToFields(typeMap, userAttributes);
+  const fieldArray = convertFieldMapToFields(typeMap, userAttributes, userName);
   const params = {
     Item: {
       // Items below that begin with __ are needed for DataStore. When you create an object in
@@ -64,13 +64,13 @@ function createDBTransaction(userAttributes, typeMap, tableName){
   return params;
 }
 
-function convertFieldMapToFields(typeMap, userAttributes){
+function convertFieldMapToFields(typeMap, userAttributes, userName){
   const accumulator = {};
   typeMap.forEach((mapping) => //for each row mapping (destinationField => {type, source})
     Object.keys(mapping).reduce((acc, destination) => {
       const { type, source } = mapping[destination];
       acc[destination] = {
-        [mapScalarTypeToDynamoType(type)]: userAttributes[source],
+        [mapScalarTypeToDynamoType(type)]: source === "userName" ? userName : userAttributes[source],
       };
       return acc;
     }, accumulator)
