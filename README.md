@@ -2,6 +2,8 @@
 
 # Amplifiers #
 
+Library of custom GraphQL transformers that extent AWS Amplify functionality. 
+
 Packages  | Description
 ------------- | -------------
 [Create Model Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-create-model-transformer)  | Creates a model on trigger event (ex. Cognito Conf)
