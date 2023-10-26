@@ -1,12 +1,21 @@
 {
   "name": "@amplifiers/amplify-util-blog",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "",
   "main": "index.js",
+  "files": [
+    "commands",
+    "event-handlers",
+    "ui-components",
+    "amplify-plugin.json"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "echo  WIP"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  }
 }

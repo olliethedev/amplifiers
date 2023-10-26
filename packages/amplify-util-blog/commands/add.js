@@ -1,10 +1,15 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const eventName = "add";
 
 async function run(context) {
   context.print.info(`Event handler ${eventName} is running.`);
+  updateSchema(context);
+  updateUIElements(context);
+  context.print.info(`Done running ${eventName}`);
+}
 
+function updateSchema(context) {
   // Get the API name from the context
   const apiMeta = context.amplify.getProjectMeta().api;
   console.log(apiMeta);
@@ -38,7 +43,9 @@ async function run(context) {
   const blogSchemaStart = schema.indexOf("# BLOG SCHEMA START.");
   const blogSchemaEnd = schema.indexOf("# BLOG SCHEMA END.");
   if (blogSchemaStart !== -1 && blogSchemaEnd !== -1) {
-    context.print.info("Blog schema already exists in schema.graphql");
+    context.print.info(
+      "Post and Tag models already exist in schema.graphql. Remove them and run `amplify plugin amplify-util-blog add` again."
+    );
     return;
   }
   const blogSchema = `
@@ -77,6 +84,57 @@ async function run(context) {
   fs.writeFileSync(schemaPath, mergedSchema);
 
   context.print.info("Merged schema.graphql and blogSchema.graphql");
+}
+
+function updateUIElements(context) {
+  const projectConfigPath =
+    context.amplify.pathManager.getProjectConfigFilePath();
+
+  const projectConfig = JSON.parse(fs.readFileSync(projectConfigPath, "utf8"));
+
+  context.print.info(projectConfig);
+
+  if (projectConfig.frontend !== "javascript") {
+    context.print.info(
+      "Blog Plugin only supports javascript/typescript front-end project for now"
+    );
+    return;
+  }
+
+  if (projectConfig.javascript.framework !== "react") {
+    context.print.info(
+      "Blog Plugin only supports react front-end project for now"
+    );
+    return;
+  }
+
+  const srcDir = projectConfig.javascript.config.SourceDir;
+
+  const uiComponentsDestination = path.join(
+    context.amplify.pathManager.searchProjectRootPath(),
+    srcDir,
+    "ui-components",
+    "blog"
+  );
+
+  if (fs.existsSync(uiComponentsDestination)) {
+    context.print.info(
+      "Blog folder already exists in ui-components. Remove it and run `amplify plugin amplify-util-blog add` again."
+    );
+    return;
+  }
+
+  const uiComponentsSource = path.join(
+    __dirname,
+    "..",
+    "ui-components",
+    "blog"
+  );
+
+  context.print.info(uiComponentsSource);
+  context.print.info(uiComponentsDestination);
+
+  fs.copySync(uiComponentsSource, uiComponentsDestination);
 }
 
 module.exports = {
