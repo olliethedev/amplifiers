@@ -1,12 +1,12 @@
 {
   "name": "@amplifiers/amplify-util-blog",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "",
   "main": "index.js",
   "files": [
-    "commands",
-    "event-handlers",
-    "ui-components",
+    "commands/*",
+    "event-handlers/*",
+    "ui-components/*",
     "amplify-plugin.json"
   ],
   "scripts": {
