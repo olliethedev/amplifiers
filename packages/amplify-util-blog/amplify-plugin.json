@@ -3,7 +3,9 @@
   "type": "util",
   "commands": [
     "version",
-    "help"
+    "help",
+    "add",
+    "remove"
   ],
   "eventHandlers": [
     "PrePush"
