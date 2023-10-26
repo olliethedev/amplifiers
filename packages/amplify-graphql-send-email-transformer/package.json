@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-graphql-send-email-transformer",
-  "version": "1.1.10",
+  "version": "1.1.12",
   "description": "Amplify GraphQL @sendEmail transformer.",
   "keywords": [
     "aws",
