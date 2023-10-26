@@ -10,6 +10,7 @@
     ],
     "compilerOptions": {
         "target": "ES2015",
+        "types": ["node"],
         "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
