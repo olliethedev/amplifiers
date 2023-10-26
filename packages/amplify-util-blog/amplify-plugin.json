@@ -1,0 +1,11 @@
+{
+  "name": "amplify-util-blog",
+  "type": "util",
+  "commands": [
+    "version",
+    "help"
+  ],
+  "eventHandlers": [
+    "PrePush"
+  ]
+}
