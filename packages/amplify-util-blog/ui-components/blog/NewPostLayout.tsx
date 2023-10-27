@@ -1,11 +1,16 @@
+/* eslint-disable */
+
 import React from "react";
-import { useRouter } from "next/navigation"; //todo: refactor
 import { Flex, Heading } from "@aws-amplify/ui-react";
-import { default as PostCreateForm  } from "./base/PostCreateForm";
+import { PostCreateFormInputValues } from "./base/PostCreateForm";
+import { default as PostCreateForm } from "./base/PostCreateForm";
 import { default as TagCreateForm } from "./base/TagCreateForm";
 
- const NewPostLayout = () => {
-  const { push } = useRouter();
+interface CreatePostLayoutProps {
+  onSuccess: (fields: PostCreateFormInputValues) => void;
+}
+
+const NewPostLayout = ({ onSuccess }: CreatePostLayoutProps) => {
   return (
     <>
       <Flex direction="column" gap="2rem" alignItems="center" width="100%">
@@ -21,16 +26,14 @@ import { default as TagCreateForm } from "./base/TagCreateForm";
         <PostCreateForm
           overrides={{
             PostCreateForm: {
-              width: "100%"
-            }
+              width: "100%",
+            },
           }}
-          onSuccess={ () => {
-            push("/");
-          }}
+          onSuccess={onSuccess}
         />
       </Flex>
     </>
   );
-}
+};
 
 export default NewPostLayout;
