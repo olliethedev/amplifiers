@@ -5,18 +5,16 @@ const eventName = "add";
 async function run(context) {
   context.print.info(`Event handler ${eventName} is running.`);
   updateSchema(context);
+  updateTransformerConfig(context);
+  updateParametersConfig(context);
   updateUIElements(context);
+  updateUIElementsIndex(context);
   context.print.info(`Done running ${eventName}`);
 }
 
 function updateSchema(context) {
   // Get the API name from the context
-  const apiMeta = context.amplify.getProjectMeta().api;
-  console.log(apiMeta);
-  const appSyncApis = Object.keys(apiMeta)
-    .map((key) => ({ ...apiMeta[key], name: key }))
-    .filter((api) => api.service === "AppSync");
-  console.log(`Found ${appSyncApis.length} APIs `);
+  const appSyncApis = getAppSyncAPIs(context);
 
   if (appSyncApis.length === 0) {
     context.print.info("No AppSync API found in the project");
@@ -86,25 +84,65 @@ function updateSchema(context) {
   context.print.info("Merged schema.graphql and blogSchema.graphql");
 }
 
-function updateUIElements(context) {
-  const projectConfigPath =
-    context.amplify.pathManager.getProjectConfigFilePath();
+function updateParametersConfig(context) {
+  const appSyncApis = getAppSyncAPIs(context);
 
-  const projectConfig = JSON.parse(fs.readFileSync(projectConfigPath, "utf8"));
+  const apiName = appSyncApis[0].name;
+
+  const paramsFilePath = path.join(
+    context.amplify.pathManager.getBackendDirPath(),
+    "api",
+    apiName,
+    "parameters.json"
+  );
+
+  const parameters = fs.readFileSync(paramsFilePath, "utf8");
+  let parametersJSON = JSON.parse(parameters);
+
+  parametersJSON = {
+    ...parametersJSON,
+    TypesenseApiKey: "<your-api-key>",
+    TypesenseHost: "<your-typesense-host>",
+    TypesensePort: "443",
+    TypesenseProtocol: "https",
+  };
+
+  fs.writeFileSync(paramsFilePath, JSON.stringify(parametersJSON, null, 4));
+}
+
+function updateTransformerConfig(context) {
+  const appSyncApis = getAppSyncAPIs(context);
+
+  const apiName = appSyncApis[0].name;
+
+  const configFilePath = path.join(
+    context.amplify.pathManager.getBackendDirPath(),
+    "api",
+    apiName,
+    "transform.conf.json"
+  );
+
+  const config = fs.readFileSync(configFilePath, "utf8");
+  let configJSON = JSON.parse(config);
+
+  if (configJSON.transformers) {
+    configJSON.transformers.push("amplify-graphql-typesense-transformer");
+  } else {
+    configJSON = {
+      ...configJSON,
+      transformers: ["amplify-graphql-typesense-transformer"],
+    };
+  }
+
+  fs.writeFileSync(configFilePath, JSON.stringify(configJSON, null, 4));
+}
+
+function updateUIElements(context) {
+  const projectConfig = getProjectConfig(context);
 
   context.print.info(projectConfig);
 
-  if (projectConfig.frontend !== "javascript") {
-    context.print.info(
-      "Blog Plugin only supports javascript/typescript front-end project for now"
-    );
-    return;
-  }
-
-  if (projectConfig.javascript.framework !== "react") {
-    context.print.info(
-      "Blog Plugin only supports react front-end project for now"
-    );
+  if (!isSupportedConfig(context)) {
     return;
   }
 
@@ -135,6 +173,66 @@ function updateUIElements(context) {
   context.print.info(uiComponentsDestination);
 
   fs.copySync(uiComponentsSource, uiComponentsDestination);
+}
+
+function updateUIElementsIndex(context) {
+  const projectConfig = getProjectConfig(context);
+  if (!isSupportedConfig(context)) {
+    return;
+  }
+
+  const srcDir = projectConfig.javascript.config.SourceDir;
+
+  const uiComponentsIndexPath = path.join(
+    context.amplify.pathManager.searchProjectRootPath(),
+    srcDir,
+    "ui-components",
+    "index.js"
+  );
+
+  const uiComponentsIndex = fs.readFileSync(uiComponentsIndexPath, "utf8");
+
+  const blogImport = `export * from './blog';`;
+
+  if (!uiComponentsIndex.includes(blogImport)) {
+    const newUIComponentsIndex = `${uiComponentsIndex}\n${blogImport}`;
+    fs.writeFileSync(uiComponentsIndexPath, newUIComponentsIndex);
+  }
+}
+
+function getAppSyncAPIs(context) {
+  const apiMeta = context.amplify.getProjectMeta().api;
+
+  const appSyncApis = Object.keys(apiMeta)
+    .map((key) => ({ ...apiMeta[key], name: key }))
+    .filter((api) => api.service === "AppSync");
+  console.log(`Found ${appSyncApis.length} APIs `);
+  return appSyncApis;
+}
+
+function getProjectConfig(context) {
+  const projectConfigPath =
+    context.amplify.pathManager.getProjectConfigFilePath();
+
+  return JSON.parse(fs.readFileSync(projectConfigPath, "utf8"));
+}
+
+function isSupportedConfig(context) {
+  const projectConfig = getProjectConfig(context);
+
+  if (projectConfig.frontend !== "javascript") {
+    context.print.info(
+      "Blog Plugin only supports javascript/typescript front-end project for now"
+    );
+    return false;
+  } else if (projectConfig.javascript.framework !== "react") {
+    context.print.info(
+      "Blog Plugin only supports react front-end project for now"
+    );
+    return false;
+  }
+
+  return true;
 }
 
 module.exports = {
