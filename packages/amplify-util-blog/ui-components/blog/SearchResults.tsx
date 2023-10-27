@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import { Flex } from "@aws-amplify/ui-react";

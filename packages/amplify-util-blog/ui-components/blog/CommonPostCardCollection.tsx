@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from "react";
 import Image from "next/image";
 import { StorageImage } from "@aws-amplify/ui-react-storage";

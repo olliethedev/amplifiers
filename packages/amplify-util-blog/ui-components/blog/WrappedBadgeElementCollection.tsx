@@ -1,6 +1,8 @@
-import { Post, Tag } from "@/models";
-import { default as BadgeElementCollection } from "./base/BadgeElementCollection";
+/* eslint-disable */
+
 import { useEffect, useState } from "react";
+import { Post, Tag } from "./../../models";
+import { default as BadgeElementCollection } from "./base/BadgeElementCollection";
 
 const WrappedBadgeElementCollection = ({ post }: { post: Post }) => {
     const [postTags, setPostTags] = useState<Tag[]>([]);

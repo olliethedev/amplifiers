@@ -42,7 +42,7 @@ function updateSchema(context) {
   const blogSchemaEnd = schema.indexOf("# BLOG SCHEMA END.");
   if (blogSchemaStart !== -1 && blogSchemaEnd !== -1) {
     context.print.info(
-      "Post and Tag models already exist in schema.graphql. Remove them and run `amplify plugin amplify-util-blog add` again."
+      "Post and Tag models already exist in schema.graphql. Remove them and run `amplify amplify-util-blog add` again."
     );
     return;
   }
@@ -125,7 +125,10 @@ function updateTransformerConfig(context) {
   const config = fs.readFileSync(configFilePath, "utf8");
   let configJSON = JSON.parse(config);
 
-  if (configJSON.transformers) {
+  if (
+    configJSON.transformers &&
+    !configJSON.transformers.includes("amplify-graphql-typesense-transformer")
+  ) {
     configJSON.transformers.push("amplify-graphql-typesense-transformer");
   } else {
     configJSON = {
@@ -157,7 +160,7 @@ function updateUIElements(context) {
 
   if (fs.existsSync(uiComponentsDestination)) {
     context.print.info(
-      "Blog folder already exists in ui-components. Remove it and run `amplify plugin amplify-util-blog add` again."
+      "Blog folder already exists in ui-components. Remove it and run `amplify amplify-util-blog add` again."
     );
     return;
   }
