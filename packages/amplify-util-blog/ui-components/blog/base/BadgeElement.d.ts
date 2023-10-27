@@ -5,15 +5,17 @@
  **************************************************************************/
 
 import * as React from "react";
+import { Tag } from "../../../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { FlexProps } from "@aws-amplify/ui-react";
+import { BadgeProps, FlexProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type PageOverridesProps = {
-    Page?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 1"?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 2"?: PrimitiveOverrideProps<FlexProps>;
+export declare type BadgeElementOverridesProps = {
+    BadgeElement?: PrimitiveOverrideProps<FlexProps>;
+    Badge?: PrimitiveOverrideProps<BadgeProps>;
 } & EscapeHatchProps;
-export declare type PageProps = React.PropsWithChildren<Partial<FlexProps> & {
-    overrides?: PageOverridesProps | undefined | null;
+export declare type BadgeElementProps = React.PropsWithChildren<Partial<FlexProps> & {
+    tag?: Tag;
+} & {
+    overrides?: BadgeElementOverridesProps | undefined | null;
 }>;
-export default function Page(props: PageProps): React.ReactElement;
+export default function BadgeElement(props: BadgeElementProps): React.ReactElement;
