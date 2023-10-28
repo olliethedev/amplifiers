@@ -11,7 +11,7 @@ import {
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text } from "@aws-amplify/ui-react";
-import MyIcon from "../../MyIcon";
+import MyIcon from "../icons/MyIcon";
 export default function PostCard(props) {
   const { post, imageContainer, overrides, ...rest } = props;
   const readMoreLayoutOnClick = useNavigateAction({

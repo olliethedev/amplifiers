@@ -24,6 +24,10 @@ To use this plugin, you need to install it globally:
 ```bash
 npm install -g @amplifiers/amplify-util-blog
 ```
+The plugin uses typesense transformer for search and amplify-ui components for ui, so we will also need to install the following:
+```bash
+npm install -s amplify-graphql-typesense-transformer @aws-amplify/ui-react @aws-amplify/ui-react-storage aws-amplify react-markdown remark-gfm remark-math
+```
 
 Then, you can use the `amplify plugin add` command to add it to your Amplify CLI:
 ```bash
@@ -31,6 +35,8 @@ amplify plugin add /usr/local/lib/node_modules/@amplifiers/amplify-util-blog
 ```
 
 Follow the prompts to add the `amplify-util-blog` plugin.
+
+Remember to update the typesense api key and endpoint in your `parameters.json` if you plan to use search.
 
 ## Usage
 
