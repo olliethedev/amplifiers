@@ -8,7 +8,7 @@ import * as React from "react";
 import { Post } from "../../../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
-import { MyIconProps } from "../../MyIcon";
+import { MyIconProps } from "../icons/MyIcon";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PostCardOverridesProps = {
     PostCard?: PrimitiveOverrideProps<FlexProps>;
