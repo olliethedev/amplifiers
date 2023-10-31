@@ -12,6 +12,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text } from "@aws-amplify/ui-react";
 import MyIcon from "../icons/MyIcon";
+import { formatDate } from "../../utils";
 export default function PostCard(props) {
   const { post, imageContainer, overrides, ...rest } = props;
   const readMoreLayoutOnClick = useNavigateAction({
@@ -143,7 +144,7 @@ export default function PostCard(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children={post?.updatedAt}
+              children={formatDate(post?.updatedAt, "locale")}
               {...getOverrideProps(overrides, "DateText")}
             ></Text>
           </Flex>
