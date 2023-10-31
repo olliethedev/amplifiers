@@ -16,7 +16,8 @@
     "commands/**/*",
     "event-handlers/**/*",
     "ui-components/**/*",
-    "amplify-plugin.json"
+    "amplify-plugin.json",
+    "utils.js"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
