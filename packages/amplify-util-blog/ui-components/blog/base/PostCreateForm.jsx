@@ -27,9 +27,13 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+
 import { Post, Tag, PostTag } from "../../../models";
 import { fetchByPath, processFile, validateField } from "../../utils";
 import { DataStore } from "aws-amplify";
+import MDEditor from "@uiw/react-md-editor";
 function ArrayField({
   items = [],
   onChange,
@@ -470,121 +474,6 @@ export default function PostCreateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextAreaField>
-      <TextAreaField
-        label="Content"
-        isRequired={true}
-        isReadOnly={false}
-        placeholder="Enter post body, Markup is supported"
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              slug,
-              title,
-              description,
-              content: value,
-              image,
-              published,
-              tags,
-            };
-            const result = onChange(modelFields);
-            value = result?.content ?? value;
-          }
-          if (errors.content?.hasError) {
-            runValidationTasks("content", value);
-          }
-          setContent(value);
-        }}
-        onBlur={() => runValidationTasks("content", content)}
-        errorMessage={errors.content?.errorMessage}
-        hasError={errors.content?.hasError}
-        {...getOverrideProps(overrides, "content")}
-      ></TextAreaField>
-      <Field
-        errorMessage={errors.image?.errorMessage}
-        hasError={errors.image?.hasError}
-        label={"Image"}
-        isRequired={true}
-        isReadOnly={false}
-      >
-        <StorageManager
-          onUploadSuccess={({ key }) => {
-            setImage((prev) => {
-              let value = key;
-              if (onChange) {
-                const modelFields = {
-                  slug,
-                  title,
-                  description,
-                  content,
-                  image: value,
-                  published,
-                  tags,
-                };
-                const result = onChange(modelFields);
-                value = result?.image ?? value;
-              }
-              return value;
-            });
-          }}
-          onFileRemove={({ key }) => {
-            setImage((prev) => {
-              let value = initialValues?.image;
-              if (onChange) {
-                const modelFields = {
-                  slug,
-                  title,
-                  description,
-                  content,
-                  image: value,
-                  published,
-                  tags,
-                };
-                const result = onChange(modelFields);
-                value = result?.image ?? value;
-              }
-              return value;
-            });
-          }}
-          processFile={processFile}
-          accessLevel={"public"}
-          acceptedFileTypes={[]}
-          isResumable={false}
-          showThumbnails={true}
-          maxFileCount={1}
-          {...getOverrideProps(overrides, "image")}
-        ></StorageManager>
-      </Field>
-      <SwitchField
-        label="Published"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={published}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              slug,
-              title,
-              description,
-              content,
-              image,
-              published: value,
-              tags,
-            };
-            const result = onChange(modelFields);
-            value = result?.published ?? value;
-          }
-          if (errors.published?.hasError) {
-            runValidationTasks("published", value);
-          }
-          setPublished(value);
-        }}
-        onBlur={() => runValidationTasks("published", published)}
-        errorMessage={errors.published?.errorMessage}
-        hasError={errors.published?.hasError}
-        {...getOverrideProps(overrides, "published")}
-      ></SwitchField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
@@ -663,6 +552,140 @@ export default function PostCreateForm(props) {
           {...getOverrideProps(overrides, "tags")}
         ></Autocomplete>
       </ArrayField>
+      <Field
+        errorMessage={errors.image?.errorMessage}
+        hasError={errors.image?.hasError}
+        label={"Image"}
+        isRequired={true}
+        isReadOnly={false}
+      >
+        <StorageManager
+          onUploadSuccess={({ key }) => {
+            setImage((prev) => {
+              let value = key;
+              if (onChange) {
+                const modelFields = {
+                  slug,
+                  title,
+                  description,
+                  content,
+                  image: value,
+                  published,
+                  tags,
+                };
+                const result = onChange(modelFields);
+                value = result?.image ?? value;
+              }
+              return value;
+            });
+          }}
+          onFileRemove={({ key }) => {
+            setImage((prev) => {
+              let value = initialValues?.image;
+              if (onChange) {
+                const modelFields = {
+                  slug,
+                  title,
+                  description,
+                  content,
+                  image: value,
+                  published,
+                  tags,
+                };
+                const result = onChange(modelFields);
+                value = result?.image ?? value;
+              }
+              return value;
+            });
+          }}
+          processFile={processFile}
+          accessLevel={"public"}
+          acceptedFileTypes={[]}
+          isResumable={false}
+          showThumbnails={true}
+          maxFileCount={1}
+          {...getOverrideProps(overrides, "image")}
+        ></StorageManager>
+      </Field>
+      <Field
+        errorMessage={errors.content?.errorMessage}
+        hasError={errors.content?.hasError}
+        label={"Content"}
+        isRequired={true}
+        isReadOnly={false}
+      >
+        <MDEditor
+          style={{
+            borderColor: "var(--amplify-components-fieldcontrol-border-color)",
+            borderRadius:
+              "var(--amplify-components-fieldcontrol-border-radius)",
+            borderStyle: "var(--amplify-components-fieldcontrol-border-style)",
+            borderWidth: "var(--amplify-components-fieldcontrol-border-width)",
+            outlineColor:
+              "var(--amplify-components-fieldcontrol-outline-color)",
+            outlineStyle:
+              "var(--amplify-components-fieldcontrol-outline-style)",
+            outlineWidth:
+              "var(--amplify-components-fieldcontrol-outline-width)",
+            outlineOffset:
+              "var(--amplify-components-fieldcontrol-outline-offset)",
+            boxShadow: "none",
+          }}
+          height={200}
+          value={content}
+          onBlurCapture={() => runValidationTasks("content", content)}
+          onChange={(value) => {
+            if (onChange) {
+              const modelFields = {
+                slug,
+                title,
+                description,
+                content: value,
+                image,
+                published,
+                tags,
+              };
+              const result = onChange(modelFields);
+              value = result?.content ?? value;
+            }
+            if (errors.content?.hasError) {
+              runValidationTasks("content", value);
+            }
+            setContent(value);
+          }}
+          onBlur={() => runValidationTasks("content", content)}
+        />
+      </Field>
+      <SwitchField
+        label="Published"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={published}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              slug,
+              title,
+              description,
+              content,
+              image,
+              published: value,
+              tags,
+            };
+            const result = onChange(modelFields);
+            value = result?.published ?? value;
+          }
+          if (errors.published?.hasError) {
+            runValidationTasks("published", value);
+          }
+          setPublished(value);
+        }}
+        onBlur={() => runValidationTasks("published", published)}
+        errorMessage={errors.published?.errorMessage}
+        hasError={errors.published?.hasError}
+        {...getOverrideProps(overrides, "published")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
