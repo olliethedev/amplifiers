@@ -8,6 +8,7 @@
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, Heading, Text } from "@aws-amplify/ui-react";
+import { formatDate } from "../../utils";
 export default function PostDetail(props) {
   const { post, imageContainer, overrides, ...rest } = props;
   return (
@@ -119,7 +120,7 @@ export default function PostDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children={post?.updatedAt}
+              children={formatDate(post?.updatedAt, "locale")}
               {...getOverrideProps(overrides, "DateText")}
             ></Text>
           </Flex>
