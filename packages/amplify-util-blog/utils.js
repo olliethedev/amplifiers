@@ -18,7 +18,7 @@ function updateUIElementsIndex(context) {
 
   const uiComponentsIndex = fs.readFileSync(uiComponentsIndexPath, "utf8");
 
-  const blogImport = `export * from './blog';`;
+  const blogImport = `export * from "./blog";`;
 
   if (!uiComponentsIndex.includes(blogImport)) {
     const newUIComponentsIndex = `${uiComponentsIndex}\n${blogImport}`;

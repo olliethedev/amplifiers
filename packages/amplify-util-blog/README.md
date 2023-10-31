@@ -26,7 +26,7 @@ npm install -g @amplifiers/amplify-util-blog
 ```
 The plugin uses typesense transformer for search and amplify-ui components for ui, so we will also need to install the following:
 ```bash
-npm install -s amplify-graphql-typesense-transformer @aws-amplify/ui-react @aws-amplify/ui-react-storage aws-amplify react-markdown remark-gfm remark-math
+npm install -s amplify-graphql-typesense-transformer @aws-amplify/ui-react @aws-amplify/ui-react-storage aws-amplify react-markdown @uiw/react-md-editor@v3.6.0
 ```
 
 Then, you can use the `amplify plugin add` command to add it to your Amplify CLI:
@@ -37,6 +37,32 @@ amplify plugin add /usr/local/lib/node_modules/@amplifiers/amplify-util-blog
 Follow the prompts to add the `amplify-util-blog` plugin.
 
 Remember to update the typesense api key and endpoint in your `parameters.json` if you plan to use search.
+
+## NextJS Support for react-md-editor
+
+```bash
+npm install next-remove-imports
+npm install @uiw/react-md-editor@v3.6.0
+```
+
+```js
+// next.config.js
+const removeImports = require('next-remove-imports')();
+module.exports = removeImports({});
+```
+
+Load the forms (NewPostLayout, UpdatePostLayout) using the `dynamic` function from `next/dynamic`:
+
+```js
+import dynamic from "next/dynamic";
+
+const NewPostLayout = dynamic(
+  () => import("../../ui-components/blog/NewPostLayout"),
+  {
+    ssr: false,
+  }
+);
+```
 
 ## Usage
 
