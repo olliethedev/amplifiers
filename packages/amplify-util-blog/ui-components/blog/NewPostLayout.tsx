@@ -17,8 +17,8 @@ const NewPostLayout = ({ onSuccess }: CreatePostLayoutProps) => {
     <>
       <Flex
         direction="column"
-        marginTop="2rem"
-        marginBottom="2rem"
+        marginTop="xl"
+        marginBottom="xl"
         alignItems="center"
         width="100%"
       >

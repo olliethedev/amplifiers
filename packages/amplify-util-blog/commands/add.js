@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { getProjectConfig, isSupportedConfig, getAppSyncAPIs, updateUIElementsIndex } = require('../utils');
+const { getProjectConfig, isSupportedConfig, getAppSyncAPIs } = require('../utils');
 const eventName = "add";
 
 async function run(context) {
@@ -9,7 +9,6 @@ async function run(context) {
   updateTransformerConfig(context);
   updateParametersConfig(context);
   updateUIElements(context);
-  updateUIElementsIndex(context);
   context.print.info(`Done running ${eventName}`);
 }
 

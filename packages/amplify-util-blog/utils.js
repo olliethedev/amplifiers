@@ -1,30 +1,4 @@
 const fs = require("fs-extra");
-const path = require("path");
-
-function updateUIElementsIndex(context) {
-  const projectConfig = getProjectConfig(context);
-  if (!isSupportedConfig(context)) {
-    return;
-  }
-
-  const srcDir = projectConfig.javascript.config.SourceDir;
-
-  const uiComponentsIndexPath = path.join(
-    context.amplify.pathManager.searchProjectRootPath(),
-    srcDir,
-    "ui-components",
-    "index.js"
-  );
-
-  const uiComponentsIndex = fs.readFileSync(uiComponentsIndexPath, "utf8");
-
-  const blogImport = `export * from "./blog";`;
-
-  if (!uiComponentsIndex.includes(blogImport)) {
-    const newUIComponentsIndex = `${uiComponentsIndex}\n${blogImport}`;
-    fs.writeFileSync(uiComponentsIndexPath, newUIComponentsIndex);
-  }
-}
 
 function getAppSyncAPIs(context) {
   const apiMeta = context.amplify.getProjectMeta().api;
@@ -62,7 +36,6 @@ function isSupportedConfig(context) {
 }
 
 module.exports = {
-  updateUIElementsIndex,
   getAppSyncAPIs,
   getProjectConfig,
   isSupportedConfig,

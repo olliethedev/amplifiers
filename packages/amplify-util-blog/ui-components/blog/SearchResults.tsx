@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
-import { Flex } from "@aws-amplify/ui-react";
+import { Flex, Heading } from "@aws-amplify/ui-react";
 import { deserializeModel } from "@aws-amplify/datastore/ssr";
 import { GraphQLQuery } from "@aws-amplify/api";
 
@@ -26,7 +26,8 @@ const SearchResults = ({ searchText }: SearchResultsProps) => {
       variables: {
         searchParameters: JSON.stringify({
           q: `*${text}*`,
-          query_by: "title",
+          query_by: "title,content,description",
+          filter_by: "published:true",
         }),
       },
     });
@@ -48,13 +49,16 @@ const SearchResults = ({ searchText }: SearchResultsProps) => {
 
   useEffect(() => {
     searchPost(searchText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchText]);
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" width="100%">
       {searchResults && <CommonPostCardCollection posts={searchResults} />}
-      {!searchResults && <p>No results found</p>}
+      {!searchResults && (
+        <Heading padding="medium" level={5}>
+          No results found
+        </Heading>
+      )}
     </Flex>
   );
 };

@@ -43,7 +43,7 @@ const Modal = ({ title, open, onClose, children }: Props) => {
         <Flex
           justifyContent="space-between"
           alignItems="center"
-          paddingBottom="1rem"
+          paddingBottom="medium"
         >
           <Heading level={3}>{title}</Heading>
           <Button onClick={onClose} borderRadius="20px" width="20px">
