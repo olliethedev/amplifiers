@@ -19,14 +19,15 @@ const PostDetailLayout = ({ post }: PostDetailLayoutProps) => {
       overrides={{
         PostDetail: {
           backgroundColor: "transparent",
-          marginTop: "2rem",
-          marginBottom: "2rem",
+          marginTop: "xl",
+          marginBottom: "xl",
         },
         Tags: {
           children: <WrappedBadgeElementCollection post={post} />,
         },
         MarkdownContainer: {
           direction: "column",
+          marginTop: "xl",
           children: (
             <MemoizedReactMarkdown>{post.content}</MemoizedReactMarkdown>
           ),
