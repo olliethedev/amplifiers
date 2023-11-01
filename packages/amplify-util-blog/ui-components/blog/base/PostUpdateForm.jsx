@@ -450,6 +450,84 @@ export default function PostUpdateForm(props) {
       {...getOverrideProps(overrides, "PostUpdateForm")}
       {...rest}
     >
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              slug,
+              title,
+              description,
+              content,
+              image,
+              published,
+              tags: values,
+            };
+            const result = onChange(modelFields);
+            values = result?.tags ?? values;
+          }
+          setTags(values);
+          setCurrentTagsValue(undefined);
+          setCurrentTagsDisplayValue("");
+        }}
+        currentFieldValue={currentTagsValue}
+        label={"Tags"}
+        items={tags}
+        hasError={errors?.tags?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("tags", currentTagsValue)
+        }
+        errorMessage={errors?.tags?.errorMessage}
+        getBadgeText={getDisplayValue.tags}
+        setFieldValue={(model) => {
+          setCurrentTagsDisplayValue(model ? getDisplayValue.tags(model) : "");
+          setCurrentTagsValue(model);
+        }}
+        inputFieldRef={tagsRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Tags"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search Tag"
+          value={currentTagsDisplayValue}
+          options={tagRecords
+            .filter((r) => !tagsIdSet.has(getIDValue.tags?.(r)))
+            .map((r) => ({
+              id: getIDValue.tags?.(r),
+              label: getDisplayValue.tags?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentTagsValue(
+              tagRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentTagsDisplayValue(label);
+            runValidationTasks("tags", label);
+          }}
+          onClear={() => {
+            setCurrentTagsDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.tags?.hasError) {
+              runValidationTasks("tags", value);
+            }
+            setCurrentTagsDisplayValue(value);
+            setCurrentTagsValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("tags", currentTagsDisplayValue)}
+          errorMessage={errors.tags?.errorMessage}
+          hasError={errors.tags?.hasError}
+          ref={tagsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "tags")}
+        ></Autocomplete>
+      </ArrayField>
       <TextField
         label="Slug"
         isRequired={true}
@@ -540,84 +618,6 @@ export default function PostUpdateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              slug,
-              title,
-              description,
-              content,
-              image,
-              published,
-              tags: values,
-            };
-            const result = onChange(modelFields);
-            values = result?.tags ?? values;
-          }
-          setTags(values);
-          setCurrentTagsValue(undefined);
-          setCurrentTagsDisplayValue("");
-        }}
-        currentFieldValue={currentTagsValue}
-        label={"Tags"}
-        items={tags}
-        hasError={errors?.tags?.hasError}
-        runValidationTasks={async () =>
-          await runValidationTasks("tags", currentTagsValue)
-        }
-        errorMessage={errors?.tags?.errorMessage}
-        getBadgeText={getDisplayValue.tags}
-        setFieldValue={(model) => {
-          setCurrentTagsDisplayValue(model ? getDisplayValue.tags(model) : "");
-          setCurrentTagsValue(model);
-        }}
-        inputFieldRef={tagsRef}
-        defaultFieldValue={""}
-      >
-        <Autocomplete
-          label="Tags"
-          isRequired={false}
-          isReadOnly={false}
-          placeholder="Search Tag"
-          value={currentTagsDisplayValue}
-          options={tagRecords
-            .filter((r) => !tagsIdSet.has(getIDValue.tags?.(r)))
-            .map((r) => ({
-              id: getIDValue.tags?.(r),
-              label: getDisplayValue.tags?.(r),
-            }))}
-          onSelect={({ id, label }) => {
-            setCurrentTagsValue(
-              tagRecords.find((r) =>
-                Object.entries(JSON.parse(id)).every(
-                  ([key, value]) => r[key] === value
-                )
-              )
-            );
-            setCurrentTagsDisplayValue(label);
-            runValidationTasks("tags", label);
-          }}
-          onClear={() => {
-            setCurrentTagsDisplayValue("");
-          }}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.tags?.hasError) {
-              runValidationTasks("tags", value);
-            }
-            setCurrentTagsDisplayValue(value);
-            setCurrentTagsValue(undefined);
-          }}
-          onBlur={() => runValidationTasks("tags", currentTagsDisplayValue)}
-          errorMessage={errors.tags?.errorMessage}
-          hasError={errors.tags?.hasError}
-          ref={tagsRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "tags")}
-        ></Autocomplete>
-      </ArrayField>
       <Field
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
