@@ -23,7 +23,7 @@ export default function PostCard(props) {
     <Flex
       gap="16px"
       direction="column"
-      width="960px"
+      width="100%"
       height="unset"
       justifyContent="flex-start"
       alignItems="flex-start"
