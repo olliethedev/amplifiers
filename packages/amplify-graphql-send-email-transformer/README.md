@@ -80,7 +80,7 @@ If it is your first time using SES you will be in a sandbox where you have multi
 3) The above action will send a verification mail from AWS to the added email address to confirm Id and accept emails. Once the user of that email address verifies, you can check “Verification Status” turns to “verified”.
 4) You can “Send a Test Email” to verify the same and check the stats of sent emails in the SES console.
 
-![alt text](https://github.com/olliethedev/amplifiers/raw/master/read-me-email-sign-up.png)
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/markdown-assets/read-me-email-sign-up.png)
 
 ## Development and Contributions ##
 Contributions are more than welcome! Please feel free to open an issue or a pull request.

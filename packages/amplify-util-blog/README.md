@@ -79,3 +79,11 @@ To remove blog functionality from your project, run:
 amplify amplify-util-blog remove
 ```
 
+## Results
+
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/markdown-assets/blog-1.png)
+
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/markdown-assets/blog-2.png)
+
+![alt text](https://github.com/olliethedev/amplifiers/raw/master/markdown-assets/blog-3.png)
+
