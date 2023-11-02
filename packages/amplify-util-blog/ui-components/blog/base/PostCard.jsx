@@ -29,16 +29,13 @@ export default function PostCard(props) {
       alignItems="flex-start"
       overflow="hidden"
       position="relative"
-      boxShadow="0px 2px 4px rgba(0.05098039284348488, 0.10196078568696976, 0.14901961386203766, 0.05000000074505806)"
-      borderRadius="10px"
-      padding="24px 24px 24px 24px"
-      backgroundColor="rgba(255,255,255,1)"
+      padding="12px 12px 12px 12px"
       {...getOverrideProps(overrides, "PostCard")}
       {...rest}
     >
       <Flex
-        gap="40px"
-        direction="row"
+        gap="4px"
+        direction="column"
         width="unset"
         height="unset"
         justifyContent="flex-start"
@@ -50,36 +47,49 @@ export default function PostCard(props) {
         {...getOverrideProps(overrides, "Body")}
       >
         <Flex
-          gap="0"
-          direction="column"
-          width="unset"
-          height="unset"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          overflow="hidden"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          backgroundColor="rgba(181,181,181,1)"
-          children={imageContainer}
-          {...getOverrideProps(overrides, "ImageContainer")}
-        ></Flex>
-        <Flex
           gap="16px"
           direction="column"
           width="unset"
           height="unset"
           justifyContent="flex-start"
           alignItems="flex-start"
-          grow="1"
-          shrink="1"
-          basis="0"
+          shrink="0"
+          alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Text")}
+          {...getOverrideProps(overrides, "TopLayout")}
         >
           <Flex
-            gap="16px"
+            gap="0"
+            direction="column"
+            width="unset"
+            height="200px"
+            justifyContent="center"
+            alignItems="center"
+            shrink="0"
+            alignSelf="stretch"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            {...getOverrideProps(overrides, "ImageLayout")}
+          >
+            <Flex
+              gap="0"
+              direction="column"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              overflow="hidden"
+              shrink="0"
+              alignSelf="stretch"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              children={imageContainer}
+              {...getOverrideProps(overrides, "ImageContainer")}
+            ></Flex>
+          </Flex>
+          <Flex
+            gap="8px"
             direction="column"
             width="unset"
             height="unset"
@@ -121,21 +131,22 @@ export default function PostCard(props) {
               justifyContent="flex-start"
               alignItems="flex-start"
               shrink="0"
+              alignSelf="stretch"
               position="relative"
               padding="0px 0px 0px 0px"
               {...getOverrideProps(overrides, "Tags")}
             ></Flex>
             <Text
               fontFamily="Inter"
-              fontSize="16px"
-              fontWeight="400"
+              fontSize="12px"
+              fontWeight="300"
               color="rgba(92,102,112,1)"
               lineHeight="24px"
               textAlign="left"
               display="block"
               direction="column"
               justifyContent="unset"
-              letterSpacing="0.01px"
+              letterSpacing="0px"
               width="unset"
               height="unset"
               gap="unset"
@@ -148,6 +159,20 @@ export default function PostCard(props) {
               {...getOverrideProps(overrides, "DateText")}
             ></Text>
           </Flex>
+        </Flex>
+        <Flex
+          gap="16px"
+          direction="column"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          shrink="0"
+          alignSelf="stretch"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          {...getOverrideProps(overrides, "Text")}
+        >
           <Flex
             gap="16px"
             direction="row"
@@ -186,7 +211,7 @@ export default function PostCard(props) {
             ></Text>
           </Flex>
           <Flex
-            gap="16px"
+            gap="8px"
             direction="row"
             width="unset"
             height="unset"

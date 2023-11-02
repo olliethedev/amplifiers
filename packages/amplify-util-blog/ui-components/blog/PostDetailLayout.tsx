@@ -19,7 +19,7 @@ const PostDetailLayout = ({ post }: PostDetailLayoutProps) => {
       overrides={{
         PostDetail: {
           backgroundColor: "transparent",
-          marginTop: "xl",
+          marginTop: "large",
           marginBottom: "xl",
         },
         Tags: {
@@ -27,20 +27,22 @@ const PostDetailLayout = ({ post }: PostDetailLayoutProps) => {
         },
         MarkdownContainer: {
           direction: "column",
-          marginTop: "xl",
+          marginTop: "small",
           children: (
             <MemoizedReactMarkdown>{post.content}</MemoizedReactMarkdown>
           ),
         },
         ImageContainer: {
           padding: 0,
-          borderRadius: "10px",
+          borderRadius: "0px",
+          maxHeight: "410px",
+          justifyContent: "center",
           children: post.image.startsWith("http") ? (
             <Image
               src={post.image}
               alt="post image"
               objectFit="cover"
-              width="200px"
+              width="100%"
               height="auto"
             />
           ) : (
@@ -48,7 +50,7 @@ const PostDetailLayout = ({ post }: PostDetailLayoutProps) => {
               imgKey={post.image}
               accessLevel="public"
               alt="post image"
-              width={200}
+              width="100%"
             />
           ),
         },

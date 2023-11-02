@@ -12,17 +12,22 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
+import { SortDirection } from "@aws-amplify/datastore";
 import PostCard from "./PostCard";
 import { Collection } from "@aws-amplify/ui-react";
 export default function PostCardCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
   const itemsFilterObj = { field: "published", operand: true, operator: "eq" };
   const itemsFilter = createDataStorePredicate(itemsFilterObj);
+  const itemsPagination = {
+    sort: (s) => s.updatedAt(SortDirection.DESCENDING),
+  };
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
     model: Post,
     criteria: itemsFilter,
+    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -33,12 +38,17 @@ export default function PostCardCollection(props) {
   }, [itemsProp, itemsDataStore]);
   return (
     <Collection
-      type="list"
+      type="grid"
       isPaginated={true}
       searchPlaceholder="Search..."
-      itemsPerPage={6}
-      direction="column"
-      justifyContent="left"
+      itemsPerPage={9}
+      templateColumns={{
+        base: "repeat(1, 1fr)",
+        medium: "repeat(3, 1fr)",
+      }}
+      autoFlow="row"
+      alignItems="stretch"
+      justifyContent="stretch"
       items={items || []}
       {...getOverrideProps(overrides, "PostCardCollection")}
       {...rest}
