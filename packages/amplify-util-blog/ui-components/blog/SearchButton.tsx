@@ -31,7 +31,7 @@ export default function SearchButton() {
       </Button>
       <Modal title="Search Results">
         <View
-          maxWidth="800px"
+          maxWidth="720px"
           style={{
             overflowX: "hidden",
           }}

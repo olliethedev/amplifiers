@@ -26,8 +26,8 @@ export default function PostDetail(props) {
       {...rest}
     >
       <Flex
-        gap="40px"
-        direction="row"
+        gap="18px"
+        direction="column"
         width="unset"
         height="unset"
         justifyContent="flex-start"
@@ -47,6 +47,7 @@ export default function PostDetail(props) {
           alignItems="flex-start"
           overflow="hidden"
           shrink="0"
+          alignSelf="stretch"
           position="relative"
           padding="10px 10px 10px 10px"
           backgroundColor="rgba(181,181,181,1)"
@@ -60,9 +61,8 @@ export default function PostDetail(props) {
           height="unset"
           justifyContent="flex-start"
           alignItems="flex-start"
-          grow="1"
-          shrink="1"
-          basis="0"
+          shrink="0"
+          alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
           {...getOverrideProps(overrides, "Text")}

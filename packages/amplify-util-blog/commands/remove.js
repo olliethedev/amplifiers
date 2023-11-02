@@ -21,7 +21,7 @@ function removeSchema(context) {
         "schema.graphql"
     );
     let schema = fs.readFileSync(schemaPath, "utf8");
-    schema = schema.replace(/# BLOG SCHEMA START[\s\S]*# BLOG SCHEMA END\n/, '');
+    schema = schema.replace(/# BLOG SCHEMA START.*[\s\S]*# BLOG SCHEMA END.*\n/, '');
     fs.writeFileSync(schemaPath, schema);
     context.print.info("Removed blog schema from schema.graphql");
 }

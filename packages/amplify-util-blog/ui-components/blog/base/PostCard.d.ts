@@ -13,12 +13,14 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type PostCardOverridesProps = {
     PostCard?: PrimitiveOverrideProps<FlexProps>;
     Body?: PrimitiveOverrideProps<FlexProps>;
+    TopLayout?: PrimitiveOverrideProps<FlexProps>;
+    ImageLayout?: PrimitiveOverrideProps<FlexProps>;
     ImageContainer?: PrimitiveOverrideProps<FlexProps>;
-    Text?: PrimitiveOverrideProps<FlexProps>;
+    DateText?: PrimitiveOverrideProps<TextProps>;
     Headline?: PrimitiveOverrideProps<FlexProps>;
     HeadlineText?: PrimitiveOverrideProps<TextProps>;
     Tags?: PrimitiveOverrideProps<FlexProps>;
-    DateText?: PrimitiveOverrideProps<TextProps>;
+    Text?: PrimitiveOverrideProps<FlexProps>;
     Article?: PrimitiveOverrideProps<FlexProps>;
     ArticleText?: PrimitiveOverrideProps<TextProps>;
     ReadMoreLayout?: PrimitiveOverrideProps<FlexProps>;
