@@ -25,6 +25,9 @@ const components: Components = {
       </code>
     );
   },
+  img({ node, ...props }: any) {
+    return <img {...props} style={{ width: "100%" }} />;
+  },
 };
 
 const MemoizedReactMarkdown: FC<Options> = memo(
