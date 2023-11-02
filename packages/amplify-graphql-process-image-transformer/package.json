@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-graphql-process-image-transformer",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "This directive allows you to process images.",
   "keywords": [
     "aws",
