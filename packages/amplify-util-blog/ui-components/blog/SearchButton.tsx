@@ -27,7 +27,7 @@ export default function SearchButton() {
           }}
           ariaLabel="Search"
         />
-        <Text marginLeft={"small"}>Search Blogs</Text>
+        <Text marginLeft={"small"}>Search Posts</Text>
       </Button>
       <Modal title="Search Results">
         <View
