@@ -29,12 +29,11 @@ export default function BadgeElementCollection(props) {
   }, [itemsProp, itemsDataStore]);
   return (
     <Collection
-      type="grid"
+      type="list"
+      direction="row"
       searchPlaceholder="Search..."
-      templateColumns="1fr 1fr 1fr 1fr 1fr"
-      autoFlow="row"
-      alignItems="stretch"
-      justifyContent="stretch"
+      gap="3px"
+      wrap="nowrap"
       items={items || []}
       {...getOverrideProps(overrides, "BadgeElementCollection")}
       {...rest}
