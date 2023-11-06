@@ -3,6 +3,7 @@
 import { FC, memo } from 'react'
 import ReactMarkdown, { Options, Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkFootnotes from "remark-footnotes";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -33,7 +34,10 @@ const components: Components = {
 const MemoizedReactMarkdown: FC<Options> = memo(
   (props) => (
     <div style={{ width: "100%" }}>
-      <ReactMarkdown {...props} components={components} />
+      <ReactMarkdown 
+        {...props} 
+        components={components} 
+        remarkPlugins={[remarkFootnotes as any]} />
     </div>
   ),
   (prevProps, nextProps) =>
