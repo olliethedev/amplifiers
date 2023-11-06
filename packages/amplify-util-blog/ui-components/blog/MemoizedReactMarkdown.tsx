@@ -7,6 +7,7 @@ import remarkFootnotes from "remark-footnotes";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { Link } from "@aws-amplify/ui-react";
 
 const components: Components = {
   code({ node, inline, className, children, ...props }: any) {
@@ -28,6 +29,9 @@ const components: Components = {
   },
   img({ node, ...props }: any) {
     return <img {...props} style={{ width: "100%" }} />;
+  },
+  a({ node, ...props }: any) {
+    return <Link {...props} />;
   },
 };
 
