@@ -26,7 +26,7 @@ npm install -g @amplifiers/amplify-util-blog
 ```
 The plugin uses typesense transformer for search, and ui supports markdown for blog content and rest of the components are amplify-ui, so we will also need to install the following:
 ```bash
-npm install -s amplify-graphql-typesense-transformer @aws-amplify/ui-react @aws-amplify/ui-react-storage aws-amplify react-markdown remark-gfm react-syntax-highlighter @uiw/react-md-editor@v3.6.0
+npm install -s amplify-graphql-typesense-transformer @aws-amplify/ui-react @aws-amplify/ui-react-storage aws-amplify react-markdown remark-gfm remark-footnotes react-syntax-highlighter @uiw/react-md-editor@v3.6.0
 ```
 ```bash 
 npm install --save-dev @types/react-syntax-highlighter
