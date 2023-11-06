@@ -1,6 +1,6 @@
 {
   "name": "@amplifiers/amplify-util-blog",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Amplify Util Blog is a utility plugin for the Amplify CLI that helps you add blog functionality to your Amplify project.",
   "keywords": [
     "aws",
