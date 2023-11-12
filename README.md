@@ -4,9 +4,9 @@
 
 Packages  | Description
 ------------- | -------------
-[Amplifiers Core](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-amplifiers-core)  | Core shared functionality for the Amplifiers library
-[Create Model Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-create-model-transformer)  | Creates a model on trigger event (ex. Cognito Conf)
+[Amplifiers Core](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-amplifiers-core)  | Core shared functionality for the Amplifiers libraryevent (ex. Cognito Conf)
 [Send Email Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-send-email-transformer)  | Sends an email on DynamoDB mutation
+[Send Email Campaign Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-send-email-camplaign-transformer)  | Sends an email campaign on DynamoDB mutation
 [Process Image Transformer](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-graphql-process-image-transformer)  | Transforms images in S3
 [Blog Plugin](https://github.com/olliethedev/amplifiers/tree/master/packages/amplify-util-blog)  | Adds blog functionality to your Amplify project
 

@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sendemailcampaign-dev-85615-authRole",
+      "UnauthRoleArn": "arn:aws:iam::446581856886:role/amplify-sendemailcampaign-dev-85615-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::446581856886:role/amplify-sendemailcampaign-dev-85615-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-sendemailcampaign-dev-85615-deployment",
+      "UnauthRoleName": "amplify-sendemailcampaign-dev-85615-unauthRole",
+      "StackName": "amplify-sendemailcampaign-dev-85615",
+      "StackId": "arn:aws:cloudformation:us-east-1:446581856886:stack/amplify-sendemailcampaign-dev-85615/155b06b0-809a-11ee-afaf-12ae1732ffbb",
+      "AmplifyAppId": "d5nv4dos6k82g"
+    },
+    "categories": {
+      "api": {
+        "sendemailcampaign": {}
+      }
+    }
+  }
+}

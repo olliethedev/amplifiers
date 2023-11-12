@@ -1,7 +1,0 @@
-{
-    "Version": 5,
-    "ElasticsearchWarning": true,
-    "transformers": [
-        "@amplifiers/amplify-graphql-create-model-transformer"
-    ]
-}

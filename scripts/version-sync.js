@@ -5,9 +5,9 @@ const path = require("path");
 const rootPackageJson = require("../package.json");
 const workspaces = [
   "../packages/amplify-graphql-amplifiers-core",
-  "../packages/amplify-graphql-create-model-transformer",
   "../packages/amplify-graphql-process-image-transformer",
   "../packages/amplify-graphql-send-email-transformer",
+  "../packages/amplify-graphql-send-email-campaign-transformer",
   "../packages/amplify-util-blog",
 ];
 
