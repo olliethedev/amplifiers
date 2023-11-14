@@ -215,11 +215,11 @@ export const deleteEmailRecipient = /* GraphQL */ `mutation DeleteEmailRecipient
   APITypes.DeleteEmailRecipientMutationVariables,
   APITypes.DeleteEmailRecipientMutation
 >;
-export const createEmailRecipientLists = /* GraphQL */ `mutation CreateEmailRecipientLists(
-  $input: CreateEmailRecipientListsInput!
-  $condition: ModelEmailRecipientListsConditionInput
+export const createEmailRecipientsEmailLists = /* GraphQL */ `mutation CreateEmailRecipientsEmailLists(
+  $input: CreateEmailRecipientsEmailListsInput!
+  $condition: ModelEmailRecipientsEmailListsConditionInput
 ) {
-  createEmailRecipientLists(input: $input, condition: $condition) {
+  createEmailRecipientsEmailLists(input: $input, condition: $condition) {
     id
     emailListName
     emailRecipientEmail
@@ -250,14 +250,14 @@ export const createEmailRecipientLists = /* GraphQL */ `mutation CreateEmailReci
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateEmailRecipientListsMutationVariables,
-  APITypes.CreateEmailRecipientListsMutation
+  APITypes.CreateEmailRecipientsEmailListsMutationVariables,
+  APITypes.CreateEmailRecipientsEmailListsMutation
 >;
-export const updateEmailRecipientLists = /* GraphQL */ `mutation UpdateEmailRecipientLists(
-  $input: UpdateEmailRecipientListsInput!
-  $condition: ModelEmailRecipientListsConditionInput
+export const updateEmailRecipientsEmailLists = /* GraphQL */ `mutation UpdateEmailRecipientsEmailLists(
+  $input: UpdateEmailRecipientsEmailListsInput!
+  $condition: ModelEmailRecipientsEmailListsConditionInput
 ) {
-  updateEmailRecipientLists(input: $input, condition: $condition) {
+  updateEmailRecipientsEmailLists(input: $input, condition: $condition) {
     id
     emailListName
     emailRecipientEmail
@@ -288,14 +288,14 @@ export const updateEmailRecipientLists = /* GraphQL */ `mutation UpdateEmailReci
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateEmailRecipientListsMutationVariables,
-  APITypes.UpdateEmailRecipientListsMutation
+  APITypes.UpdateEmailRecipientsEmailListsMutationVariables,
+  APITypes.UpdateEmailRecipientsEmailListsMutation
 >;
-export const deleteEmailRecipientLists = /* GraphQL */ `mutation DeleteEmailRecipientLists(
-  $input: DeleteEmailRecipientListsInput!
-  $condition: ModelEmailRecipientListsConditionInput
+export const deleteEmailRecipientsEmailLists = /* GraphQL */ `mutation DeleteEmailRecipientsEmailLists(
+  $input: DeleteEmailRecipientsEmailListsInput!
+  $condition: ModelEmailRecipientsEmailListsConditionInput
 ) {
-  deleteEmailRecipientLists(input: $input, condition: $condition) {
+  deleteEmailRecipientsEmailLists(input: $input, condition: $condition) {
     id
     emailListName
     emailRecipientEmail
@@ -326,6 +326,6 @@ export const deleteEmailRecipientLists = /* GraphQL */ `mutation DeleteEmailReci
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteEmailRecipientListsMutationVariables,
-  APITypes.DeleteEmailRecipientListsMutation
+  APITypes.DeleteEmailRecipientsEmailListsMutationVariables,
+  APITypes.DeleteEmailRecipientsEmailListsMutation
 >;

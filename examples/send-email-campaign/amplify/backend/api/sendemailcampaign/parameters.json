@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "sendemailcampaign",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authsendemailcampaign1f3ba308",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

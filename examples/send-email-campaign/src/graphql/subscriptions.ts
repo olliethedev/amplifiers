@@ -200,10 +200,10 @@ export const onDeleteEmailRecipient = /* GraphQL */ `subscription OnDeleteEmailR
   APITypes.OnDeleteEmailRecipientSubscriptionVariables,
   APITypes.OnDeleteEmailRecipientSubscription
 >;
-export const onCreateEmailRecipientLists = /* GraphQL */ `subscription OnCreateEmailRecipientLists(
-  $filter: ModelSubscriptionEmailRecipientListsFilterInput
+export const onCreateEmailRecipientsEmailLists = /* GraphQL */ `subscription OnCreateEmailRecipientsEmailLists(
+  $filter: ModelSubscriptionEmailRecipientsEmailListsFilterInput
 ) {
-  onCreateEmailRecipientLists(filter: $filter) {
+  onCreateEmailRecipientsEmailLists(filter: $filter) {
     id
     emailListName
     emailRecipientEmail
@@ -234,13 +234,13 @@ export const onCreateEmailRecipientLists = /* GraphQL */ `subscription OnCreateE
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateEmailRecipientListsSubscriptionVariables,
-  APITypes.OnCreateEmailRecipientListsSubscription
+  APITypes.OnCreateEmailRecipientsEmailListsSubscriptionVariables,
+  APITypes.OnCreateEmailRecipientsEmailListsSubscription
 >;
-export const onUpdateEmailRecipientLists = /* GraphQL */ `subscription OnUpdateEmailRecipientLists(
-  $filter: ModelSubscriptionEmailRecipientListsFilterInput
+export const onUpdateEmailRecipientsEmailLists = /* GraphQL */ `subscription OnUpdateEmailRecipientsEmailLists(
+  $filter: ModelSubscriptionEmailRecipientsEmailListsFilterInput
 ) {
-  onUpdateEmailRecipientLists(filter: $filter) {
+  onUpdateEmailRecipientsEmailLists(filter: $filter) {
     id
     emailListName
     emailRecipientEmail
@@ -271,13 +271,13 @@ export const onUpdateEmailRecipientLists = /* GraphQL */ `subscription OnUpdateE
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateEmailRecipientListsSubscriptionVariables,
-  APITypes.OnUpdateEmailRecipientListsSubscription
+  APITypes.OnUpdateEmailRecipientsEmailListsSubscriptionVariables,
+  APITypes.OnUpdateEmailRecipientsEmailListsSubscription
 >;
-export const onDeleteEmailRecipientLists = /* GraphQL */ `subscription OnDeleteEmailRecipientLists(
-  $filter: ModelSubscriptionEmailRecipientListsFilterInput
+export const onDeleteEmailRecipientsEmailLists = /* GraphQL */ `subscription OnDeleteEmailRecipientsEmailLists(
+  $filter: ModelSubscriptionEmailRecipientsEmailListsFilterInput
 ) {
-  onDeleteEmailRecipientLists(filter: $filter) {
+  onDeleteEmailRecipientsEmailLists(filter: $filter) {
     id
     emailListName
     emailRecipientEmail
@@ -308,6 +308,6 @@ export const onDeleteEmailRecipientLists = /* GraphQL */ `subscription OnDeleteE
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteEmailRecipientListsSubscriptionVariables,
-  APITypes.OnDeleteEmailRecipientListsSubscription
+  APITypes.OnDeleteEmailRecipientsEmailListsSubscriptionVariables,
+  APITypes.OnDeleteEmailRecipientsEmailListsSubscription
 >;

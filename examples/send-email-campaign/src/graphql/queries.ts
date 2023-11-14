@@ -256,8 +256,8 @@ export const syncEmailRecipients = /* GraphQL */ `query SyncEmailRecipients(
   APITypes.SyncEmailRecipientsQueryVariables,
   APITypes.SyncEmailRecipientsQuery
 >;
-export const getEmailRecipientLists = /* GraphQL */ `query GetEmailRecipientLists($id: ID!) {
-  getEmailRecipientLists(id: $id) {
+export const getEmailRecipientsEmailLists = /* GraphQL */ `query GetEmailRecipientsEmailLists($id: ID!) {
+  getEmailRecipientsEmailLists(id: $id) {
     id
     emailListName
     emailRecipientEmail
@@ -288,15 +288,15 @@ export const getEmailRecipientLists = /* GraphQL */ `query GetEmailRecipientList
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetEmailRecipientListsQueryVariables,
-  APITypes.GetEmailRecipientListsQuery
+  APITypes.GetEmailRecipientsEmailListsQueryVariables,
+  APITypes.GetEmailRecipientsEmailListsQuery
 >;
-export const listEmailRecipientLists = /* GraphQL */ `query ListEmailRecipientLists(
-  $filter: ModelEmailRecipientListsFilterInput
+export const listEmailRecipientsEmailLists = /* GraphQL */ `query ListEmailRecipientsEmailLists(
+  $filter: ModelEmailRecipientsEmailListsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listEmailRecipientLists(
+  listEmailRecipientsEmailLists(
     filter: $filter
     limit: $limit
     nextToken: $nextToken
@@ -318,16 +318,16 @@ export const listEmailRecipientLists = /* GraphQL */ `query ListEmailRecipientLi
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListEmailRecipientListsQueryVariables,
-  APITypes.ListEmailRecipientListsQuery
+  APITypes.ListEmailRecipientsEmailListsQueryVariables,
+  APITypes.ListEmailRecipientsEmailListsQuery
 >;
-export const syncEmailRecipientLists = /* GraphQL */ `query SyncEmailRecipientLists(
-  $filter: ModelEmailRecipientListsFilterInput
+export const syncEmailRecipientsEmailLists = /* GraphQL */ `query SyncEmailRecipientsEmailLists(
+  $filter: ModelEmailRecipientsEmailListsFilterInput
   $limit: Int
   $nextToken: String
   $lastSync: AWSTimestamp
 ) {
-  syncEmailRecipientLists(
+  syncEmailRecipientsEmailLists(
     filter: $filter
     limit: $limit
     nextToken: $nextToken
@@ -350,17 +350,17 @@ export const syncEmailRecipientLists = /* GraphQL */ `query SyncEmailRecipientLi
   }
 }
 ` as GeneratedQuery<
-  APITypes.SyncEmailRecipientListsQueryVariables,
-  APITypes.SyncEmailRecipientListsQuery
+  APITypes.SyncEmailRecipientsEmailListsQueryVariables,
+  APITypes.SyncEmailRecipientsEmailListsQuery
 >;
-export const emailRecipientListsByEmailListName = /* GraphQL */ `query EmailRecipientListsByEmailListName(
+export const emailRecipientsEmailListsByEmailListName = /* GraphQL */ `query EmailRecipientsEmailListsByEmailListName(
   $emailListName: ID!
   $sortDirection: ModelSortDirection
-  $filter: ModelEmailRecipientListsFilterInput
+  $filter: ModelEmailRecipientsEmailListsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  emailRecipientListsByEmailListName(
+  emailRecipientsEmailListsByEmailListName(
     emailListName: $emailListName
     sortDirection: $sortDirection
     filter: $filter
@@ -384,17 +384,17 @@ export const emailRecipientListsByEmailListName = /* GraphQL */ `query EmailReci
   }
 }
 ` as GeneratedQuery<
-  APITypes.EmailRecipientListsByEmailListNameQueryVariables,
-  APITypes.EmailRecipientListsByEmailListNameQuery
+  APITypes.EmailRecipientsEmailListsByEmailListNameQueryVariables,
+  APITypes.EmailRecipientsEmailListsByEmailListNameQuery
 >;
-export const emailRecipientListsByEmailRecipientEmail = /* GraphQL */ `query EmailRecipientListsByEmailRecipientEmail(
+export const emailRecipientsEmailListsByEmailRecipientEmail = /* GraphQL */ `query EmailRecipientsEmailListsByEmailRecipientEmail(
   $emailRecipientEmail: AWSEmail!
   $sortDirection: ModelSortDirection
-  $filter: ModelEmailRecipientListsFilterInput
+  $filter: ModelEmailRecipientsEmailListsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  emailRecipientListsByEmailRecipientEmail(
+  emailRecipientsEmailListsByEmailRecipientEmail(
     emailRecipientEmail: $emailRecipientEmail
     sortDirection: $sortDirection
     filter: $filter
@@ -418,6 +418,6 @@ export const emailRecipientListsByEmailRecipientEmail = /* GraphQL */ `query Ema
   }
 }
 ` as GeneratedQuery<
-  APITypes.EmailRecipientListsByEmailRecipientEmailQueryVariables,
-  APITypes.EmailRecipientListsByEmailRecipientEmailQuery
+  APITypes.EmailRecipientsEmailListsByEmailRecipientEmailQueryVariables,
+  APITypes.EmailRecipientsEmailListsByEmailRecipientEmailQuery
 >;

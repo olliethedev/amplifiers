@@ -34,7 +34,7 @@
     "mkdirp": "^0.5.5"
   },
   "scripts": {
-    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json && mkdirp dist/assets && mkdirp dist/assets && cd resources/lambda-functions && npm install && bestzip --force node ../../dist/assets/lambda.zip index.js package.json node_modules/",
+    "compile": "rm -rf dist/* && tsc -p tsconfig.pkg.json && mkdirp dist/assets && mkdirp dist/assets && cd resources/lambda-functions/src && npm install && cd .. && bestzip --force node ../../dist/assets/lambda.zip src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "olliethedev",

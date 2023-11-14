@@ -7,7 +7,12 @@
   "license": "Apache-2.0",
   "scripts": {},
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.449.0"
+    "@aws-crypto/sha256-js": "^2.0.1",
+    "@aws-sdk/client-ses": "^3.449.0",
+    "@aws-sdk/credential-provider-node": "^3.76.0",
+    "@aws-sdk/protocol-http": "^3.58.0",
+    "@aws-sdk/signature-v4": "^3.58.0",
+    "node-fetch": "^3.2.3"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.126"

@@ -1,5 +1,8 @@
 import { SESClient, ListIdentitiesCommand, SendEmailCommand } from "@aws-sdk/client-ses";
+import { getEmailRecipients } from './api-helper.js';
 const sesClient = new SESClient({ region: process.env.REGION || "us-east-1" }); 
+
+const MAX_SES_BATCH_SIZE = 50;
 
 
 export const handler = async (event) => {
@@ -14,20 +17,15 @@ export const handler = async (event) => {
   const bodyText = 'The body of your email.';
 
   // An array of recipient email addresses
-  const recipientBatch = [
-    ['3martynov@gmail.com', 
-    '3martynov+1@gmail.com', 
-    '3martynov+2@gmail.com',
-    '3martynov+3@gmail.com',
-    '3martynov+4@gmail.com',
-    '3martynov+5@gmail.com',
-    '3martynov+6@gmail.com',
-    '3martynov+7@gmail.com',
-    '3martynov+8@gmail.com',
-    '3martynov+9@gmail.com',
-    /* ... up to 50 recipients ... */],
-    //... more batches
-  ];
+  const allRecipients = await getEmailRecipients(["newsletter", "premium"]);
+
+  const recipientBatch = [];
+
+  // Split recipients into batches of 50
+
+  while (allRecipients.length > 0) {
+    recipientBatch.push(allRecipients.splice(0, MAX_SES_BATCH_SIZE));
+  }
 
   // Function to send emails to a batch of recipients
   const sendBatch = async (recipients) => {

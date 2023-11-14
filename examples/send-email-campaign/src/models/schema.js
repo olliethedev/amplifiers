@@ -73,6 +73,43 @@ export const schema = {
                 {
                     "type": "sendEmailCampaign",
                     "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admins"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -90,7 +127,7 @@ export const schema = {
                     "name": "emailRecipients",
                     "isArray": true,
                     "type": {
-                        "model": "EmailRecipientLists"
+                        "model": "EmailRecipientsEmailLists"
                     },
                     "isRequired": true,
                     "attributes": [],
@@ -133,6 +170,43 @@ export const schema = {
                             "name"
                         ]
                     }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admins"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -150,7 +224,7 @@ export const schema = {
                     "name": "emailLists",
                     "isArray": true,
                     "type": {
-                        "model": "EmailRecipientLists"
+                        "model": "EmailRecipientsEmailLists"
                     },
                     "isRequired": true,
                     "attributes": [],
@@ -193,11 +267,48 @@ export const schema = {
                             "email"
                         ]
                     }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admins"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         },
-        "EmailRecipientLists": {
-            "name": "EmailRecipientLists",
+        "EmailRecipientsEmailLists": {
+            "name": "EmailRecipientsEmailLists",
             "fields": {
                 "id": {
                     "name": "id",
@@ -268,7 +379,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "EmailRecipientLists",
+            "pluralName": "EmailRecipientsEmailLists",
             "attributes": [
                 {
                     "type": "model",
@@ -298,5 +409,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "dbfb9db49f9ef729796e49f3fdc2b268"
+    "version": "4a7c889c26f4a831f105530fe7b9a7bc"
 };

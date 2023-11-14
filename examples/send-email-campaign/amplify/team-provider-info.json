@@ -14,6 +14,15 @@
     "categories": {
       "api": {
         "sendemailcampaign": {}
+      },
+      "auth": {
+        "sendemailcampaign1f3ba308": {}
+      },
+      "function": {
+        "campaignTestFunc": {
+          "deploymentBucketName": "amplify-sendemailcampaign-dev-85615-deployment",
+          "s3Key": "amplify-builds/campaignTestFunc-79687a53754174596156-build.zip"
+        }
       }
     }
   }

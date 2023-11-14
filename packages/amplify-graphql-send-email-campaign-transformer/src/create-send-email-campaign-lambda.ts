@@ -27,7 +27,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
     const lambdaFunc = apiGraphql.host.addLambdaFunction(
         funcLogicalId, // function name
         `functions/${ funcLogicalId }.zip`, // function key
-        'index.handler', // function handler
+        'src/index.handler', // function handler
         path.join(__dirname, 'assets', 'lambda.zip'),
         Runtime.NODEJS_18_X, // function runtime
         undefined, // layers
@@ -37,9 +37,11 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
         stack,
     );
 
-    apiGraphql.grantMutation(lambdaFunc);
-    apiGraphql.grantQuery(lambdaFunc);
-    apiGraphql.grantSubscription(lambdaFunc);
+    console.log("lambdaFunc", "setup");
+
+    // apiGraphql.grantMutation(lambdaFunc);
+    // apiGraphql.grantQuery(lambdaFunc);
+    // apiGraphql.grantSubscription(lambdaFunc);
 
     role.attachInlinePolicy(
         new Policy(stack, `${ LogicalName }CloudWatchLogAccess`, {

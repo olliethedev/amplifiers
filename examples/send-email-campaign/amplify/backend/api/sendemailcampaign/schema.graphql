@@ -1,24 +1,45 @@
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-type EmailCampaign @model @sendEmailCampaign {
-  id: ID!
-  name: String!
-  emailSubject: String!
-  emailContent: String!
-  emailSender: String
-  emailLists: [String!]!
+type EmailCampaign 
+  @model 
+  @sendEmailCampaign 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    id: ID!
+    name: String!
+    emailSubject: String!
+    emailContent: String!
+    emailSender: String
+    emailLists: [String!]!
 }
 
-type EmailList @model {
-  name: ID! @primaryKey
-  emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientLists")
+type EmailList 
+  @model 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    name: ID! @primaryKey
+    emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
 }
 
-type EmailRecipient @model {
-  email: AWSEmail! @primaryKey
-  emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientLists")
+type EmailRecipient 
+  @model 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    email: AWSEmail! @primaryKey
+    emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
 }
 
 

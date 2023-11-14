@@ -19,7 +19,11 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { EmailRecipient, EmailList, EmailRecipientLists } from "../models";
+import {
+  EmailRecipient,
+  EmailList,
+  EmailRecipientsEmailLists,
+} from "../models";
 import {
   fetchByPath,
   getOverrideProps,
@@ -309,7 +313,7 @@ export default function EmailRecipientCreateForm(props) {
             ...emailLists.reduce((promises, emailList) => {
               promises.push(
                 DataStore.save(
-                  new EmailRecipientLists({
+                  new EmailRecipientsEmailLists({
                     emailRecipient,
                     emailList,
                   })

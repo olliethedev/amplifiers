@@ -19,7 +19,11 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { EmailList, EmailRecipient, EmailRecipientLists } from "../models";
+import {
+  EmailList,
+  EmailRecipient,
+  EmailRecipientsEmailLists,
+} from "../models";
 import {
   fetchByPath,
   getOverrideProps,
@@ -380,8 +384,8 @@ export default function EmailListUpdateForm(props) {
           });
           emailRecipientsToUnLinkMap.forEach(async (count, id) => {
             const recordKeys = JSON.parse(id);
-            const emailRecipientListsRecords = await DataStore.query(
-              EmailRecipientLists,
+            const emailRecipientsEmailListsRecords = await DataStore.query(
+              EmailRecipientsEmailLists,
               (r) =>
                 r.and((r) => {
                   return [
@@ -391,7 +395,9 @@ export default function EmailListUpdateForm(props) {
                 })
             );
             for (let i = 0; i < count; i++) {
-              promises.push(DataStore.delete(emailRecipientListsRecords[i]));
+              promises.push(
+                DataStore.delete(emailRecipientsEmailListsRecords[i])
+              );
             }
           });
           emailRecipientsToLinkMap.forEach((count, id) => {
@@ -403,7 +409,7 @@ export default function EmailListUpdateForm(props) {
             for (let i = count; i > 0; i--) {
               promises.push(
                 DataStore.save(
-                  new EmailRecipientLists({
+                  new EmailRecipientsEmailLists({
                     emailList: emailListRecord,
                     emailRecipient: emailRecipientToLink,
                   })

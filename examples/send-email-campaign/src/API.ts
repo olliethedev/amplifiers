@@ -116,7 +116,7 @@ export type ModelEmailListConditionInput = {
 export type EmailList = {
   __typename: "EmailList",
   name: string,
-  emailRecipients?: ModelEmailRecipientListsConnection | null,
+  emailRecipients?: ModelEmailRecipientsEmailListsConnection | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -124,15 +124,15 @@ export type EmailList = {
   _lastChangedAt: number,
 };
 
-export type ModelEmailRecipientListsConnection = {
-  __typename: "ModelEmailRecipientListsConnection",
-  items:  Array<EmailRecipientLists | null >,
+export type ModelEmailRecipientsEmailListsConnection = {
+  __typename: "ModelEmailRecipientsEmailListsConnection",
+  items:  Array<EmailRecipientsEmailLists | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
 
-export type EmailRecipientLists = {
-  __typename: "EmailRecipientLists",
+export type EmailRecipientsEmailLists = {
+  __typename: "EmailRecipientsEmailLists",
   id: string,
   emailListName: string,
   emailRecipientEmail: string,
@@ -148,7 +148,7 @@ export type EmailRecipientLists = {
 export type EmailRecipient = {
   __typename: "EmailRecipient",
   email: string,
-  emailLists?: ModelEmailRecipientListsConnection | null,
+  emailLists?: ModelEmailRecipientsEmailListsConnection | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -188,19 +188,19 @@ export type DeleteEmailRecipientInput = {
   _version?: number | null,
 };
 
-export type CreateEmailRecipientListsInput = {
+export type CreateEmailRecipientsEmailListsInput = {
   id?: string | null,
   emailListName: string,
   emailRecipientEmail: string,
   _version?: number | null,
 };
 
-export type ModelEmailRecipientListsConditionInput = {
+export type ModelEmailRecipientsEmailListsConditionInput = {
   emailListName?: ModelIDInput | null,
   emailRecipientEmail?: ModelStringInput | null,
-  and?: Array< ModelEmailRecipientListsConditionInput | null > | null,
-  or?: Array< ModelEmailRecipientListsConditionInput | null > | null,
-  not?: ModelEmailRecipientListsConditionInput | null,
+  and?: Array< ModelEmailRecipientsEmailListsConditionInput | null > | null,
+  or?: Array< ModelEmailRecipientsEmailListsConditionInput | null > | null,
+  not?: ModelEmailRecipientsEmailListsConditionInput | null,
   _deleted?: ModelBooleanInput | null,
 };
 
@@ -220,14 +220,14 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdateEmailRecipientListsInput = {
+export type UpdateEmailRecipientsEmailListsInput = {
   id: string,
   emailListName?: string | null,
   emailRecipientEmail?: string | null,
   _version?: number | null,
 };
 
-export type DeleteEmailRecipientListsInput = {
+export type DeleteEmailRecipientsEmailListsInput = {
   id: string,
   _version?: number | null,
 };
@@ -288,13 +288,13 @@ export type ModelEmailRecipientConnection = {
   startedAt?: number | null,
 };
 
-export type ModelEmailRecipientListsFilterInput = {
+export type ModelEmailRecipientsEmailListsFilterInput = {
   id?: ModelIDInput | null,
   emailListName?: ModelIDInput | null,
   emailRecipientEmail?: ModelStringInput | null,
-  and?: Array< ModelEmailRecipientListsFilterInput | null > | null,
-  or?: Array< ModelEmailRecipientListsFilterInput | null > | null,
-  not?: ModelEmailRecipientListsFilterInput | null,
+  and?: Array< ModelEmailRecipientsEmailListsFilterInput | null > | null,
+  or?: Array< ModelEmailRecipientsEmailListsFilterInput | null > | null,
+  not?: ModelEmailRecipientsEmailListsFilterInput | null,
   _deleted?: ModelBooleanInput | null,
 };
 
@@ -354,12 +354,12 @@ export type ModelSubscriptionEmailRecipientFilterInput = {
   _deleted?: ModelBooleanInput | null,
 };
 
-export type ModelSubscriptionEmailRecipientListsFilterInput = {
+export type ModelSubscriptionEmailRecipientsEmailListsFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   emailListName?: ModelSubscriptionIDInput | null,
   emailRecipientEmail?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionEmailRecipientListsFilterInput | null > | null,
-  or?: Array< ModelSubscriptionEmailRecipientListsFilterInput | null > | null,
+  and?: Array< ModelSubscriptionEmailRecipientsEmailListsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionEmailRecipientsEmailListsFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
 };
 
@@ -439,7 +439,7 @@ export type CreateEmailListMutation = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -461,7 +461,7 @@ export type UpdateEmailListMutation = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -483,7 +483,7 @@ export type DeleteEmailListMutation = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -505,7 +505,7 @@ export type CreateEmailRecipientMutation = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -527,7 +527,7 @@ export type UpdateEmailRecipientMutation = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -549,7 +549,7 @@ export type DeleteEmailRecipientMutation = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -561,14 +561,14 @@ export type DeleteEmailRecipientMutation = {
   } | null,
 };
 
-export type CreateEmailRecipientListsMutationVariables = {
-  input: CreateEmailRecipientListsInput,
-  condition?: ModelEmailRecipientListsConditionInput | null,
+export type CreateEmailRecipientsEmailListsMutationVariables = {
+  input: CreateEmailRecipientsEmailListsInput,
+  condition?: ModelEmailRecipientsEmailListsConditionInput | null,
 };
 
-export type CreateEmailRecipientListsMutation = {
-  createEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type CreateEmailRecipientsEmailListsMutation = {
+  createEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -598,14 +598,14 @@ export type CreateEmailRecipientListsMutation = {
   } | null,
 };
 
-export type UpdateEmailRecipientListsMutationVariables = {
-  input: UpdateEmailRecipientListsInput,
-  condition?: ModelEmailRecipientListsConditionInput | null,
+export type UpdateEmailRecipientsEmailListsMutationVariables = {
+  input: UpdateEmailRecipientsEmailListsInput,
+  condition?: ModelEmailRecipientsEmailListsConditionInput | null,
 };
 
-export type UpdateEmailRecipientListsMutation = {
-  updateEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type UpdateEmailRecipientsEmailListsMutation = {
+  updateEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -635,14 +635,14 @@ export type UpdateEmailRecipientListsMutation = {
   } | null,
 };
 
-export type DeleteEmailRecipientListsMutationVariables = {
-  input: DeleteEmailRecipientListsInput,
-  condition?: ModelEmailRecipientListsConditionInput | null,
+export type DeleteEmailRecipientsEmailListsMutationVariables = {
+  input: DeleteEmailRecipientsEmailListsInput,
+  condition?: ModelEmailRecipientsEmailListsConditionInput | null,
 };
 
-export type DeleteEmailRecipientListsMutation = {
-  deleteEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type DeleteEmailRecipientsEmailListsMutation = {
+  deleteEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -759,7 +759,7 @@ export type GetEmailListQuery = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -829,7 +829,7 @@ export type GetEmailRecipientQuery = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -890,13 +890,13 @@ export type SyncEmailRecipientsQuery = {
   } | null,
 };
 
-export type GetEmailRecipientListsQueryVariables = {
+export type GetEmailRecipientsEmailListsQueryVariables = {
   id: string,
 };
 
-export type GetEmailRecipientListsQuery = {
-  getEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type GetEmailRecipientsEmailListsQuery = {
+  getEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -926,17 +926,17 @@ export type GetEmailRecipientListsQuery = {
   } | null,
 };
 
-export type ListEmailRecipientListsQueryVariables = {
-  filter?: ModelEmailRecipientListsFilterInput | null,
+export type ListEmailRecipientsEmailListsQueryVariables = {
+  filter?: ModelEmailRecipientsEmailListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListEmailRecipientListsQuery = {
-  listEmailRecipientLists?:  {
-    __typename: "ModelEmailRecipientListsConnection",
+export type ListEmailRecipientsEmailListsQuery = {
+  listEmailRecipientsEmailLists?:  {
+    __typename: "ModelEmailRecipientsEmailListsConnection",
     items:  Array< {
-      __typename: "EmailRecipientLists",
+      __typename: "EmailRecipientsEmailLists",
       id: string,
       emailListName: string,
       emailRecipientEmail: string,
@@ -951,18 +951,18 @@ export type ListEmailRecipientListsQuery = {
   } | null,
 };
 
-export type SyncEmailRecipientListsQueryVariables = {
-  filter?: ModelEmailRecipientListsFilterInput | null,
+export type SyncEmailRecipientsEmailListsQueryVariables = {
+  filter?: ModelEmailRecipientsEmailListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   lastSync?: number | null,
 };
 
-export type SyncEmailRecipientListsQuery = {
-  syncEmailRecipientLists?:  {
-    __typename: "ModelEmailRecipientListsConnection",
+export type SyncEmailRecipientsEmailListsQuery = {
+  syncEmailRecipientsEmailLists?:  {
+    __typename: "ModelEmailRecipientsEmailListsConnection",
     items:  Array< {
-      __typename: "EmailRecipientLists",
+      __typename: "EmailRecipientsEmailLists",
       id: string,
       emailListName: string,
       emailRecipientEmail: string,
@@ -977,19 +977,19 @@ export type SyncEmailRecipientListsQuery = {
   } | null,
 };
 
-export type EmailRecipientListsByEmailListNameQueryVariables = {
+export type EmailRecipientsEmailListsByEmailListNameQueryVariables = {
   emailListName: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelEmailRecipientListsFilterInput | null,
+  filter?: ModelEmailRecipientsEmailListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type EmailRecipientListsByEmailListNameQuery = {
-  emailRecipientListsByEmailListName?:  {
-    __typename: "ModelEmailRecipientListsConnection",
+export type EmailRecipientsEmailListsByEmailListNameQuery = {
+  emailRecipientsEmailListsByEmailListName?:  {
+    __typename: "ModelEmailRecipientsEmailListsConnection",
     items:  Array< {
-      __typename: "EmailRecipientLists",
+      __typename: "EmailRecipientsEmailLists",
       id: string,
       emailListName: string,
       emailRecipientEmail: string,
@@ -1004,19 +1004,19 @@ export type EmailRecipientListsByEmailListNameQuery = {
   } | null,
 };
 
-export type EmailRecipientListsByEmailRecipientEmailQueryVariables = {
+export type EmailRecipientsEmailListsByEmailRecipientEmailQueryVariables = {
   emailRecipientEmail: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelEmailRecipientListsFilterInput | null,
+  filter?: ModelEmailRecipientsEmailListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type EmailRecipientListsByEmailRecipientEmailQuery = {
-  emailRecipientListsByEmailRecipientEmail?:  {
-    __typename: "ModelEmailRecipientListsConnection",
+export type EmailRecipientsEmailListsByEmailRecipientEmailQuery = {
+  emailRecipientsEmailListsByEmailRecipientEmail?:  {
+    __typename: "ModelEmailRecipientsEmailListsConnection",
     items:  Array< {
-      __typename: "EmailRecipientLists",
+      __typename: "EmailRecipientsEmailLists",
       id: string,
       emailListName: string,
       emailRecipientEmail: string,
@@ -1103,7 +1103,7 @@ export type OnCreateEmailListSubscription = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1124,7 +1124,7 @@ export type OnUpdateEmailListSubscription = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1145,7 +1145,7 @@ export type OnDeleteEmailListSubscription = {
     __typename: "EmailList",
     name: string,
     emailRecipients?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1166,7 +1166,7 @@ export type OnCreateEmailRecipientSubscription = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1187,7 +1187,7 @@ export type OnUpdateEmailRecipientSubscription = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1208,7 +1208,7 @@ export type OnDeleteEmailRecipientSubscription = {
     __typename: "EmailRecipient",
     email: string,
     emailLists?:  {
-      __typename: "ModelEmailRecipientListsConnection",
+      __typename: "ModelEmailRecipientsEmailListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1220,13 +1220,13 @@ export type OnDeleteEmailRecipientSubscription = {
   } | null,
 };
 
-export type OnCreateEmailRecipientListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailRecipientListsFilterInput | null,
+export type OnCreateEmailRecipientsEmailListsSubscriptionVariables = {
+  filter?: ModelSubscriptionEmailRecipientsEmailListsFilterInput | null,
 };
 
-export type OnCreateEmailRecipientListsSubscription = {
-  onCreateEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type OnCreateEmailRecipientsEmailListsSubscription = {
+  onCreateEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -1256,13 +1256,13 @@ export type OnCreateEmailRecipientListsSubscription = {
   } | null,
 };
 
-export type OnUpdateEmailRecipientListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailRecipientListsFilterInput | null,
+export type OnUpdateEmailRecipientsEmailListsSubscriptionVariables = {
+  filter?: ModelSubscriptionEmailRecipientsEmailListsFilterInput | null,
 };
 
-export type OnUpdateEmailRecipientListsSubscription = {
-  onUpdateEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type OnUpdateEmailRecipientsEmailListsSubscription = {
+  onUpdateEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
@@ -1292,13 +1292,13 @@ export type OnUpdateEmailRecipientListsSubscription = {
   } | null,
 };
 
-export type OnDeleteEmailRecipientListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailRecipientListsFilterInput | null,
+export type OnDeleteEmailRecipientsEmailListsSubscriptionVariables = {
+  filter?: ModelSubscriptionEmailRecipientsEmailListsFilterInput | null,
 };
 
-export type OnDeleteEmailRecipientListsSubscription = {
-  onDeleteEmailRecipientLists?:  {
-    __typename: "EmailRecipientLists",
+export type OnDeleteEmailRecipientsEmailListsSubscription = {
+  onDeleteEmailRecipientsEmailLists?:  {
+    __typename: "EmailRecipientsEmailLists",
     id: string,
     emailListName: string,
     emailRecipientEmail: string,
