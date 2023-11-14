@@ -15,7 +15,7 @@ type EagerEmailCampaign = {
   readonly name: string;
   readonly emailSubject: string;
   readonly emailContent: string;
-  readonly emailSender: string;
+  readonly emailSender?: string | null;
   readonly emailLists: string[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -30,7 +30,7 @@ type LazyEmailCampaign = {
   readonly name: string;
   readonly emailSubject: string;
   readonly emailContent: string;
-  readonly emailSender: string;
+  readonly emailSender?: string | null;
   readonly emailLists: string[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;

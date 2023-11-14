@@ -35,7 +35,7 @@ export const schema = {
                     "name": "emailSender",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "emailLists": {
@@ -298,5 +298,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ffa7d0541610072bfa30abac9c2b8ecf"
+    "version": "dbfb9db49f9ef729796e49f3fdc2b268"
 };
