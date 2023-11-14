@@ -14,11 +14,8 @@ export const getEmailCampaign = /* GraphQL */ `query GetEmailCampaign($id: ID!) 
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -42,6 +39,8 @@ export const listEmailCampaigns = /* GraphQL */ `query ListEmailCampaigns(
       name
       emailSubject
       emailContent
+      emailSender
+      emailLists
       createdAt
       updatedAt
       _version
@@ -75,6 +74,8 @@ export const syncEmailCampaigns = /* GraphQL */ `query SyncEmailCampaigns(
       name
       emailSubject
       emailContent
+      emailSender
+      emailLists
       createdAt
       updatedAt
       _version
@@ -91,15 +92,9 @@ export const syncEmailCampaigns = /* GraphQL */ `query SyncEmailCampaigns(
   APITypes.SyncEmailCampaignsQueryVariables,
   APITypes.SyncEmailCampaignsQuery
 >;
-export const getEmailList = /* GraphQL */ `query GetEmailList($id: ID!) {
-  getEmailList(id: $id) {
-    id
+export const getEmailList = /* GraphQL */ `query GetEmailList($name: ID!) {
+  getEmailList(name: $name) {
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -118,13 +113,20 @@ export const getEmailList = /* GraphQL */ `query GetEmailList($id: ID!) {
   APITypes.GetEmailListQuery
 >;
 export const listEmailLists = /* GraphQL */ `query ListEmailLists(
+  $name: ID
   $filter: ModelEmailListFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listEmailLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listEmailLists(
+    name: $name
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
-      id
       name
       createdAt
       updatedAt
@@ -155,7 +157,6 @@ export const syncEmailLists = /* GraphQL */ `query SyncEmailLists(
     lastSync: $lastSync
   ) {
     items {
-      id
       name
       createdAt
       updatedAt
@@ -173,9 +174,8 @@ export const syncEmailLists = /* GraphQL */ `query SyncEmailLists(
   APITypes.SyncEmailListsQueryVariables,
   APITypes.SyncEmailListsQuery
 >;
-export const getEmailRecipient = /* GraphQL */ `query GetEmailRecipient($id: ID!) {
-  getEmailRecipient(id: $id) {
-    id
+export const getEmailRecipient = /* GraphQL */ `query GetEmailRecipient($email: AWSEmail!) {
+  getEmailRecipient(email: $email) {
     email
     emailLists {
       nextToken
@@ -195,13 +195,20 @@ export const getEmailRecipient = /* GraphQL */ `query GetEmailRecipient($id: ID!
   APITypes.GetEmailRecipientQuery
 >;
 export const listEmailRecipients = /* GraphQL */ `query ListEmailRecipients(
+  $email: AWSEmail
   $filter: ModelEmailRecipientFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listEmailRecipients(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listEmailRecipients(
+    email: $email
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
-      id
       email
       createdAt
       updatedAt
@@ -232,7 +239,6 @@ export const syncEmailRecipients = /* GraphQL */ `query SyncEmailRecipients(
     lastSync: $lastSync
   ) {
     items {
-      id
       email
       createdAt
       updatedAt
@@ -250,114 +256,12 @@ export const syncEmailRecipients = /* GraphQL */ `query SyncEmailRecipients(
   APITypes.SyncEmailRecipientsQueryVariables,
   APITypes.SyncEmailRecipientsQuery
 >;
-export const getEmailCampaignLists = /* GraphQL */ `query GetEmailCampaignLists($id: ID!) {
-  getEmailCampaignLists(id: $id) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetEmailCampaignListsQueryVariables,
-  APITypes.GetEmailCampaignListsQuery
->;
-export const listEmailCampaignLists = /* GraphQL */ `query ListEmailCampaignLists(
-  $filter: ModelEmailCampaignListsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEmailCampaignLists(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      emailCampaignId
-      emailListId
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEmailCampaignListsQueryVariables,
-  APITypes.ListEmailCampaignListsQuery
->;
-export const syncEmailCampaignLists = /* GraphQL */ `query SyncEmailCampaignLists(
-  $filter: ModelEmailCampaignListsFilterInput
-  $limit: Int
-  $nextToken: String
-  $lastSync: AWSTimestamp
-) {
-  syncEmailCampaignLists(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    lastSync: $lastSync
-  ) {
-    items {
-      id
-      emailCampaignId
-      emailListId
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.SyncEmailCampaignListsQueryVariables,
-  APITypes.SyncEmailCampaignListsQuery
->;
 export const getEmailRecipientLists = /* GraphQL */ `query GetEmailRecipientLists($id: ID!) {
   getEmailRecipientLists(id: $id) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -367,7 +271,6 @@ export const getEmailRecipientLists = /* GraphQL */ `query GetEmailRecipientList
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt
@@ -400,8 +303,8 @@ export const listEmailRecipientLists = /* GraphQL */ `query ListEmailRecipientLi
   ) {
     items {
       id
-      emailListId
-      emailRecipientId
+      emailListName
+      emailRecipientEmail
       createdAt
       updatedAt
       _version
@@ -432,8 +335,8 @@ export const syncEmailRecipientLists = /* GraphQL */ `query SyncEmailRecipientLi
   ) {
     items {
       id
-      emailListId
-      emailRecipientId
+      emailListName
+      emailRecipientEmail
       createdAt
       updatedAt
       _version
@@ -450,116 +353,15 @@ export const syncEmailRecipientLists = /* GraphQL */ `query SyncEmailRecipientLi
   APITypes.SyncEmailRecipientListsQueryVariables,
   APITypes.SyncEmailRecipientListsQuery
 >;
-export const emailRecipientsByEmail = /* GraphQL */ `query EmailRecipientsByEmail(
-  $email: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelEmailRecipientFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  emailRecipientsByEmail(
-    email: $email
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      email
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.EmailRecipientsByEmailQueryVariables,
-  APITypes.EmailRecipientsByEmailQuery
->;
-export const emailCampaignListsByEmailCampaignId = /* GraphQL */ `query EmailCampaignListsByEmailCampaignId(
-  $emailCampaignId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelEmailCampaignListsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  emailCampaignListsByEmailCampaignId(
-    emailCampaignId: $emailCampaignId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      emailCampaignId
-      emailListId
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.EmailCampaignListsByEmailCampaignIdQueryVariables,
-  APITypes.EmailCampaignListsByEmailCampaignIdQuery
->;
-export const emailCampaignListsByEmailListId = /* GraphQL */ `query EmailCampaignListsByEmailListId(
-  $emailListId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelEmailCampaignListsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  emailCampaignListsByEmailListId(
-    emailListId: $emailListId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      emailCampaignId
-      emailListId
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.EmailCampaignListsByEmailListIdQueryVariables,
-  APITypes.EmailCampaignListsByEmailListIdQuery
->;
-export const emailRecipientListsByEmailListId = /* GraphQL */ `query EmailRecipientListsByEmailListId(
-  $emailListId: ID!
+export const emailRecipientListsByEmailListName = /* GraphQL */ `query EmailRecipientListsByEmailListName(
+  $emailListName: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelEmailRecipientListsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  emailRecipientListsByEmailListId(
-    emailListId: $emailListId
+  emailRecipientListsByEmailListName(
+    emailListName: $emailListName
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -567,8 +369,8 @@ export const emailRecipientListsByEmailListId = /* GraphQL */ `query EmailRecipi
   ) {
     items {
       id
-      emailListId
-      emailRecipientId
+      emailListName
+      emailRecipientEmail
       createdAt
       updatedAt
       _version
@@ -582,18 +384,18 @@ export const emailRecipientListsByEmailListId = /* GraphQL */ `query EmailRecipi
   }
 }
 ` as GeneratedQuery<
-  APITypes.EmailRecipientListsByEmailListIdQueryVariables,
-  APITypes.EmailRecipientListsByEmailListIdQuery
+  APITypes.EmailRecipientListsByEmailListNameQueryVariables,
+  APITypes.EmailRecipientListsByEmailListNameQuery
 >;
-export const emailRecipientListsByEmailRecipientId = /* GraphQL */ `query EmailRecipientListsByEmailRecipientId(
-  $emailRecipientId: ID!
+export const emailRecipientListsByEmailRecipientEmail = /* GraphQL */ `query EmailRecipientListsByEmailRecipientEmail(
+  $emailRecipientEmail: AWSEmail!
   $sortDirection: ModelSortDirection
   $filter: ModelEmailRecipientListsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  emailRecipientListsByEmailRecipientId(
-    emailRecipientId: $emailRecipientId
+  emailRecipientListsByEmailRecipientEmail(
+    emailRecipientEmail: $emailRecipientEmail
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -601,8 +403,8 @@ export const emailRecipientListsByEmailRecipientId = /* GraphQL */ `query EmailR
   ) {
     items {
       id
-      emailListId
-      emailRecipientId
+      emailListName
+      emailRecipientEmail
       createdAt
       updatedAt
       _version
@@ -616,6 +418,6 @@ export const emailRecipientListsByEmailRecipientId = /* GraphQL */ `query EmailR
   }
 }
 ` as GeneratedQuery<
-  APITypes.EmailRecipientListsByEmailRecipientIdQueryVariables,
-  APITypes.EmailRecipientListsByEmailRecipientIdQuery
+  APITypes.EmailRecipientListsByEmailRecipientEmailQueryVariables,
+  APITypes.EmailRecipientListsByEmailRecipientEmailQuery
 >;

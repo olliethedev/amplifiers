@@ -7,18 +7,22 @@ type EmailCampaign @model @sendEmailCampaign {
   name: String!
   emailSubject: String!
   emailContent: String!
-  emailLists: [EmailList!] @manyToMany(relationName: "EmailCampaignLists")
+  emailSender: String!
+  emailLists: [String!]!
 }
 
 type EmailList @model {
-  id: ID!
-  name: String!
-  emailCampaigns: [EmailCampaign!] @manyToMany(relationName: "EmailCampaignLists")
+  name: ID! @primaryKey
   emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientLists")
 }
 
 type EmailRecipient @model {
-  id: ID!
-  email: String! @index
+  email: AWSEmail! @primaryKey
   emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientLists")
 }
+
+
+
+# type Todo @model {
+#   content: String!
+# }

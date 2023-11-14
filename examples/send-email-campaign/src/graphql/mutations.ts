@@ -17,11 +17,8 @@ export const createEmailCampaign = /* GraphQL */ `mutation CreateEmailCampaign(
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -43,11 +40,8 @@ export const updateEmailCampaign = /* GraphQL */ `mutation UpdateEmailCampaign(
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -69,11 +63,8 @@ export const deleteEmailCampaign = /* GraphQL */ `mutation DeleteEmailCampaign(
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -91,13 +82,7 @@ export const createEmailList = /* GraphQL */ `mutation CreateEmailList(
   $condition: ModelEmailListConditionInput
 ) {
   createEmailList(input: $input, condition: $condition) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -120,13 +105,7 @@ export const updateEmailList = /* GraphQL */ `mutation UpdateEmailList(
   $condition: ModelEmailListConditionInput
 ) {
   updateEmailList(input: $input, condition: $condition) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -149,13 +128,7 @@ export const deleteEmailList = /* GraphQL */ `mutation DeleteEmailList(
   $condition: ModelEmailListConditionInput
 ) {
   deleteEmailList(input: $input, condition: $condition) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -178,7 +151,6 @@ export const createEmailRecipient = /* GraphQL */ `mutation CreateEmailRecipient
   $condition: ModelEmailRecipientConditionInput
 ) {
   createEmailRecipient(input: $input, condition: $condition) {
-    id
     email
     emailLists {
       nextToken
@@ -202,7 +174,6 @@ export const updateEmailRecipient = /* GraphQL */ `mutation UpdateEmailRecipient
   $condition: ModelEmailRecipientConditionInput
 ) {
   updateEmailRecipient(input: $input, condition: $condition) {
-    id
     email
     emailLists {
       nextToken
@@ -226,7 +197,6 @@ export const deleteEmailRecipient = /* GraphQL */ `mutation DeleteEmailRecipient
   $condition: ModelEmailRecipientConditionInput
 ) {
   deleteEmailRecipient(input: $input, condition: $condition) {
-    id
     email
     emailLists {
       nextToken
@@ -245,142 +215,15 @@ export const deleteEmailRecipient = /* GraphQL */ `mutation DeleteEmailRecipient
   APITypes.DeleteEmailRecipientMutationVariables,
   APITypes.DeleteEmailRecipientMutation
 >;
-export const createEmailCampaignLists = /* GraphQL */ `mutation CreateEmailCampaignLists(
-  $input: CreateEmailCampaignListsInput!
-  $condition: ModelEmailCampaignListsConditionInput
-) {
-  createEmailCampaignLists(input: $input, condition: $condition) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateEmailCampaignListsMutationVariables,
-  APITypes.CreateEmailCampaignListsMutation
->;
-export const updateEmailCampaignLists = /* GraphQL */ `mutation UpdateEmailCampaignLists(
-  $input: UpdateEmailCampaignListsInput!
-  $condition: ModelEmailCampaignListsConditionInput
-) {
-  updateEmailCampaignLists(input: $input, condition: $condition) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateEmailCampaignListsMutationVariables,
-  APITypes.UpdateEmailCampaignListsMutation
->;
-export const deleteEmailCampaignLists = /* GraphQL */ `mutation DeleteEmailCampaignLists(
-  $input: DeleteEmailCampaignListsInput!
-  $condition: ModelEmailCampaignListsConditionInput
-) {
-  deleteEmailCampaignLists(input: $input, condition: $condition) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteEmailCampaignListsMutationVariables,
-  APITypes.DeleteEmailCampaignListsMutation
->;
 export const createEmailRecipientLists = /* GraphQL */ `mutation CreateEmailRecipientLists(
   $input: CreateEmailRecipientListsInput!
   $condition: ModelEmailRecipientListsConditionInput
 ) {
   createEmailRecipientLists(input: $input, condition: $condition) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -390,7 +233,6 @@ export const createEmailRecipientLists = /* GraphQL */ `mutation CreateEmailReci
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt
@@ -417,10 +259,9 @@ export const updateEmailRecipientLists = /* GraphQL */ `mutation UpdateEmailReci
 ) {
   updateEmailRecipientLists(input: $input, condition: $condition) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -430,7 +271,6 @@ export const updateEmailRecipientLists = /* GraphQL */ `mutation UpdateEmailReci
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt
@@ -457,10 +297,9 @@ export const deleteEmailRecipientLists = /* GraphQL */ `mutation DeleteEmailReci
 ) {
   deleteEmailRecipientLists(input: $input, condition: $condition) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -470,7 +309,6 @@ export const deleteEmailRecipientLists = /* GraphQL */ `mutation DeleteEmailReci
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt

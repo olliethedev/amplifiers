@@ -4,12 +4,11 @@ import { schema } from './schema';
 
 
 
-const { EmailCampaign, EmailList, EmailRecipient, EmailCampaignLists, EmailRecipientLists } = initSchema(schema);
+const { EmailCampaign, EmailList, EmailRecipient, EmailRecipientLists } = initSchema(schema);
 
 export {
   EmailCampaign,
   EmailList,
   EmailRecipient,
-  EmailCampaignLists,
   EmailRecipientLists
 };

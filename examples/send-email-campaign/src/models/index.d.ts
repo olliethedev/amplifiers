@@ -1,4 +1,4 @@
-import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
+import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CustomIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
@@ -15,7 +15,8 @@ type EagerEmailCampaign = {
   readonly name: string;
   readonly emailSubject: string;
   readonly emailContent: string;
-  readonly emailLists?: EmailCampaignLists[] | null;
+  readonly emailSender: string;
+  readonly emailLists: string[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -29,7 +30,8 @@ type LazyEmailCampaign = {
   readonly name: string;
   readonly emailSubject: string;
   readonly emailContent: string;
-  readonly emailLists: AsyncCollection<EmailCampaignLists>;
+  readonly emailSender: string;
+  readonly emailLists: string[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -42,12 +44,10 @@ export declare const EmailCampaign: (new (init: ModelInit<EmailCampaign>) => Ema
 
 type EagerEmailList = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailList, 'id'>;
+    identifier: CustomIdentifier<EmailList, 'name'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
-  readonly id: string;
   readonly name: string;
-  readonly emailCampaigns?: EmailCampaignLists[] | null;
   readonly emailRecipients?: EmailRecipientLists[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -55,12 +55,10 @@ type EagerEmailList = {
 
 type LazyEmailList = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailList, 'id'>;
+    identifier: CustomIdentifier<EmailList, 'name'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
-  readonly id: string;
   readonly name: string;
-  readonly emailCampaigns: AsyncCollection<EmailCampaignLists>;
   readonly emailRecipients: AsyncCollection<EmailRecipientLists>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -74,10 +72,9 @@ export declare const EmailList: (new (init: ModelInit<EmailList>) => EmailList) 
 
 type EagerEmailRecipient = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailRecipient, 'id'>;
+    identifier: CustomIdentifier<EmailRecipient, 'email'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
-  readonly id: string;
   readonly email: string;
   readonly emailLists?: EmailRecipientLists[] | null;
   readonly createdAt?: string | null;
@@ -86,10 +83,9 @@ type EagerEmailRecipient = {
 
 type LazyEmailRecipient = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailRecipient, 'id'>;
+    identifier: CustomIdentifier<EmailRecipient, 'email'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
-  readonly id: string;
   readonly email: string;
   readonly emailLists: AsyncCollection<EmailRecipientLists>;
   readonly createdAt?: string | null;
@@ -102,48 +98,14 @@ export declare const EmailRecipient: (new (init: ModelInit<EmailRecipient>) => E
   copyOf(source: EmailRecipient, mutator: (draft: MutableModel<EmailRecipient>) => MutableModel<EmailRecipient> | void): EmailRecipient;
 }
 
-type EagerEmailCampaignLists = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailCampaignLists, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly emailCampaignId?: string | null;
-  readonly emailListId?: string | null;
-  readonly emailCampaign: EmailCampaign;
-  readonly emailList: EmailList;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyEmailCampaignLists = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<EmailCampaignLists, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly emailCampaignId?: string | null;
-  readonly emailListId?: string | null;
-  readonly emailCampaign: AsyncItem<EmailCampaign>;
-  readonly emailList: AsyncItem<EmailList>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type EmailCampaignLists = LazyLoading extends LazyLoadingDisabled ? EagerEmailCampaignLists : LazyEmailCampaignLists
-
-export declare const EmailCampaignLists: (new (init: ModelInit<EmailCampaignLists>) => EmailCampaignLists) & {
-  copyOf(source: EmailCampaignLists, mutator: (draft: MutableModel<EmailCampaignLists>) => MutableModel<EmailCampaignLists> | void): EmailCampaignLists;
-}
-
 type EagerEmailRecipientLists = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<EmailRecipientLists, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly emailListId?: string | null;
-  readonly emailRecipientId?: string | null;
+  readonly emailListName?: string | null;
+  readonly emailRecipientEmail?: string | null;
   readonly emailList: EmailList;
   readonly emailRecipient: EmailRecipient;
   readonly createdAt?: string | null;
@@ -156,8 +118,8 @@ type LazyEmailRecipientLists = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly emailListId?: string | null;
-  readonly emailRecipientId?: string | null;
+  readonly emailListName?: string | null;
+  readonly emailRecipientEmail?: string | null;
   readonly emailList: AsyncItem<EmailList>;
   readonly emailRecipient: AsyncItem<EmailRecipient>;
   readonly createdAt?: string | null;

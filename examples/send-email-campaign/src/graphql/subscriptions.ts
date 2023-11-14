@@ -16,11 +16,8 @@ export const onCreateEmailCampaign = /* GraphQL */ `subscription OnCreateEmailCa
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -41,11 +38,8 @@ export const onUpdateEmailCampaign = /* GraphQL */ `subscription OnUpdateEmailCa
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -66,11 +60,8 @@ export const onDeleteEmailCampaign = /* GraphQL */ `subscription OnDeleteEmailCa
     name
     emailSubject
     emailContent
-    emailLists {
-      nextToken
-      startedAt
-      __typename
-    }
+    emailSender
+    emailLists
     createdAt
     updatedAt
     _version
@@ -85,13 +76,7 @@ export const onDeleteEmailCampaign = /* GraphQL */ `subscription OnDeleteEmailCa
 >;
 export const onCreateEmailList = /* GraphQL */ `subscription OnCreateEmailList($filter: ModelSubscriptionEmailListFilterInput) {
   onCreateEmailList(filter: $filter) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -111,13 +96,7 @@ export const onCreateEmailList = /* GraphQL */ `subscription OnCreateEmailList($
 >;
 export const onUpdateEmailList = /* GraphQL */ `subscription OnUpdateEmailList($filter: ModelSubscriptionEmailListFilterInput) {
   onUpdateEmailList(filter: $filter) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -137,13 +116,7 @@ export const onUpdateEmailList = /* GraphQL */ `subscription OnUpdateEmailList($
 >;
 export const onDeleteEmailList = /* GraphQL */ `subscription OnDeleteEmailList($filter: ModelSubscriptionEmailListFilterInput) {
   onDeleteEmailList(filter: $filter) {
-    id
     name
-    emailCampaigns {
-      nextToken
-      startedAt
-      __typename
-    }
     emailRecipients {
       nextToken
       startedAt
@@ -165,7 +138,6 @@ export const onCreateEmailRecipient = /* GraphQL */ `subscription OnCreateEmailR
   $filter: ModelSubscriptionEmailRecipientFilterInput
 ) {
   onCreateEmailRecipient(filter: $filter) {
-    id
     email
     emailLists {
       nextToken
@@ -188,7 +160,6 @@ export const onUpdateEmailRecipient = /* GraphQL */ `subscription OnUpdateEmailR
   $filter: ModelSubscriptionEmailRecipientFilterInput
 ) {
   onUpdateEmailRecipient(filter: $filter) {
-    id
     email
     emailLists {
       nextToken
@@ -211,7 +182,6 @@ export const onDeleteEmailRecipient = /* GraphQL */ `subscription OnDeleteEmailR
   $filter: ModelSubscriptionEmailRecipientFilterInput
 ) {
   onDeleteEmailRecipient(filter: $filter) {
-    id
     email
     emailLists {
       nextToken
@@ -230,138 +200,14 @@ export const onDeleteEmailRecipient = /* GraphQL */ `subscription OnDeleteEmailR
   APITypes.OnDeleteEmailRecipientSubscriptionVariables,
   APITypes.OnDeleteEmailRecipientSubscription
 >;
-export const onCreateEmailCampaignLists = /* GraphQL */ `subscription OnCreateEmailCampaignLists(
-  $filter: ModelSubscriptionEmailCampaignListsFilterInput
-) {
-  onCreateEmailCampaignLists(filter: $filter) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateEmailCampaignListsSubscriptionVariables,
-  APITypes.OnCreateEmailCampaignListsSubscription
->;
-export const onUpdateEmailCampaignLists = /* GraphQL */ `subscription OnUpdateEmailCampaignLists(
-  $filter: ModelSubscriptionEmailCampaignListsFilterInput
-) {
-  onUpdateEmailCampaignLists(filter: $filter) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateEmailCampaignListsSubscriptionVariables,
-  APITypes.OnUpdateEmailCampaignListsSubscription
->;
-export const onDeleteEmailCampaignLists = /* GraphQL */ `subscription OnDeleteEmailCampaignLists(
-  $filter: ModelSubscriptionEmailCampaignListsFilterInput
-) {
-  onDeleteEmailCampaignLists(filter: $filter) {
-    id
-    emailCampaignId
-    emailListId
-    emailCampaign {
-      id
-      name
-      emailSubject
-      emailContent
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    emailList {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteEmailCampaignListsSubscriptionVariables,
-  APITypes.OnDeleteEmailCampaignListsSubscription
->;
 export const onCreateEmailRecipientLists = /* GraphQL */ `subscription OnCreateEmailRecipientLists(
   $filter: ModelSubscriptionEmailRecipientListsFilterInput
 ) {
   onCreateEmailRecipientLists(filter: $filter) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -371,7 +217,6 @@ export const onCreateEmailRecipientLists = /* GraphQL */ `subscription OnCreateE
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt
@@ -397,10 +242,9 @@ export const onUpdateEmailRecipientLists = /* GraphQL */ `subscription OnUpdateE
 ) {
   onUpdateEmailRecipientLists(filter: $filter) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -410,7 +254,6 @@ export const onUpdateEmailRecipientLists = /* GraphQL */ `subscription OnUpdateE
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt
@@ -436,10 +279,9 @@ export const onDeleteEmailRecipientLists = /* GraphQL */ `subscription OnDeleteE
 ) {
   onDeleteEmailRecipientLists(filter: $filter) {
     id
-    emailListId
-    emailRecipientId
+    emailListName
+    emailRecipientEmail
     emailList {
-      id
       name
       createdAt
       updatedAt
@@ -449,7 +291,6 @@ export const onDeleteEmailRecipientLists = /* GraphQL */ `subscription OnDeleteE
       __typename
     }
     emailRecipient {
-      id
       email
       createdAt
       updatedAt

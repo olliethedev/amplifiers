@@ -31,21 +31,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "emailSender": {
+                    "name": "emailSender",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "emailLists": {
                     "name": "emailLists",
                     "isArray": true,
-                    "type": {
-                        "model": "EmailCampaignLists"
-                    },
+                    "type": "String",
                     "isRequired": true,
                     "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "emailCampaign"
-                        ]
-                    }
+                    "isArrayNullable": false
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -80,35 +79,12 @@ export const schema = {
         "EmailList": {
             "name": "EmailList",
             "fields": {
-                "id": {
-                    "name": "id",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "emailCampaigns": {
-                    "name": "emailCampaigns",
-                    "isArray": true,
-                    "type": {
-                        "model": "EmailCampaignLists"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "emailList"
-                        ]
-                    }
                 },
                 "emailRecipients": {
                     "name": "emailRecipients",
@@ -149,23 +125,24 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "name"
+                        ]
+                    }
                 }
             ]
         },
         "EmailRecipient": {
             "name": "EmailRecipient",
             "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "email": {
                     "name": "email",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSEmail",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -212,107 +189,8 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "emailRecipientsByEmail",
                         "fields": [
                             "email"
-                        ]
-                    }
-                }
-            ]
-        },
-        "EmailCampaignLists": {
-            "name": "EmailCampaignLists",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "emailCampaignId": {
-                    "name": "emailCampaignId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "emailListId": {
-                    "name": "emailListId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "emailCampaign": {
-                    "name": "emailCampaign",
-                    "isArray": false,
-                    "type": {
-                        "model": "EmailCampaign"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "emailCampaignId"
-                        ]
-                    }
-                },
-                "emailList": {
-                    "name": "emailList",
-                    "isArray": false,
-                    "type": {
-                        "model": "EmailList"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "emailListId"
-                        ]
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "EmailCampaignLists",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byEmailCampaign",
-                        "fields": [
-                            "emailCampaignId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byEmailList",
-                        "fields": [
-                            "emailListId"
                         ]
                     }
                 }
@@ -328,15 +206,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "emailListId": {
-                    "name": "emailListId",
+                "emailListName": {
+                    "name": "emailListName",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 },
-                "emailRecipientId": {
-                    "name": "emailRecipientId",
+                "emailRecipientEmail": {
+                    "name": "emailRecipientEmail",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -353,7 +231,7 @@ export const schema = {
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "emailListId"
+                            "emailListName"
                         ]
                     }
                 },
@@ -368,7 +246,7 @@ export const schema = {
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "emailRecipientId"
+                            "emailRecipientEmail"
                         ]
                     }
                 },
@@ -401,7 +279,7 @@ export const schema = {
                     "properties": {
                         "name": "byEmailList",
                         "fields": [
-                            "emailListId"
+                            "emailListName"
                         ]
                     }
                 },
@@ -410,7 +288,7 @@ export const schema = {
                     "properties": {
                         "name": "byEmailRecipient",
                         "fields": [
-                            "emailRecipientId"
+                            "emailRecipientEmail"
                         ]
                     }
                 }
@@ -420,5 +298,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "da191c1a32583947a62e2088ae84e9d1"
+    "version": "ffa7d0541610072bfa30abac9c2b8ecf"
 };

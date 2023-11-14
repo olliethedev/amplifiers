@@ -7,6 +7,8 @@ export type CreateEmailCampaignInput = {
   name: string,
   emailSubject: string,
   emailContent: string,
+  emailSender: string,
+  emailLists: Array< string >,
   _version?: number | null,
 };
 
@@ -14,6 +16,8 @@ export type ModelEmailCampaignConditionInput = {
   name?: ModelStringInput | null,
   emailSubject?: ModelStringInput | null,
   emailContent?: ModelStringInput | null,
+  emailSender?: ModelStringInput | null,
+  emailLists?: ModelStringInput | null,
   and?: Array< ModelEmailCampaignConditionInput | null > | null,
   or?: Array< ModelEmailCampaignConditionInput | null > | null,
   not?: ModelEmailCampaignConditionInput | null,
@@ -73,7 +77,8 @@ export type EmailCampaign = {
   name: string,
   emailSubject: string,
   emailContent: string,
-  emailLists?: ModelEmailCampaignListsConnection | null,
+  emailSender: string,
+  emailLists: Array< string >,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -81,32 +86,36 @@ export type EmailCampaign = {
   _lastChangedAt: number,
 };
 
-export type ModelEmailCampaignListsConnection = {
-  __typename: "ModelEmailCampaignListsConnection",
-  items:  Array<EmailCampaignLists | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type EmailCampaignLists = {
-  __typename: "EmailCampaignLists",
+export type UpdateEmailCampaignInput = {
   id: string,
-  emailCampaignId: string,
-  emailListId: string,
-  emailCampaign: EmailCampaign,
-  emailList: EmailList,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
+  name?: string | null,
+  emailSubject?: string | null,
+  emailContent?: string | null,
+  emailSender?: string | null,
+  emailLists?: Array< string > | null,
+  _version?: number | null,
+};
+
+export type DeleteEmailCampaignInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateEmailListInput = {
+  name: string,
+  _version?: number | null,
+};
+
+export type ModelEmailListConditionInput = {
+  and?: Array< ModelEmailListConditionInput | null > | null,
+  or?: Array< ModelEmailListConditionInput | null > | null,
+  not?: ModelEmailListConditionInput | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type EmailList = {
   __typename: "EmailList",
-  id: string,
   name: string,
-  emailCampaigns?: ModelEmailCampaignListsConnection | null,
   emailRecipients?: ModelEmailRecipientListsConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -125,8 +134,8 @@ export type ModelEmailRecipientListsConnection = {
 export type EmailRecipientLists = {
   __typename: "EmailRecipientLists",
   id: string,
-  emailListId: string,
-  emailRecipientId: string,
+  emailListName: string,
+  emailRecipientEmail: string,
   emailList: EmailList,
   emailRecipient: EmailRecipient,
   createdAt: string,
@@ -138,7 +147,6 @@ export type EmailRecipientLists = {
 
 export type EmailRecipient = {
   __typename: "EmailRecipient",
-  id: string,
   email: string,
   emailLists?: ModelEmailRecipientListsConnection | null,
   createdAt: string,
@@ -148,52 +156,22 @@ export type EmailRecipient = {
   _lastChangedAt: number,
 };
 
-export type UpdateEmailCampaignInput = {
-  id: string,
-  name?: string | null,
-  emailSubject?: string | null,
-  emailContent?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteEmailCampaignInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateEmailListInput = {
-  id?: string | null,
+export type UpdateEmailListInput = {
   name: string,
   _version?: number | null,
 };
 
-export type ModelEmailListConditionInput = {
-  name?: ModelStringInput | null,
-  and?: Array< ModelEmailListConditionInput | null > | null,
-  or?: Array< ModelEmailListConditionInput | null > | null,
-  not?: ModelEmailListConditionInput | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
-export type UpdateEmailListInput = {
-  id: string,
-  name?: string | null,
-  _version?: number | null,
-};
-
 export type DeleteEmailListInput = {
-  id: string,
+  name: string,
   _version?: number | null,
 };
 
 export type CreateEmailRecipientInput = {
-  id?: string | null,
   email: string,
   _version?: number | null,
 };
 
 export type ModelEmailRecipientConditionInput = {
-  email?: ModelStringInput | null,
   and?: Array< ModelEmailRecipientConditionInput | null > | null,
   or?: Array< ModelEmailRecipientConditionInput | null > | null,
   not?: ModelEmailRecipientConditionInput | null,
@@ -201,29 +179,28 @@ export type ModelEmailRecipientConditionInput = {
 };
 
 export type UpdateEmailRecipientInput = {
-  id: string,
-  email?: string | null,
+  email: string,
   _version?: number | null,
 };
 
 export type DeleteEmailRecipientInput = {
-  id: string,
+  email: string,
   _version?: number | null,
 };
 
-export type CreateEmailCampaignListsInput = {
+export type CreateEmailRecipientListsInput = {
   id?: string | null,
-  emailCampaignId: string,
-  emailListId: string,
+  emailListName: string,
+  emailRecipientEmail: string,
   _version?: number | null,
 };
 
-export type ModelEmailCampaignListsConditionInput = {
-  emailCampaignId?: ModelIDInput | null,
-  emailListId?: ModelIDInput | null,
-  and?: Array< ModelEmailCampaignListsConditionInput | null > | null,
-  or?: Array< ModelEmailCampaignListsConditionInput | null > | null,
-  not?: ModelEmailCampaignListsConditionInput | null,
+export type ModelEmailRecipientListsConditionInput = {
+  emailListName?: ModelIDInput | null,
+  emailRecipientEmail?: ModelStringInput | null,
+  and?: Array< ModelEmailRecipientListsConditionInput | null > | null,
+  or?: Array< ModelEmailRecipientListsConditionInput | null > | null,
+  not?: ModelEmailRecipientListsConditionInput | null,
   _deleted?: ModelBooleanInput | null,
 };
 
@@ -243,38 +220,10 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdateEmailCampaignListsInput = {
-  id: string,
-  emailCampaignId?: string | null,
-  emailListId?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteEmailCampaignListsInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateEmailRecipientListsInput = {
-  id?: string | null,
-  emailListId: string,
-  emailRecipientId: string,
-  _version?: number | null,
-};
-
-export type ModelEmailRecipientListsConditionInput = {
-  emailListId?: ModelIDInput | null,
-  emailRecipientId?: ModelIDInput | null,
-  and?: Array< ModelEmailRecipientListsConditionInput | null > | null,
-  or?: Array< ModelEmailRecipientListsConditionInput | null > | null,
-  not?: ModelEmailRecipientListsConditionInput | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
 export type UpdateEmailRecipientListsInput = {
   id: string,
-  emailListId?: string | null,
-  emailRecipientId?: string | null,
+  emailListName?: string | null,
+  emailRecipientEmail?: string | null,
   _version?: number | null,
 };
 
@@ -288,6 +237,8 @@ export type ModelEmailCampaignFilterInput = {
   name?: ModelStringInput | null,
   emailSubject?: ModelStringInput | null,
   emailContent?: ModelStringInput | null,
+  emailSender?: ModelStringInput | null,
+  emailLists?: ModelStringInput | null,
   and?: Array< ModelEmailCampaignFilterInput | null > | null,
   or?: Array< ModelEmailCampaignFilterInput | null > | null,
   not?: ModelEmailCampaignFilterInput | null,
@@ -302,13 +253,18 @@ export type ModelEmailCampaignConnection = {
 };
 
 export type ModelEmailListFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
+  name?: ModelIDInput | null,
   and?: Array< ModelEmailListFilterInput | null > | null,
   or?: Array< ModelEmailListFilterInput | null > | null,
   not?: ModelEmailListFilterInput | null,
   _deleted?: ModelBooleanInput | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelEmailListConnection = {
   __typename: "ModelEmailListConnection",
@@ -318,7 +274,6 @@ export type ModelEmailListConnection = {
 };
 
 export type ModelEmailRecipientFilterInput = {
-  id?: ModelIDInput | null,
   email?: ModelStringInput | null,
   and?: Array< ModelEmailRecipientFilterInput | null > | null,
   or?: Array< ModelEmailRecipientFilterInput | null > | null,
@@ -333,37 +288,23 @@ export type ModelEmailRecipientConnection = {
   startedAt?: number | null,
 };
 
-export type ModelEmailCampaignListsFilterInput = {
-  id?: ModelIDInput | null,
-  emailCampaignId?: ModelIDInput | null,
-  emailListId?: ModelIDInput | null,
-  and?: Array< ModelEmailCampaignListsFilterInput | null > | null,
-  or?: Array< ModelEmailCampaignListsFilterInput | null > | null,
-  not?: ModelEmailCampaignListsFilterInput | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
 export type ModelEmailRecipientListsFilterInput = {
   id?: ModelIDInput | null,
-  emailListId?: ModelIDInput | null,
-  emailRecipientId?: ModelIDInput | null,
+  emailListName?: ModelIDInput | null,
+  emailRecipientEmail?: ModelStringInput | null,
   and?: Array< ModelEmailRecipientListsFilterInput | null > | null,
   or?: Array< ModelEmailRecipientListsFilterInput | null > | null,
   not?: ModelEmailRecipientListsFilterInput | null,
   _deleted?: ModelBooleanInput | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelSubscriptionEmailCampaignFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
   emailSubject?: ModelSubscriptionStringInput | null,
   emailContent?: ModelSubscriptionStringInput | null,
+  emailSender?: ModelSubscriptionStringInput | null,
+  emailLists?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEmailCampaignFilterInput | null > | null,
   or?: Array< ModelSubscriptionEmailCampaignFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
@@ -400,34 +341,23 @@ export type ModelSubscriptionStringInput = {
 };
 
 export type ModelSubscriptionEmailListFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionIDInput | null,
   and?: Array< ModelSubscriptionEmailListFilterInput | null > | null,
   or?: Array< ModelSubscriptionEmailListFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelSubscriptionEmailRecipientFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
   email?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEmailRecipientFilterInput | null > | null,
   or?: Array< ModelSubscriptionEmailRecipientFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
 };
 
-export type ModelSubscriptionEmailCampaignListsFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  emailCampaignId?: ModelSubscriptionIDInput | null,
-  emailListId?: ModelSubscriptionIDInput | null,
-  and?: Array< ModelSubscriptionEmailCampaignListsFilterInput | null > | null,
-  or?: Array< ModelSubscriptionEmailCampaignListsFilterInput | null > | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
 export type ModelSubscriptionEmailRecipientListsFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  emailListId?: ModelSubscriptionIDInput | null,
-  emailRecipientId?: ModelSubscriptionIDInput | null,
+  emailListName?: ModelSubscriptionIDInput | null,
+  emailRecipientEmail?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEmailRecipientListsFilterInput | null > | null,
   or?: Array< ModelSubscriptionEmailRecipientListsFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
@@ -445,11 +375,8 @@ export type CreateEmailCampaignMutation = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -470,11 +397,8 @@ export type UpdateEmailCampaignMutation = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -495,11 +419,8 @@ export type DeleteEmailCampaignMutation = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -516,13 +437,7 @@ export type CreateEmailListMutationVariables = {
 export type CreateEmailListMutation = {
   createEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -544,13 +459,7 @@ export type UpdateEmailListMutationVariables = {
 export type UpdateEmailListMutation = {
   updateEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -572,13 +481,7 @@ export type DeleteEmailListMutationVariables = {
 export type DeleteEmailListMutation = {
   deleteEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -600,7 +503,6 @@ export type CreateEmailRecipientMutationVariables = {
 export type CreateEmailRecipientMutation = {
   createEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
@@ -623,7 +525,6 @@ export type UpdateEmailRecipientMutationVariables = {
 export type UpdateEmailRecipientMutation = {
   updateEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
@@ -646,136 +547,12 @@ export type DeleteEmailRecipientMutationVariables = {
 export type DeleteEmailRecipientMutation = {
   deleteEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type CreateEmailCampaignListsMutationVariables = {
-  input: CreateEmailCampaignListsInput,
-  condition?: ModelEmailCampaignListsConditionInput | null,
-};
-
-export type CreateEmailCampaignListsMutation = {
-  createEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type UpdateEmailCampaignListsMutationVariables = {
-  input: UpdateEmailCampaignListsInput,
-  condition?: ModelEmailCampaignListsConditionInput | null,
-};
-
-export type UpdateEmailCampaignListsMutation = {
-  updateEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type DeleteEmailCampaignListsMutationVariables = {
-  input: DeleteEmailCampaignListsInput,
-  condition?: ModelEmailCampaignListsConditionInput | null,
-};
-
-export type DeleteEmailCampaignListsMutation = {
-  deleteEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -793,11 +570,10 @@ export type CreateEmailRecipientListsMutation = {
   createEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -807,7 +583,6 @@ export type CreateEmailRecipientListsMutation = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -832,11 +607,10 @@ export type UpdateEmailRecipientListsMutation = {
   updateEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -846,7 +620,6 @@ export type UpdateEmailRecipientListsMutation = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -871,11 +644,10 @@ export type DeleteEmailRecipientListsMutation = {
   deleteEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -885,7 +657,6 @@ export type DeleteEmailRecipientListsMutation = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -912,11 +683,8 @@ export type GetEmailCampaignQuery = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -940,6 +708,8 @@ export type ListEmailCampaignsQuery = {
       name: string,
       emailSubject: string,
       emailContent: string,
+      emailSender: string,
+      emailLists: Array< string >,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -967,6 +737,8 @@ export type SyncEmailCampaignsQuery = {
       name: string,
       emailSubject: string,
       emailContent: string,
+      emailSender: string,
+      emailLists: Array< string >,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -979,19 +751,13 @@ export type SyncEmailCampaignsQuery = {
 };
 
 export type GetEmailListQueryVariables = {
-  id: string,
+  name: string,
 };
 
 export type GetEmailListQuery = {
   getEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -1006,9 +772,11 @@ export type GetEmailListQuery = {
 };
 
 export type ListEmailListsQueryVariables = {
+  name?: string | null,
   filter?: ModelEmailListFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListEmailListsQuery = {
@@ -1016,7 +784,6 @@ export type ListEmailListsQuery = {
     __typename: "ModelEmailListConnection",
     items:  Array< {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1041,7 +808,6 @@ export type SyncEmailListsQuery = {
     __typename: "ModelEmailListConnection",
     items:  Array< {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1055,13 +821,12 @@ export type SyncEmailListsQuery = {
 };
 
 export type GetEmailRecipientQueryVariables = {
-  id: string,
+  email: string,
 };
 
 export type GetEmailRecipientQuery = {
   getEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
@@ -1077,9 +842,11 @@ export type GetEmailRecipientQuery = {
 };
 
 export type ListEmailRecipientsQueryVariables = {
+  email?: string | null,
   filter?: ModelEmailRecipientFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListEmailRecipientsQuery = {
@@ -1087,7 +854,6 @@ export type ListEmailRecipientsQuery = {
     __typename: "ModelEmailRecipientConnection",
     items:  Array< {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -1112,99 +878,7 @@ export type SyncEmailRecipientsQuery = {
     __typename: "ModelEmailRecipientConnection",
     items:  Array< {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetEmailCampaignListsQueryVariables = {
-  id: string,
-};
-
-export type GetEmailCampaignListsQuery = {
-  getEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type ListEmailCampaignListsQueryVariables = {
-  filter?: ModelEmailCampaignListsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListEmailCampaignListsQuery = {
-  listEmailCampaignLists?:  {
-    __typename: "ModelEmailCampaignListsConnection",
-    items:  Array< {
-      __typename: "EmailCampaignLists",
-      id: string,
-      emailCampaignId: string,
-      emailListId: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncEmailCampaignListsQueryVariables = {
-  filter?: ModelEmailCampaignListsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncEmailCampaignListsQuery = {
-  syncEmailCampaignLists?:  {
-    __typename: "ModelEmailCampaignListsConnection",
-    items:  Array< {
-      __typename: "EmailCampaignLists",
-      id: string,
-      emailCampaignId: string,
-      emailListId: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1224,11 +898,10 @@ export type GetEmailRecipientListsQuery = {
   getEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1238,7 +911,6 @@ export type GetEmailRecipientListsQuery = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -1266,8 +938,8 @@ export type ListEmailRecipientListsQuery = {
     items:  Array< {
       __typename: "EmailRecipientLists",
       id: string,
-      emailListId: string,
-      emailRecipientId: string,
+      emailListName: string,
+      emailRecipientEmail: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1292,8 +964,8 @@ export type SyncEmailRecipientListsQuery = {
     items:  Array< {
       __typename: "EmailRecipientLists",
       id: string,
-      emailListId: string,
-      emailRecipientId: string,
+      emailListName: string,
+      emailRecipientEmail: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1305,102 +977,22 @@ export type SyncEmailRecipientListsQuery = {
   } | null,
 };
 
-export type EmailRecipientsByEmailQueryVariables = {
-  email: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelEmailRecipientFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type EmailRecipientsByEmailQuery = {
-  emailRecipientsByEmail?:  {
-    __typename: "ModelEmailRecipientConnection",
-    items:  Array< {
-      __typename: "EmailRecipient",
-      id: string,
-      email: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type EmailCampaignListsByEmailCampaignIdQueryVariables = {
-  emailCampaignId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelEmailCampaignListsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type EmailCampaignListsByEmailCampaignIdQuery = {
-  emailCampaignListsByEmailCampaignId?:  {
-    __typename: "ModelEmailCampaignListsConnection",
-    items:  Array< {
-      __typename: "EmailCampaignLists",
-      id: string,
-      emailCampaignId: string,
-      emailListId: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type EmailCampaignListsByEmailListIdQueryVariables = {
-  emailListId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelEmailCampaignListsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type EmailCampaignListsByEmailListIdQuery = {
-  emailCampaignListsByEmailListId?:  {
-    __typename: "ModelEmailCampaignListsConnection",
-    items:  Array< {
-      __typename: "EmailCampaignLists",
-      id: string,
-      emailCampaignId: string,
-      emailListId: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type EmailRecipientListsByEmailListIdQueryVariables = {
-  emailListId: string,
+export type EmailRecipientListsByEmailListNameQueryVariables = {
+  emailListName: string,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelEmailRecipientListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type EmailRecipientListsByEmailListIdQuery = {
-  emailRecipientListsByEmailListId?:  {
+export type EmailRecipientListsByEmailListNameQuery = {
+  emailRecipientListsByEmailListName?:  {
     __typename: "ModelEmailRecipientListsConnection",
     items:  Array< {
       __typename: "EmailRecipientLists",
       id: string,
-      emailListId: string,
-      emailRecipientId: string,
+      emailListName: string,
+      emailRecipientEmail: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1412,22 +1004,22 @@ export type EmailRecipientListsByEmailListIdQuery = {
   } | null,
 };
 
-export type EmailRecipientListsByEmailRecipientIdQueryVariables = {
-  emailRecipientId: string,
+export type EmailRecipientListsByEmailRecipientEmailQueryVariables = {
+  emailRecipientEmail: string,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelEmailRecipientListsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type EmailRecipientListsByEmailRecipientIdQuery = {
-  emailRecipientListsByEmailRecipientId?:  {
+export type EmailRecipientListsByEmailRecipientEmailQuery = {
+  emailRecipientListsByEmailRecipientEmail?:  {
     __typename: "ModelEmailRecipientListsConnection",
     items:  Array< {
       __typename: "EmailRecipientLists",
       id: string,
-      emailListId: string,
-      emailRecipientId: string,
+      emailListName: string,
+      emailRecipientEmail: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1450,11 +1042,8 @@ export type OnCreateEmailCampaignSubscription = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1474,11 +1063,8 @@ export type OnUpdateEmailCampaignSubscription = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1498,11 +1084,8 @@ export type OnDeleteEmailCampaignSubscription = {
     name: string,
     emailSubject: string,
     emailContent: string,
-    emailLists?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    emailSender: string,
+    emailLists: Array< string >,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1518,13 +1101,7 @@ export type OnCreateEmailListSubscriptionVariables = {
 export type OnCreateEmailListSubscription = {
   onCreateEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -1545,13 +1122,7 @@ export type OnUpdateEmailListSubscriptionVariables = {
 export type OnUpdateEmailListSubscription = {
   onUpdateEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -1572,13 +1143,7 @@ export type OnDeleteEmailListSubscriptionVariables = {
 export type OnDeleteEmailListSubscription = {
   onDeleteEmailList?:  {
     __typename: "EmailList",
-    id: string,
     name: string,
-    emailCampaigns?:  {
-      __typename: "ModelEmailCampaignListsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     emailRecipients?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
@@ -1599,7 +1164,6 @@ export type OnCreateEmailRecipientSubscriptionVariables = {
 export type OnCreateEmailRecipientSubscription = {
   onCreateEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
@@ -1621,7 +1185,6 @@ export type OnUpdateEmailRecipientSubscriptionVariables = {
 export type OnUpdateEmailRecipientSubscription = {
   onUpdateEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
@@ -1643,133 +1206,12 @@ export type OnDeleteEmailRecipientSubscriptionVariables = {
 export type OnDeleteEmailRecipientSubscription = {
   onDeleteEmailRecipient?:  {
     __typename: "EmailRecipient",
-    id: string,
     email: string,
     emailLists?:  {
       __typename: "ModelEmailRecipientListsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreateEmailCampaignListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailCampaignListsFilterInput | null,
-};
-
-export type OnCreateEmailCampaignListsSubscription = {
-  onCreateEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdateEmailCampaignListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailCampaignListsFilterInput | null,
-};
-
-export type OnUpdateEmailCampaignListsSubscription = {
-  onUpdateEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeleteEmailCampaignListsSubscriptionVariables = {
-  filter?: ModelSubscriptionEmailCampaignListsFilterInput | null,
-};
-
-export type OnDeleteEmailCampaignListsSubscription = {
-  onDeleteEmailCampaignLists?:  {
-    __typename: "EmailCampaignLists",
-    id: string,
-    emailCampaignId: string,
-    emailListId: string,
-    emailCampaign:  {
-      __typename: "EmailCampaign",
-      id: string,
-      name: string,
-      emailSubject: string,
-      emailContent: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    emailList:  {
-      __typename: "EmailList",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1786,11 +1228,10 @@ export type OnCreateEmailRecipientListsSubscription = {
   onCreateEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1800,7 +1241,6 @@ export type OnCreateEmailRecipientListsSubscription = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -1824,11 +1264,10 @@ export type OnUpdateEmailRecipientListsSubscription = {
   onUpdateEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1838,7 +1277,6 @@ export type OnUpdateEmailRecipientListsSubscription = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,
@@ -1862,11 +1300,10 @@ export type OnDeleteEmailRecipientListsSubscription = {
   onDeleteEmailRecipientLists?:  {
     __typename: "EmailRecipientLists",
     id: string,
-    emailListId: string,
-    emailRecipientId: string,
+    emailListName: string,
+    emailRecipientEmail: string,
     emailList:  {
       __typename: "EmailList",
-      id: string,
       name: string,
       createdAt: string,
       updatedAt: string,
@@ -1876,7 +1313,6 @@ export type OnDeleteEmailRecipientListsSubscription = {
     },
     emailRecipient:  {
       __typename: "EmailRecipient",
-      id: string,
       email: string,
       createdAt: string,
       updatedAt: string,

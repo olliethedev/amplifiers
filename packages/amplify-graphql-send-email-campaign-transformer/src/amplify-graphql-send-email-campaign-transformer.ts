@@ -8,7 +8,7 @@ import {
     TransformerSchemaVisitStepContextProvider,
     TransformerTransformSchemaStepContextProvider,
   } from '@aws-amplify/graphql-transformer-interfaces';
-import { ModelResourceIDs } from "graphql-transformer-common";
+import { ModelResourceIDs, ResourceConstants } from "graphql-transformer-common";
 import { DirectiveNode, ObjectTypeDefinitionNode } from 'graphql';
 import { createEventSourceMapping, createLambda } from './create-send-email-campaign-lambda';
 import { 
@@ -22,6 +22,7 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import { IRole, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { SendEmailCampaignDirectiveArgs } from './directive-type';
+import { CfnOutput, CfnParameter, Fn, Stack } from 'aws-cdk-lib';
 
 
 const STACK_NAME = 'SendEmailCampaignTransformer';
@@ -72,6 +73,12 @@ export class Transformer extends TransformerPluginBase {
 
     generateResolvers = (context: TransformerContextProvider): void => {
         const stack = context.stackManager.createStack(STACK_NAME);
+        
+        const parameterMap = 
+        new Map<string, string>([[
+            "GRAPHQL_URL",
+            getGraphQlApiUrl(context)
+        ]]);
 
         // lambda role
         const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
@@ -88,7 +95,7 @@ export class Transformer extends TransformerPluginBase {
 
         // create lambda function
         const lambda = createLambda(
-            stack, context.api, role, fieldMappings
+            stack, context.api, role, parameterMap, fieldMappings
         );
 
         // // creates event source mapping for each table
@@ -150,3 +157,10 @@ const getTable = (context: TransformerContextProvider, definition: ObjectTypeDef
     const table = ddbDataSource.ds.stack.node.findChild(tableName);
     return table;
   };
+
+  const getGraphQlApiUrl = (context: TransformerContextProvider): string => {
+    const stack = context.stackManager.getStackFor(context.api.name);
+
+    const output = stack.node.findChild("GraphQLAPIEndpointOutput");
+    return (output as CfnOutput).value;
+};
