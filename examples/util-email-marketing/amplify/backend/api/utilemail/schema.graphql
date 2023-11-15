@@ -36,8 +36,8 @@ type EmailRecipient
     emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
 }
 
-# type Mutation {
-#   sendEmails( sender: String!, recipients: [String!]!, subject: String!, content: String! ): String 
-#   @function(name: "emailmarketinglambda")
-#   @auth(rules: [{ allow: groups, groups: ["Admins"] }])
-# }
+type Mutation {
+  sendEmails( sender: String!, recipients: [String!]!, subject: String!, content: String! ): String 
+  @function(name: "emailmarketinglambda")
+  @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+}

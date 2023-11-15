@@ -17,6 +17,9 @@
       },
       "auth": {
         "utilemaild400724b": {}
+      },
+      "function": {
+        "emailmarketinglambda": {}
       }
     }
   }
