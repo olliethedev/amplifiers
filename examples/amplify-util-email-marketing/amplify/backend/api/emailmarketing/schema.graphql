@@ -12,7 +12,7 @@ type EmailCampaign
     emailSubject: String!
     emailContent: String!
     emailSender: String!
-    emailLists: [String!]!
+    emailLists: [EmailList!] @manyToMany(relationName: "EmailListsEmailCampaigns")
 }
 
 type EmailList 
@@ -25,6 +25,7 @@ type EmailList
       ]
     ) {
     name: ID! @primaryKey
+    emailCampaigns: [EmailCampaign!] @manyToMany(relationName: "EmailListsEmailCampaigns")
     emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
 }
 
@@ -39,4 +40,10 @@ type EmailRecipient
     ) {
     email: AWSEmail! @primaryKey
     emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+}
+
+type Mutation {
+  sendEmails( sender: String!, recipients: [String!]!, subject: String!, content: String! ): String 
+  @function(name: "emailmarketinglambda")
+  @auth(rules: [{ allow: groups, groups: ["Admins"] }])
 }

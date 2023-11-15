@@ -1,0 +1,12 @@
+[
+  {
+    "Action": ["s3:CreateBucket"],
+    "Resource": ["arn:aws:s3:::*"]
+  },
+  {
+    "Action": ["ses:SendEmail",
+      "ses:SendRawEmail",
+      "ses:SendTemplatedEmail"],
+    "Resource": ["arn:aws:ses:::*"]
+  }
+]
