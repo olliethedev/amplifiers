@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "simpleemailmarketing",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2023-11-15T22:05:56.362Z"
+}

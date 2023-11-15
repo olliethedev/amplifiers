@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 
-console.log('page.tsx');
-
 export default function Home() {
   return (
     <main className={styles.main}>

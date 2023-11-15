@@ -1,0 +1,53 @@
+# type EmailCampaign 
+#   @model 
+#   @auth(
+#       rules: [
+#         { allow: groups, groups: ["Admins"] }
+#         { allow: public, operations: [read] }
+#       ]
+#     ) {
+#     id: ID!
+#     name: String!
+#     emailSubject: String!
+#     emailContent: String!
+#     emailSender: String!
+#     emailLists: [EmailList!] @manyToMany(relationName: "EmailListsEmailCampaigns")
+# }
+
+# type EmailList 
+#   @model 
+#   @auth(
+#       rules: [
+#         { allow: groups, groups: ["Admins"] }
+#         { allow: public, operations: [read] }
+#       ]
+#     ) {
+#     name: ID! @primaryKey
+#     emailCampaigns: [EmailCampaign!] @manyToMany(relationName: "EmailListsEmailCampaigns")
+#     emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+# }
+
+# type EmailRecipient 
+#   @model 
+#   @auth(
+#       rules: [
+#         { allow: groups, groups: ["Admins"] }
+#         { allow: public, operations: [read] }
+#       ]
+#     ) {
+#     email: AWSEmail! @primaryKey
+#     emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+# }
+
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  done: Boolean
+}
+
+# type Mutation {
+#   sendEmails( sender: String!, recipients: [String!]!, subject: String!, content: String! ): String 
+#   @function(name: "emailmarketinglambda")
+#   @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+# }
