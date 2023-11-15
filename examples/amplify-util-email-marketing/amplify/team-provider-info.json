@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-emailmarketing-dev-144555-authRole",
+      "UnauthRoleArn": "arn:aws:iam::446581856886:role/amplify-emailmarketing-dev-144555-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::446581856886:role/amplify-emailmarketing-dev-144555-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-emailmarketing-dev-144555-deployment",
+      "UnauthRoleName": "amplify-emailmarketing-dev-144555-unauthRole",
+      "StackName": "amplify-emailmarketing-dev-144555",
+      "StackId": "arn:aws:cloudformation:us-east-1:446581856886:stack/amplify-emailmarketing-dev-144555/980a2c50-83ef-11ee-8c4f-0e5072f5f1f3",
+      "AmplifyAppId": "duzqy08mhzpvg"
+    },
+    "categories": {
+      "auth": {
+        "emailmarketing3ea28014": {}
+      },
+      "api": {
+        "emailmarketing": {}
+      }
+    }
+  }
+}

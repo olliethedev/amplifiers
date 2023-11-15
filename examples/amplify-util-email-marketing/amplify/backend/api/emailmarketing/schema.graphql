@@ -1,0 +1,42 @@
+type EmailCampaign 
+  @model 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    id: ID!
+    name: String!
+    emailSubject: String!
+    emailContent: String!
+    emailSender: String!
+    emailLists: [String!]!
+}
+
+type EmailList 
+  @model 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    name: ID! @primaryKey
+    emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+}
+
+type EmailRecipient 
+  @model 
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: public, operations: [read] }
+        { allow: private, provider: iam }
+      ]
+    ) {
+    email: AWSEmail! @primaryKey
+    emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+}
