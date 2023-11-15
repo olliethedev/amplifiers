@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-utilemail-dev-171531-authRole",
+      "UnauthRoleArn": "arn:aws:iam::446581856886:role/amplify-utilemail-dev-171531-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::446581856886:role/amplify-utilemail-dev-171531-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-utilemail-dev-171531-deployment",
+      "UnauthRoleName": "amplify-utilemail-dev-171531-unauthRole",
+      "StackName": "amplify-utilemail-dev-171531",
+      "StackId": "arn:aws:cloudformation:us-east-1:446581856886:stack/amplify-utilemail-dev-171531/7e12c900-8404-11ee-a658-0e17b72b9acd",
+      "AmplifyAppId": "d1nrubby36zhdc"
+    },
+    "categories": {
+      "api": {
+        "utilemail": {}
+      },
+      "auth": {
+        "utilemaild400724b": {}
+      }
+    }
+  }
+}
