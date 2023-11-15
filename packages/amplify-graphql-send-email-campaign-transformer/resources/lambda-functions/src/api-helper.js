@@ -87,14 +87,16 @@ const execute = async (query, variables) => {
   console.log({ query, variables });
   const endpoint = new URL(GRAPHQL_ENDPOINT);
 
-  //   const credentials = {
-  //     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  //     sessionToken: process.env.AWS_SESSION_TOKEN,
-  //   };
-  //   console.log({ credentials });
+    const credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      sessionToken: process.env.AWS_SESSION_TOKEN,
+    };
+//   const credentials = await defaultProvider()();
+  console.log({ credentials });
+
   const signer = new SignatureV4({
-    credentials: defaultProvider(),
+    credentials,
     region: AWS_REGION,
     service: "appsync",
     sha256: Sha256,
@@ -113,7 +115,7 @@ const execute = async (query, variables) => {
 
   const signed = await signer.sign(requestToBeSigned);
   console.log({ signed });
-  const request = new Request(GRAPHQL_ENDPOINT, signed);
+  const request = new Request(endpoint, signed);
 
   let statusCode = 200;
   let body;

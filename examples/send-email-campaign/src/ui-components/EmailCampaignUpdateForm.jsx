@@ -239,7 +239,7 @@ export default function EmailCampaignUpdateForm(props) {
     name: [{ type: "Required" }],
     emailSubject: [{ type: "Required" }],
     emailContent: [{ type: "Required" }],
-    emailSender: [],
+    emailSender: [{ type: "Required" }],
     emailLists: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -405,7 +405,7 @@ export default function EmailCampaignUpdateForm(props) {
       ></TextField>
       <TextField
         label="Email sender"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={emailSender}
         onChange={(e) => {

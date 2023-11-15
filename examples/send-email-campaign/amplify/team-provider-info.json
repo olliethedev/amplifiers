@@ -22,7 +22,38 @@
         "campaignTestFunc": {
           "deploymentBucketName": "amplify-sendemailcampaign-dev-85615-deployment",
           "s3Key": "amplify-builds/campaignTestFunc-79687a53754174596156-build.zip"
-        }
+        },
+        "sendemailcampaign": {},
+        "sendemailcampaign1f3ba308": {}
+      }
+    }
+  },
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sendemailcampaign-test-173703-authRole",
+      "UnauthRoleArn": "arn:aws:iam::446581856886:role/amplify-sendemailcampaign-test-173703-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::446581856886:role/amplify-sendemailcampaign-test-173703-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-sendemailcampaign-test-173703-deployment",
+      "UnauthRoleName": "amplify-sendemailcampaign-test-173703-unauthRole",
+      "StackName": "amplify-sendemailcampaign-test-173703",
+      "StackId": "arn:aws:cloudformation:us-east-1:446581856886:stack/amplify-sendemailcampaign-test-173703/56708610-833e-11ee-931b-0e39d90b88a3",
+      "AmplifyAppId": "d3r650cnxt9gfx"
+    },
+    "categories": {
+      "auth": {
+        "sendemailcampaign1f3ba308": {}
+      },
+      "function": {
+        "campaignTestFunc": {
+          "deploymentBucketName": "amplify-sendemailcampaign-test-173703-deployment",
+          "s3Key": "amplify-builds/campaignTestFunc-50397a6644516f557a64-build.zip"
+        },
+        "sendemailcampaign": {},
+        "sendemailcampaign1f3ba308": {}
+      },
+      "api": {
+        "sendemailcampaign": {}
       }
     }
   }

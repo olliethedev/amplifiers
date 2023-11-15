@@ -9,7 +9,7 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 import { SendEmailCampaignDirectiveArgs } from './directive-type';
 
-const LogicalName = "SendEmailCampaignTransformer"
+const LogicalName = "SendEmailTransformer"
 
 export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role: IRole, parameterMap: Map<string, string>, fieldMappings: { [sourceArn: string]: SendEmailCampaignDirectiveArgs }) => {
     // create lambda
@@ -37,7 +37,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
         stack,
     );
 
-    console.log("lambdaFunc", "setup");
+    console.log("lambdaFunc", "setup!");
 
     // apiGraphql.grantMutation(lambdaFunc);
     // apiGraphql.grantQuery(lambdaFunc);
@@ -59,6 +59,8 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
         }),
     );
 
+    console.log("lambdaFunc", "attached policy!");
+
     role.attachInlinePolicy(
         new Policy(stack, `${ LogicalName }SESAccess`, {
             statements: [
@@ -79,6 +81,8 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
         }),
     );
 
+    console.log("lambdaFunc", "attached policy!");
+
     role.attachInlinePolicy(
         new Policy(stack, `${ LogicalName }AppSyncAccess`, {
             statements: [
@@ -97,21 +101,23 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
         }),
     );
 
+    console.log("lambdaFunc", "attached policy!");
+
     return lambdaFunc;
 };
 
-export const createEventSourceMapping = (
-    stack: Construct,
-    type: string,
-    target: IFunction,
-    tableStreamArn: string,
-): EventSourceMapping => {
-    return new EventSourceMapping(stack, `SendEmailCampaign${ type }LambdaMapping`, {
-        eventSourceArn: tableStreamArn,
-        target,
-        batchSize: 100,
-        maxBatchingWindow: Duration.seconds(1),
-        enabled: true,
-        startingPosition: StartingPosition.LATEST,
-    });
-};
+// export const createEventSourceMapping = (
+//     stack: Construct,
+//     type: string,
+//     target: IFunction,
+//     tableStreamArn: string,
+// ): EventSourceMapping => {
+//     return new EventSourceMapping(stack, `SendEmailCampaign${ type }LambdaMapping`, {
+//         eventSourceArn: tableStreamArn,
+//         target,
+//         batchSize: 100,
+//         maxBatchingWindow: Duration.seconds(1),
+//         enabled: true,
+//         startingPosition: StartingPosition.LATEST,
+//     });
+// };

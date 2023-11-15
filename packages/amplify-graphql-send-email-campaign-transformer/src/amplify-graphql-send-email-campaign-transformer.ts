@@ -1,166 +1,227 @@
-import {
-    DirectiveWrapper,
-    InvalidDirectiveError,
-    TransformerPluginBase,
-} from '@aws-amplify/graphql-transformer-core';
-import {
-    TransformerContextProvider,
-    TransformerSchemaVisitStepContextProvider,
-    TransformerTransformSchemaStepContextProvider,
-  } from '@aws-amplify/graphql-transformer-interfaces';
-import { ModelResourceIDs, ResourceConstants } from "graphql-transformer-common";
-import { DirectiveNode, ObjectTypeDefinitionNode } from 'graphql';
-import { createEventSourceMapping, createLambda } from './create-send-email-campaign-lambda';
-import { 
-    DynamoDbDataSource, 
-    LambdaDataSource, 
-    CfnResolver, 
-    CfnDataSource 
-  } from 'aws-cdk-lib/aws-appsync';
-  import { IConstruct } from 'constructs';
-import { Table } from 'aws-cdk-lib/aws-dynamodb';
-import { IFunction } from 'aws-cdk-lib/aws-lambda';
+import { DirectiveWrapper, generateGetArgumentsInput, MappingTemplate, TransformerPluginBase } from '@aws-amplify/graphql-transformer-core';
+import { TransformerContextProvider, TransformerSchemaVisitStepContextProvider } from '@aws-amplify/graphql-transformer-interfaces';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { AuthorizationType } from 'aws-cdk-lib/aws-appsync';
+import * as cdk from 'aws-cdk-lib';
 import { IRole, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
-import { SendEmailCampaignDirectiveArgs } from './directive-type';
-import { CfnOutput, CfnParameter, Fn, Stack } from 'aws-cdk-lib';
+import { obj, str, ref, printBlock, compoundExpression, qref, raw, iff, Expression } from 'graphql-mapping-template';
+import { FunctionResourceIDs, ResolverResourceIDs, ResourceConstants } from 'graphql-transformer-common';
+import { DirectiveNode, ObjectTypeDefinitionNode, InterfaceTypeDefinitionNode, FieldDefinitionNode } from 'graphql';
+import { createLambda } from './create-send-email-campaign-lambda';
+import { CfnRole } from 'aws-cdk-lib/aws-iam';
 
+type FunctionDirectiveConfiguration = {
+  senderEmail: string;
+  resolverTypeName: string;
+  resolverFieldName: string;
+};
 
-const STACK_NAME = 'SendEmailCampaignTransformer';
-
-const directiveName = "sendEmailCampaign";
-
-
-
-interface DirectiveObjectTypeDefinition {
-    node: ObjectTypeDefinitionNode;
-    fieldName: string;
-    fieldParams: SendEmailCampaignDirectiveArgs;
-}
+const SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK = 'SendEmailTransformer';
+const directiveDefinition = /* GraphQL */ `
+  directive @sendEmailCampaign(senderEmail: String!) repeatable on FIELD_DEFINITION
+`;
 
 export class Transformer extends TransformerPluginBase {
-    directiveObjectTypeDefinitions: DirectiveObjectTypeDefinition[];
+  private resolverGroups: Map<FieldDefinitionNode, FunctionDirectiveConfiguration[]> = new Map();
 
-    constructor() {
-        super(
-            'amplify-graphql-send-email-transformer',
-        /* GraphQL */ `
-          directive @${ directiveName }(template:Template, trigger:String="INSERT") on OBJECT
-          input Template {
-            subject: String!
-            bodyText: String!
-            bodyHtml: String!
-            sender: String!
-            recipient: String!
-          }
-        `,
-        );
+  constructor(private readonly functionNameMap?: Record<string, lambda.IFunction>) {
+    super('amplify-send-email-campaign-transformer', directiveDefinition);
+  }
 
-        this.directiveObjectTypeDefinitions = [];
-    }
-
-    object = (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerSchemaVisitStepContextProvider): void => {
-
-        validateModelDirective(definition);
-        const directiveArguments = getDirectiveArguments(directive);
-        validateDirectiveArguments(directiveArguments, definition);
-
-        this.directiveObjectTypeDefinitions.push({
-            node: definition,
-            fieldName: definition.name.value,
-            fieldParams: directiveArguments,
-        });
-    };
-
-    generateResolvers = (context: TransformerContextProvider): void => {
-        const stack = context.stackManager.createStack(STACK_NAME);
-        
-        const parameterMap = 
-        new Map<string, string>([[
-            "GRAPHQL_URL",
-            getGraphQlApiUrl(context)
-        ]]);
-
-        // lambda role
-        const role = new Role(stack, `${ STACK_NAME }LambdaRole`, {
-            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-        });
-
-        // create lambda inputs
-        const fieldMappings = this.directiveObjectTypeDefinitions.reduce((acc, def) => {
-            const table = getTable(context, def.node);
-            const ddbTable = table as Table;
-            acc[ddbTable.tableArn] = def.fieldParams;
-            return acc;
-        }, {} as { [key: string]: SendEmailCampaignDirectiveArgs });
-
-        // create lambda function
-        const lambda = createLambda(
-            stack, context.api, role, parameterMap, fieldMappings
-        );
-
-        // // creates event source mapping for each table
-        createSourceMappings(this.directiveObjectTypeDefinitions, context, lambda);
-    };
-}
-
-const getDirectiveArguments = (directive: DirectiveNode): SendEmailCampaignDirectiveArgs => {
+  field = (
+    parent: ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode,
+    definition: FieldDefinitionNode,
+    directive: DirectiveNode,
+    acc: TransformerSchemaVisitStepContextProvider,
+  ): void => {
     const directiveWrapped = new DirectiveWrapper(directive);
-    return directiveWrapped.getArguments({
-        trigger: "INSERT",
-        template: {
-            subject: "",
-            bodyText: "",
-            bodyHtml: "",
-            sender: "",
-            recipient: "",
-        },
-    }) as (SendEmailCampaignDirectiveArgs);
-}
-
-const validateModelDirective = (object: ObjectTypeDefinitionNode): void => {
-    const modelDirective = object.directives!.find(
-        (dir) => dir.name.value === "model"
+    const args = directiveWrapped.getArguments(
+      {
+        resolverTypeName: parent.name.value,
+        resolverFieldName: definition.name.value,
+      } as FunctionDirectiveConfiguration,
+      generateGetArgumentsInput(acc.transformParameters),
     );
-    if (!modelDirective) {
-        throw new InvalidDirectiveError(
-            `Types annotated with @${ directiveName } must also be annotated with @model.`
-        );
+    let resolver = this.resolverGroups.get(definition);
+
+    if (resolver === undefined) {
+      resolver = [];
+      this.resolverGroups.set(definition, resolver);
     }
-}
 
-const validateDirectiveArguments = (directiveArguments: SendEmailCampaignDirectiveArgs, object: ObjectTypeDefinitionNode): void => {
-    // const isTriggerValid = ["INSERT", "MODIFY", "REMOVE"].includes(directiveArguments.trigger);
-    // if (!isTriggerValid) {
-    //     throw new InvalidDirectiveError(
-    //         `Types annotated with @${ directiveName } only supports "INSERT", "MODIFY", "REMOVE" as triggers.`
-    //     );
-    // }
-}
-
-const createSourceMappings = (typeDefinitions: DirectiveObjectTypeDefinition[], context: TransformerContextProvider, lambda: IFunction): void => {
-    const stack = context.stackManager.getStack(STACK_NAME);
-    for (const def of typeDefinitions) {
-        const type = def.node.name.value;
-        const indexName = context.resourceHelper.getModelNameMapping(type);
-        const table = getTable(context, def.node);
-        const ddbTable = table as Table;
-
-        ddbTable.grantStreamRead(lambda.role as IRole);
-
-        createEventSourceMapping(stack, indexName, lambda, ddbTable.tableStreamArn as string);
-    }
-}
-
-const getTable = (context: TransformerContextProvider, definition: ObjectTypeDefinitionNode): IConstruct => {
-    const ddbDataSource = context.dataSources.get(definition) as DynamoDbDataSource;
-    const tableName = ModelResourceIDs.ModelTableResourceID(definition.name.value);
-    const table = ddbDataSource.ds.stack.node.findChild(tableName);
-    return table;
+    resolver.push(args);
   };
 
-  const getGraphQlApiUrl = (context: TransformerContextProvider): string => {
-    const stack = context.stackManager.getStackFor(context.api.name);
+  generateResolvers = (context: TransformerContextProvider): void => {
+    if (this.resolverGroups.size === 0) {
+      return;
+    }
 
-    const output = stack.node.findChild("GraphQLAPIEndpointOutput");
-    return (output as CfnOutput).value;
+    const stack: cdk.Stack = context.stackManager.createStack(SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK);
+    const createdResources = new Map<string, any>();
+    const env = context.synthParameters.amplifyEnvironmentName;
+
+    stack.templateOptions.templateFormatVersion = '2010-09-09';
+    stack.templateOptions.description = 'An auto-generated nested stack for the @function directive.';
+
+    new cdk.CfnCondition(stack, ResourceConstants.CONDITIONS.HasEnvironmentParameter, {
+      expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(env, ResourceConstants.NONE)),
+    });
+
+    // lambda role
+    const role = new Role(stack, `${ SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK }LambdaRole`, {
+        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+    });
+
+    // create lambda inputs
+    // const fieldMappings = this.directiveObjectTypeDefinitions.reduce((acc, def) => {
+    //     const table = getTable(context, def.node);
+    //     const ddbTable = table as Table;
+    //     acc[ddbTable.tableArn] = def.fieldParams;
+    //     return acc;
+    // }, {} as { [key: string]: DirectiveArgs });
+    const fieldMappings = {};
+    const parameterMap = new Map<string, string>();
+
+    // create lambda function
+    const lambda = createLambda(
+        stack, context.api, role, parameterMap, fieldMappings,
+    );
+
+    console.log("got lambda ");
+
+    this.resolverGroups.forEach((resolverFns) => {
+        console.log("resolverFns");
+      resolverFns.forEach((config) => {
+        console.log("config");
+        // Create data sources that register Lambdas and IAM roles.
+        const dataSourceId = FunctionResourceIDs.FunctionDataSourceID(lambda.functionName);
+        console.log("config1");
+        if (!createdResources.has(dataSourceId)) {
+            console.log("config2");
+          const referencedFunction: lambda.IFunction = lambda;
+          const dataSourceScope = context.stackManager.getScopeFor(dataSourceId, SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK);
+          const dataSource = context.api.host.addLambdaDataSource(dataSourceId, referencedFunction, {}, dataSourceScope);
+          createdResources.set(dataSourceId, dataSource);
+          console.log("config3");
+        }
+
+        // Create AppSync functions.
+        const functionId = FunctionResourceIDs.FunctionAppSyncFunctionConfigurationID(lambda.functionName);
+        let func = createdResources.get(functionId);
+        console.log("config4");
+
+        if (func === undefined) {
+            console.log("config5");
+          const funcScope = context.stackManager.getScopeFor(functionId, SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK);
+          console.log("config6");
+          func = context.api.host.addAppSyncFunction(
+            functionId,
+            MappingTemplate.s3MappingTemplateFromString(
+              printBlock(`Invoke AWS Lambda data source: ${dataSourceId}`)(
+                obj({
+                  version: str('2018-05-29'),
+                  operation: str('Invoke'),
+                  payload: obj({
+                    typeName: ref('util.toJson($ctx.stash.get("typeName"))'),
+                    fieldName: ref('util.toJson($ctx.stash.get("fieldName"))'),
+                    arguments: ref('util.toJson($ctx.arguments)'),
+                    identity: ref('util.toJson($ctx.identity)'),
+                    source: ref('util.toJson($ctx.source)'),
+                    request: ref('util.toJson($ctx.request)'),
+                    prev: ref('util.toJson($ctx.prev)'),
+                  }),
+                }),
+              ),
+              `${functionId}.req.vtl`,
+            ),
+            MappingTemplate.s3MappingTemplateFromString(
+              printBlock('Handle error or return result')(
+                compoundExpression([
+                  iff(ref('ctx.error'), raw('$util.error($ctx.error.message, $ctx.error.type)')),
+                  raw('$util.toJson($ctx.result)'),
+                ]),
+              ),
+              `${functionId}.res.vtl`,
+            ),
+            dataSourceId,
+            funcScope,
+          );
+          console.log("config7");
+
+          createdResources.set(functionId, func);
+          console.log("config8");
+        }
+
+        // Create the GraphQL resolvers.
+        const resolverId = ResolverResourceIDs.ResolverResourceID(config.resolverTypeName, config.resolverFieldName);
+        let resolver = createdResources.get(resolverId);
+
+        console.log("config9");
+
+        const requestTemplate: Array<Expression> = [
+          qref(`$ctx.stash.put("typeName", "${config.resolverTypeName}")`),
+          qref(`$ctx.stash.put("fieldName", "${config.resolverFieldName}")`),
+        ];
+        console.log("config10");
+        const authModes = [context.authConfig.defaultAuthentication, ...(context.authConfig.additionalAuthenticationProviders || [])].map(
+          (mode) => mode?.authenticationType,
+        );
+        console.log("config11");
+        if (authModes.includes(AuthorizationType.IAM)) {
+            console.log("config12");
+          const authRole = context.synthParameters.authenticatedUserRoleName;
+          const unauthRole = context.synthParameters.unauthenticatedUserRoleName;
+          const account = cdk.Stack.of(context.stackManager.scope).account;
+          requestTemplate.push(
+            qref(`$ctx.stash.put("authRole", "arn:aws:sts::${account}:assumed-role/${authRole}/CognitoIdentityCredentials")`),
+            qref(`$ctx.stash.put("unauthRole", "arn:aws:sts::${account}:assumed-role/${unauthRole}/CognitoIdentityCredentials")`),
+          );
+          console.log("config13");
+        }
+        requestTemplate.push(obj({}));
+
+        if (resolver === undefined) {
+            console.log("config14");
+          // TODO: update function to use resolver manager.
+          const resolverScope = context.stackManager.getScopeFor(resolverId, SEND_EMAIL_CAMPAIGN_DIRECTIVE_STACK);
+          resolver = context.api.host.addResolver(
+            config.resolverTypeName,
+            config.resolverFieldName,
+            MappingTemplate.inlineTemplateFromString(printBlock('Stash resolver specific context.')(compoundExpression(requestTemplate))),
+            MappingTemplate.s3MappingTemplateFromString(
+              '$util.toJson($ctx.prev.result)',
+              `${config.resolverTypeName}.${config.resolverFieldName}.res.vtl`,
+            ),
+            resolverId,
+            undefined,
+            [],
+            resolverScope,
+          );
+          createdResources.set(resolverId, resolver);
+          console.log("config15");
+        }
+
+        resolver.pipelineConfig.functions.push(func.functionId);
+      });
+    });
+  };
+}
+
+const lambdaArnResource = (env: string, name: string, region?: string, accountId?: string): string => {
+  const substitutions: { [key: string]: string } = {};
+  // eslint-disable-next-line no-template-curly-in-string
+  if (name.includes('${env}')) {
+    substitutions.env = env;
+  }
+  return cdk.Fn.conditionIf(
+    ResourceConstants.CONDITIONS.HasEnvironmentParameter,
+    cdk.Fn.sub(lambdaArnKey(name, region, accountId), substitutions),
+    cdk.Fn.sub(lambdaArnKey(name.replace(/(-\${env})/, ''), region, accountId)),
+  ).toString();
+};
+
+const lambdaArnKey = (name: string, region?: string, accountId?: string): string => {
+  // eslint-disable-next-line no-template-curly-in-string
+  return `arn:aws:lambda:${region ? region : '${AWS::Region}'}:${accountId ? accountId : '${AWS::AccountId}'}:function:${name}`;
 };

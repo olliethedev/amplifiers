@@ -1,6 +1,5 @@
 type EmailCampaign 
   @model 
-  @sendEmailCampaign 
   @auth(
       rules: [
         { allow: groups, groups: ["Admins"] }
@@ -12,7 +11,7 @@ type EmailCampaign
     name: String!
     emailSubject: String!
     emailContent: String!
-    emailSender: String
+    emailSender: String!
     emailLists: [String!]!
 }
 
@@ -40,6 +39,10 @@ type EmailRecipient
     ) {
     email: AWSEmail! @primaryKey
     emailLists: [EmailList!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+}
+
+type Mutation {
+  sendEmailCampaign( emails: [String!]! ): Boolean! @sendEmailCampaign(senderEmail: "no-reply@amplifyui.com")
 }
 
 
