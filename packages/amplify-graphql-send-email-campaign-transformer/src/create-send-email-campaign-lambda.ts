@@ -9,9 +9,8 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 import { SendEmailCampaignDirectiveArgs } from './directive-type';
 
-const LogicalName = "SendEmailTransformer"
 
-export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role: IRole, parameterMap: Map<string, string>, fieldMappings: { [sourceArn: string]: SendEmailCampaignDirectiveArgs }) => {
+export const createLambda = (lambdaName: string, stack: Stack, apiGraphql: GraphQLAPIProvider, role: IRole, parameterMap: Map<string, string>, fieldMappings: { [sourceArn: string]: SendEmailCampaignDirectiveArgs }) => {
     // create lambda
 
     const envVars = {
@@ -23,7 +22,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
     console.log("envVars", envVars);
 
 
-    const funcLogicalId = `${ LogicalName }LambdaFunction`;
+    const funcLogicalId = `lambdaName`;
     const lambdaFunc = apiGraphql.host.addLambdaFunction(
         funcLogicalId, // function name
         `functions/${ funcLogicalId }.zip`, // function key
@@ -44,7 +43,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
     // apiGraphql.grantSubscription(lambdaFunc);
 
     role.attachInlinePolicy(
-        new Policy(stack, `${ LogicalName }CloudWatchLogAccess`, {
+        new Policy(stack, `${ lambdaName }CloudWatchLogAccess`, {
             statements: [
                 new PolicyStatement({
                     actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'],
@@ -62,7 +61,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
     console.log("lambdaFunc", "attached policy!");
 
     role.attachInlinePolicy(
-        new Policy(stack, `${ LogicalName }SESAccess`, {
+        new Policy(stack, `${ lambdaName }SESAccess`, {
             statements: [
                 new PolicyStatement({
                     actions: [
@@ -72,9 +71,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
                     ],
                     effect: Effect.ALLOW,
                     resources: [
-                        Fn.sub(`arn:aws:ses:\${AWS::Region}:\${AWS::AccountId}:identity/*`, {
-                            funcName: lambdaFunc.functionName,
-                        }),
+                        Fn.sub(`arn:aws:ses:\${AWS::Region}:\${AWS::AccountId}:identity/*`),
                     ],
                 }),
             ],
@@ -84,7 +81,7 @@ export const createLambda = (stack: Stack, apiGraphql: GraphQLAPIProvider, role:
     console.log("lambdaFunc", "attached policy!");
 
     role.attachInlinePolicy(
-        new Policy(stack, `${ LogicalName }AppSyncAccess`, {
+        new Policy(stack, `${ lambdaName }AppSyncAccess`, {
             statements: [
                 new PolicyStatement({
                     actions: [

@@ -14,23 +14,20 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@aws-amplify/graphql-model-transformer": "2.2.4",
-    "@aws-amplify/graphql-transformer-core": "1.4.0",
-    "@aws-amplify/graphql-transformer-interfaces": "3.3.0",
+    "@aws-amplify/amplify-cli-core": "4.0.4",
+    "@aws-amplify/graphql-transformer-core": "1.3.2",
+    "@aws-amplify/graphql-transformer-interfaces": "2.2.1",
+    "aws-cdk-lib": "~2.68.0",
+    "constructs": "^10.0.5",
     "graphql": "^15.5.0",
-    "graphql-mapping-template": "4.20.12",
-    "graphql-transformer-common": "4.26.0"
-  },
-  "peerDependencies": {
-    "aws-cdk-lib": "^2.80.0"
+    "graphql-mapping-template": "4.20.8",
+    "graphql-transformer-common": "4.24.6"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
     "@types/node": "^12.12.6",
-    "aws-cdk-lib": "^2.80.0",
     "aws-sdk": "^2.1090.0",
     "bestzip": "^2.1.5",
-    "constructs": "^10.0.5",
     "mkdirp": "^0.5.5"
   },
   "scripts": {

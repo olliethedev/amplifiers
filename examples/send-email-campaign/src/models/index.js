@@ -4,11 +4,8 @@ import { schema } from './schema';
 
 
 
-const { EmailCampaign, EmailList, EmailRecipient, EmailRecipientsEmailLists } = initSchema(schema);
+const { Todo } = initSchema(schema);
 
 export {
-  EmailCampaign,
-  EmailList,
-  EmailRecipient,
-  EmailRecipientsEmailLists
+  Todo
 };

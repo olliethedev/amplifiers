@@ -1,3 +1,3 @@
-import { Transformer } from "./amplify-graphql-send-email-campaign-transformer";
+import { FunctionTransformer } from "./amplify-graphql-send-email-campaign-transformer";
 
-export default Transformer;
+export default FunctionTransformer;

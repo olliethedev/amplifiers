@@ -4,6 +4,6 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as EmailCampaignCreateForm } from "./EmailCampaignCreateForm";
-export { default as EmailCampaignUpdateForm } from "./EmailCampaignUpdateForm";
+export { default as TodoCreateForm } from "./TodoCreateForm";
+export { default as TodoUpdateForm } from "./TodoUpdateForm";
 export { default as studioTheme } from "./studioTheme";
