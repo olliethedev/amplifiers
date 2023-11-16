@@ -38,6 +38,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "draft": {
+                    "name": "draft",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "emailLists": {
                     "name": "emailLists",
                     "isArray": true,
@@ -479,5 +486,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "670455be7d9888d129caae5d8e6e7c72"
+    "version": "d69a95649f3cb2413b3ea9d40b921612"
 };

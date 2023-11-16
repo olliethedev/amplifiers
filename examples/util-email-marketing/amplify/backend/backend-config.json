@@ -63,5 +63,23 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_emailmarketinglambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailmarketinglambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailmarketinglambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailmarketinglambda"
+        }
+      ]
+    }
   }
 }

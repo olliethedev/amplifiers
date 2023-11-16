@@ -19,7 +19,10 @@
         "utilemaild400724b": {}
       },
       "function": {
-        "emailmarketinglambda": {}
+        "emailmarketinglambda": {
+          "deploymentBucketName": "amplify-utilemail-dev-171531-deployment",
+          "s3Key": "amplify-builds/emailmarketinglambda-334e69655844344f4468-build.zip"
+        }
       }
     }
   }

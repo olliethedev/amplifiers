@@ -1,0 +1,4 @@
+.navBar{
+    box-shadow: var(--amplify-shadows-large);
+    z-index: 100;
+}

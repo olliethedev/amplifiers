@@ -10,6 +10,7 @@ type EmailCampaign
     emailSubject: String!
     emailContent: String!
     emailSender: String!
+    draft: Boolean!
     emailLists: [EmailList!] @manyToMany(relationName: "EmailListsEmailCampaigns")
 }
 
@@ -37,7 +38,7 @@ type EmailRecipient
 }
 
 type Mutation {
-  sendEmails( sender: String!, recipients: [String!]!, subject: String!, content: String! ): String 
-  @function(name: "emailmarketinglambda")
+  sendEmails( sender: String!, recipients: [String!]!, subject: String!, body: String!, bodyText: String! ): String 
+  @function(name: "emailmarketinglambda-${env}")
   @auth(rules: [{ allow: groups, groups: ["Admins"] }])
 }

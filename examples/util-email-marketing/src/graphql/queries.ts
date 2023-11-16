@@ -15,6 +15,7 @@ export const getEmailCampaign = /* GraphQL */ `query GetEmailCampaign($id: ID!) 
     emailSubject
     emailContent
     emailSender
+    draft
     emailLists {
       nextToken
       startedAt
@@ -44,6 +45,7 @@ export const listEmailCampaigns = /* GraphQL */ `query ListEmailCampaigns(
       emailSubject
       emailContent
       emailSender
+      draft
       createdAt
       updatedAt
       _version
@@ -78,6 +80,7 @@ export const syncEmailCampaigns = /* GraphQL */ `query SyncEmailCampaigns(
       emailSubject
       emailContent
       emailSender
+      draft
       createdAt
       updatedAt
       _version
@@ -274,6 +277,7 @@ export const getEmailListsEmailCampaigns = /* GraphQL */ `query GetEmailListsEma
       emailSubject
       emailContent
       emailSender
+      draft
       createdAt
       updatedAt
       _version

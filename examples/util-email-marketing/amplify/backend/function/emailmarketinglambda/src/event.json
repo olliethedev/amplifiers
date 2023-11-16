@@ -1,5 +1,14 @@
 {
-  "key1": "value1",
-  "key2": "value2",
-  "key3": "value3"
+  "typeName": "Mutation",
+  "fieldName": "sendEmails",
+  "arguments": {
+      "sender": "sender@email.com",
+      "recipients": [
+          "email1@email.com",
+          "email2@email.com"
+      ],
+      "subject": "Email Subject",
+      "body": "Body of the email in HTML format",
+      "bodyText": "Body of the email in text format"
+  }
 }
