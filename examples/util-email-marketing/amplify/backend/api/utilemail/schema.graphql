@@ -10,7 +10,6 @@ type EmailCampaign
     emailSubject: String!
     emailContent: String!
     emailSender: String!
-    draft: Boolean!
     emailLists: [EmailList!] @manyToMany(relationName: "EmailListsEmailCampaigns")
 }
 
@@ -23,8 +22,23 @@ type EmailList
     ) {
     name: ID! @primaryKey
     emailCampaigns: [EmailCampaign!] @manyToMany(relationName: "EmailListsEmailCampaigns")
-    emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
+    emailRecipientsEmailLists: [EmailRecipientsEmailLists!] @hasMany
 }
+
+type EmailRecipientsEmailLists
+  @model
+  @auth(
+      rules: [
+        { allow: groups, groups: ["Admins"] }
+        { allow: private,}
+      ]
+    ) {
+    id: ID!
+    emailRecipientEmail: String!
+    emailListName: String!
+    emailRecipient: EmailRecipient! @belongsTo(fields: ["emailRecipientEmail"])
+    emailList: EmailList! @belongsTo(fields: ["emailListName"])
+    }
 
 type EmailRecipient 
   @model 
@@ -39,6 +53,6 @@ type EmailRecipient
 
 type Mutation {
   sendEmails( sender: String!, recipients: [String!]!, subject: String!, body: String!, bodyText: String! ): String 
-  @function(name: "emailmarketinglambda-${env}")
-  @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+    @function(name: "emailmarketinglambda-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admins"] }])
 }
