@@ -242,6 +242,7 @@ primos.
     layout: emailEditorLayout,
     content: emailContent,
     setContent: setEmailContent,
+    content: htmlContent,
     errors: emailEditorErrors,
     runAllValidationTasks: runEmailEditorValidationTasks,
   } = useEmailEditor(initialValues.emailContent);

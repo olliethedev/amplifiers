@@ -24,6 +24,7 @@ export const useEmailEditor = (initialContent: string) => {
     logoLinkUrl: [{ type: "Required" }],
     unsubscribeUrl: [{ type: "Required" }],
     address: [{ type: "Required" }],
+    emailBodyContent: [{ type: "Required" }],
   };
 
   const runValidationTasks = async (

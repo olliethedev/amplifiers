@@ -39,7 +39,7 @@ interface EmailEditorProps {
   ) => Promise<ValidationError>;
 }
 
-export type ValidationField = 'emailPreviewText' | 'logoUrl' | 'logoLinkUrl' | 'unsubscribeUrl' | 'address';
+export type ValidationField = 'emailPreviewText' | 'logoUrl' | 'logoLinkUrl' | 'unsubscribeUrl' | 'address' | 'emailBodyContent';
 
 export interface ValidationError {
   hasError: boolean;
@@ -52,6 +52,7 @@ export interface ValidationErrors {
   logoLinkUrl?: ValidationError;
   unsubscribeUrl?: ValidationError;
   address?: ValidationError;
+  emailBodyContent?: ValidationError;
   // Add other fields as needed
 }
 
@@ -151,6 +152,21 @@ export const EmailEditor = ({
           onBlur={() => runValidationTasks("logoLinkUrl", logoLinkUrl)}
           errorMessage={errors.logoLinkUrl?.errorMessage}
           hasError={errors.logoLinkUrl?.hasError}
+        />
+        <TextAreaField
+          label="Email Body Content"
+          rows={15}
+          onChange={(e) => {
+            let {value} = e.target;
+            setContent(value);
+            if (errors.emailBodyContent?.hasError) {
+              runValidationTasks("emailBodyContent", value);
+            }
+          }}
+          value={content}
+          onBlur={() => runValidationTasks("emailBodyContent", content)}
+          errorMessage={errors.emailBodyContent?.errorMessage}
+          hasError={errors.emailBodyContent?.hasError}
         />
         <TextField
           label="Unsubscribe URL"
