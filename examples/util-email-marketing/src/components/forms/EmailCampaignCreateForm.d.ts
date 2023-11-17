@@ -54,6 +54,7 @@ export declare type EmailCampaignCreateFormProps = React.PropsWithChildren<{
     clearOnSuccess?: boolean;
     onSubmit?: (fields: EmailCampaignCreateFormInputValues) => EmailCampaignCreateFormInputValues;
     onSuccess?: (fields: EmailCampaignCreateFormInputValues) => void;
+    onTest?: (fields: EmailCampaignCreateFormInputValues) => void;
     onError?: (fields: EmailCampaignCreateFormInputValues, errorMessage: string) => void;
     onChange?: (fields: EmailCampaignCreateFormInputValues) => EmailCampaignCreateFormInputValues;
     onValidate?: EmailCampaignCreateFormValidationValues;

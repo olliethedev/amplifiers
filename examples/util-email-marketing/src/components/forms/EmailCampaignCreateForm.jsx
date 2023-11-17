@@ -195,6 +195,7 @@ export default function EmailCampaignCreateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onTest,
     onValidate,
     onChange,
     overrides,
@@ -308,8 +309,81 @@ primos.
     if (customValidator) {
       validationResponse = await customValidator(value, validationResponse);
     }
-    setErrors((errors) => ({ ...errors, [fieldName]: validationResponse, ...emailEditorErrors }));
+    setErrors((errors) => ({
+      ...errors,
+      [fieldName]: validationResponse,
+      ...emailEditorErrors,
+    }));
     return validationResponse;
+  };
+
+  const handleValidation = async () => {
+    let modelFields = {
+      name,
+      emailSubject,
+      emailContent,
+      emailSender,
+      draft,
+      emailLists,
+    };
+    const validationResponses = await Promise.all(
+      Object.keys(validations).reduce((promises, fieldName) => {
+        if (Array.isArray(modelFields[fieldName])) {
+          promises.push(
+            ...modelFields[fieldName].map((item) =>
+              runValidationTasks(fieldName, item, getDisplayValue[fieldName])
+            )
+          );
+          return promises;
+        }
+        promises.push(
+          runValidationTasks(
+            fieldName,
+            modelFields[fieldName],
+            getDisplayValue[fieldName]
+          )
+        );
+        return promises;
+      }, [])
+    );
+    const emailEditorValidationResponses =
+      await runEmailEditorValidationTasks();
+    console.log(validationResponses);
+    console.log(emailEditorValidationResponses);
+    if (
+      validationResponses.some((r) => r.hasError) ||
+      emailEditorValidationResponses.some((r) => r.hasError)
+    ) {
+      return;
+    }
+    if (onSubmit) {
+      modelFields = onSubmit(modelFields);
+    }
+    try {
+      Object.entries(modelFields).forEach(([key, value]) => {
+        if (typeof value === "string" && value === "") {
+          modelFields[key] = null;
+        }
+      });
+
+      modelFields.emailContent = htmlContent; // replaced with html content to include full template. since we passed runEmailEditorValidationTasks, we know it's valid
+
+      const modelFieldsToSave = {
+        name: modelFields.name,
+        emailSubject: modelFields.emailSubject,
+        emailContent: modelFields.emailContent,
+        emailSender: modelFields.emailSender,
+        draft: modelFields.draft,
+      };
+
+      console.log(modelFieldsToSave);
+
+      return {modelFieldsToSave, modelFields};
+    } catch (err) {
+      if (onError) {
+        onError(modelFields, err.message);
+      }
+    }
   };
   return (
     <Grid
@@ -319,60 +393,11 @@ primos.
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {
-          name,
-          emailSubject,
-          emailContent,
-          emailSender,
-          draft,
-          emailLists,
-        };
-        const validationResponses = await Promise.all(
-          Object.keys(validations).reduce((promises, fieldName) => {
-            if (Array.isArray(modelFields[fieldName])) {
-              promises.push(
-                ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(
-                    fieldName,
-                    item,
-                    getDisplayValue[fieldName]
-                  )
-                )
-              );
-              return promises;
-            }
-            promises.push(
-              runValidationTasks(
-                fieldName,
-                modelFields[fieldName],
-                getDisplayValue[fieldName]
-              )
-            );
-            return promises;
-          }, [])
-        );
-        const emailEditorValidationResponses = await runEmailEditorValidationTasks();
-        console.log(validationResponses);
-        console.log(emailEditorValidationResponses);
-        if (validationResponses.some((r) => r.hasError) || emailEditorValidationResponses.some((r) => r.hasError)) {
-          return;
-        }
-        if (onSubmit) {
-          modelFields = onSubmit(modelFields);
-        }
+
         try {
-          Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
-            }
-          });
-          const modelFieldsToSave = {
-            name: modelFields.name,
-            emailSubject: modelFields.emailSubject,
-            emailContent: modelFields.emailContent,
-            emailSender: modelFields.emailSender,
-            draft: modelFields.draft,
-          };
+          const {modelFieldsToSave, modelFields} = await handleValidation();
+
+          throw new Error("testing end");
           const emailCampaign = await DataStore.save(
             new EmailCampaign(modelFieldsToSave)
           );
@@ -653,6 +678,16 @@ primos.
           }}
           {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
+        <Button
+            children="Test"
+            type="test"
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            onClick={async (event) => {
+              event.preventDefault();
+              const { modelFields} = await handleValidation();
+              onTest && onTest(modelFields);
+            }}
+          ></Button>
         <Flex
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
@@ -661,7 +696,7 @@ primos.
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError) }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>
