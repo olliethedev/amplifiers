@@ -188,7 +188,7 @@
                 "ses:SendTemplatedEmail"
               ],
               "Resource": [
-                "arn:aws:ses:::*"
+                "arn:aws:ses:*:*:identity/*"
               ],
               "Effect": "Allow"
             }

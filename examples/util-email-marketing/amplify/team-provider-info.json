@@ -21,7 +21,7 @@
       "function": {
         "emailmarketinglambda": {
           "deploymentBucketName": "amplify-utilemail-dev-171531-deployment",
-          "s3Key": "amplify-builds/emailmarketinglambda-356d454e334654337679-build.zip"
+          "s3Key": "amplify-builds/emailmarketinglambda-4e597a7837346a7a5376-build.zip"
         }
       }
     }

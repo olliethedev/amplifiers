@@ -22,6 +22,8 @@ const handler = async (event) => {
 
   const { sender, recipients, subject, body, bodyText } = event.arguments;
 
+  let sendCount = 0;
+
   if (!sender || !recipients || !subject || !body || !bodyText) {
     return {
       statusCode: 400,
@@ -58,6 +60,8 @@ const handler = async (event) => {
       },
     };
 
+    sendCount += emails.length;
+
     try {
       const command = new SendEmailCommand(params);
       const response = await sesClient.send(command);
@@ -87,7 +91,7 @@ const handler = async (event) => {
     //      "Access-Control-Allow-Origin": "*",
     //      "Access-Control-Allow-Headers": "*"
     //  },
-    body: JSON.stringify(`${recipients.length} emails sent`),
+    body: JSON.stringify(`${sendCount.length} emails sent`),
   };
 };
 
