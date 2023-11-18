@@ -18,7 +18,6 @@ export const createEmailCampaign = /* GraphQL */ `mutation CreateEmailCampaign(
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -46,7 +45,6 @@ export const updateEmailCampaign = /* GraphQL */ `mutation UpdateEmailCampaign(
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -74,7 +72,6 @@ export const deleteEmailCampaign = /* GraphQL */ `mutation DeleteEmailCampaign(
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -259,7 +256,6 @@ export const createEmailListsEmailCampaigns = /* GraphQL */ `mutation CreateEmai
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version
@@ -302,7 +298,6 @@ export const updateEmailListsEmailCampaigns = /* GraphQL */ `mutation UpdateEmai
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version
@@ -345,7 +340,6 @@ export const deleteEmailListsEmailCampaigns = /* GraphQL */ `mutation DeleteEmai
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version

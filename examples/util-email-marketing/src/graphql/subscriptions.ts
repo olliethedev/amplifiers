@@ -17,7 +17,6 @@ export const onCreateEmailCampaign = /* GraphQL */ `subscription OnCreateEmailCa
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -44,7 +43,6 @@ export const onUpdateEmailCampaign = /* GraphQL */ `subscription OnUpdateEmailCa
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -71,7 +69,6 @@ export const onDeleteEmailCampaign = /* GraphQL */ `subscription OnDeleteEmailCa
     emailSubject
     emailContent
     emailSender
-    draft
     emailLists {
       nextToken
       startedAt
@@ -243,7 +240,6 @@ export const onCreateEmailListsEmailCampaigns = /* GraphQL */ `subscription OnCr
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version
@@ -285,7 +281,6 @@ export const onUpdateEmailListsEmailCampaigns = /* GraphQL */ `subscription OnUp
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version
@@ -327,7 +322,6 @@ export const onDeleteEmailListsEmailCampaigns = /* GraphQL */ `subscription OnDe
       emailSubject
       emailContent
       emailSender
-      draft
       createdAt
       updatedAt
       _version

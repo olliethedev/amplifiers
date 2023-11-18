@@ -243,7 +243,8 @@ primos.
     layout: emailEditorLayout,
     content: emailContent,
     setContent: setEmailContent,
-    content: htmlContent,
+    content: inputContent,
+    emailHtml,
     errors: emailEditorErrors,
     runAllValidationTasks: runEmailEditorValidationTasks,
   } = useEmailEditor(initialValues.emailContent);
@@ -366,7 +367,7 @@ primos.
         }
       });
 
-      modelFields.emailContent = htmlContent; // replaced with html content to include full template. since we passed runEmailEditorValidationTasks, we know it's valid
+      modelFields.emailContent = emailHtml; // replaced with html content to include full template. since we passed runEmailEditorValidationTasks, we know it's valid
 
       const modelFieldsToSave = {
         name: modelFields.name,

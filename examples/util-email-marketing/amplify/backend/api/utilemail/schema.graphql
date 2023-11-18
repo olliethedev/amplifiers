@@ -22,23 +22,8 @@ type EmailList
     ) {
     name: ID! @primaryKey
     emailCampaigns: [EmailCampaign!] @manyToMany(relationName: "EmailListsEmailCampaigns")
-    emailRecipientsEmailLists: [EmailRecipientsEmailLists!] @hasMany
+    emailRecipients: [EmailRecipient!] @manyToMany(relationName: "EmailRecipientsEmailLists")
 }
-
-type EmailRecipientsEmailLists
-  @model
-  @auth(
-      rules: [
-        { allow: groups, groups: ["Admins"] }
-        { allow: private,}
-      ]
-    ) {
-    id: ID!
-    emailRecipientEmail: String!
-    emailListName: String!
-    emailRecipient: EmailRecipient! @belongsTo(fields: ["emailRecipientEmail"])
-    emailList: EmailList! @belongsTo(fields: ["emailListName"])
-    }
 
 type EmailRecipient 
   @model 

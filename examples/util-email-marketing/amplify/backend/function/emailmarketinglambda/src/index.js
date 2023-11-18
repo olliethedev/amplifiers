@@ -10,7 +10,7 @@ const MAX_SES_BATCH_SIZE = 50;
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-exports.handler = async (event) => {
+const handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
   if (!event || !event.arguments) {
@@ -90,3 +90,5 @@ exports.handler = async (event) => {
     body: JSON.stringify(`${recipients.length} emails sent`),
   };
 };
+
+export { handler };

@@ -96,5 +96,7 @@ export const useEmailEditor = (initialContent: string) => {
     />
   );
 
-  return { layout, content, setContent, errors, runAllValidationTasks };
+  console.log("useEmailEditor", { layout, content, emailHtml, errors });
+
+  return { layout, content, emailHtml, setContent, errors, runAllValidationTasks };
 };

@@ -8,7 +8,6 @@ export type CreateEmailCampaignInput = {
   emailSubject: string,
   emailContent: string,
   emailSender: string,
-  draft: boolean,
   _version?: number | null,
 };
 
@@ -17,7 +16,6 @@ export type ModelEmailCampaignConditionInput = {
   emailSubject?: ModelStringInput | null,
   emailContent?: ModelStringInput | null,
   emailSender?: ModelStringInput | null,
-  draft?: ModelBooleanInput | null,
   and?: Array< ModelEmailCampaignConditionInput | null > | null,
   or?: Array< ModelEmailCampaignConditionInput | null > | null,
   not?: ModelEmailCampaignConditionInput | null,
@@ -78,7 +76,6 @@ export type EmailCampaign = {
   emailSubject: string,
   emailContent: string,
   emailSender: string,
-  draft: boolean,
   emailLists?: ModelEmailListsEmailCampaignsConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -158,7 +155,6 @@ export type UpdateEmailCampaignInput = {
   emailSubject?: string | null,
   emailContent?: string | null,
   emailSender?: string | null,
-  draft?: boolean | null,
   _version?: number | null,
 };
 
@@ -289,7 +285,6 @@ export type ModelEmailCampaignFilterInput = {
   emailSubject?: ModelStringInput | null,
   emailContent?: ModelStringInput | null,
   emailSender?: ModelStringInput | null,
-  draft?: ModelBooleanInput | null,
   and?: Array< ModelEmailCampaignFilterInput | null > | null,
   or?: Array< ModelEmailCampaignFilterInput | null > | null,
   not?: ModelEmailCampaignFilterInput | null,
@@ -365,7 +360,6 @@ export type ModelSubscriptionEmailCampaignFilterInput = {
   emailSubject?: ModelSubscriptionStringInput | null,
   emailContent?: ModelSubscriptionStringInput | null,
   emailSender?: ModelSubscriptionStringInput | null,
-  draft?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionEmailCampaignFilterInput | null > | null,
   or?: Array< ModelSubscriptionEmailCampaignFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
@@ -399,11 +393,6 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
-};
-
-export type ModelSubscriptionBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
 };
 
 export type ModelSubscriptionEmailListFilterInput = {
@@ -451,7 +440,6 @@ export type CreateEmailCampaignMutation = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -478,7 +466,6 @@ export type UpdateEmailCampaignMutation = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -505,7 +492,6 @@ export type DeleteEmailCampaignMutation = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -684,7 +670,6 @@ export type CreateEmailListsEmailCampaignsMutation = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -726,7 +711,6 @@ export type UpdateEmailListsEmailCampaignsMutation = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -768,7 +752,6 @@ export type DeleteEmailListsEmailCampaignsMutation = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -927,7 +910,6 @@ export type GetEmailCampaignQuery = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -957,7 +939,6 @@ export type ListEmailCampaignsQuery = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -986,7 +967,6 @@ export type SyncEmailCampaignsQuery = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1160,7 +1140,6 @@ export type GetEmailListsEmailCampaignsQuery = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1442,7 +1421,6 @@ export type OnCreateEmailCampaignSubscription = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -1468,7 +1446,6 @@ export type OnUpdateEmailCampaignSubscription = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -1494,7 +1471,6 @@ export type OnDeleteEmailCampaignSubscription = {
     emailSubject: string,
     emailContent: string,
     emailSender: string,
-    draft: boolean,
     emailLists?:  {
       __typename: "ModelEmailListsEmailCampaignsConnection",
       nextToken?: string | null,
@@ -1666,7 +1642,6 @@ export type OnCreateEmailListsEmailCampaignsSubscription = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1707,7 +1682,6 @@ export type OnUpdateEmailListsEmailCampaignsSubscription = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1748,7 +1722,6 @@ export type OnDeleteEmailListsEmailCampaignsSubscription = {
       emailSubject: string,
       emailContent: string,
       emailSender: string,
-      draft: boolean,
       createdAt: string,
       updatedAt: string,
       _version: number,

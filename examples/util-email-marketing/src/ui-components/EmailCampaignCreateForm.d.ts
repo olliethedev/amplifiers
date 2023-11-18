@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { AutocompleteProps, GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EmailList } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -27,7 +27,6 @@ export declare type EmailCampaignCreateFormInputValues = {
     emailSubject?: string;
     emailContent?: string;
     emailSender?: string;
-    draft?: boolean;
     emailLists?: EmailList[];
 };
 export declare type EmailCampaignCreateFormValidationValues = {
@@ -35,7 +34,6 @@ export declare type EmailCampaignCreateFormValidationValues = {
     emailSubject?: ValidationFunction<string>;
     emailContent?: ValidationFunction<string>;
     emailSender?: ValidationFunction<string>;
-    draft?: ValidationFunction<boolean>;
     emailLists?: ValidationFunction<EmailList>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -45,7 +43,6 @@ export declare type EmailCampaignCreateFormOverridesProps = {
     emailSubject?: PrimitiveOverrideProps<TextFieldProps>;
     emailContent?: PrimitiveOverrideProps<TextFieldProps>;
     emailSender?: PrimitiveOverrideProps<TextFieldProps>;
-    draft?: PrimitiveOverrideProps<SwitchFieldProps>;
     emailLists?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type EmailCampaignCreateFormProps = React.PropsWithChildren<{

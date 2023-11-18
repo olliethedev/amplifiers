@@ -15,7 +15,6 @@ import {
   Grid,
   Icon,
   ScrollView,
-  SwitchField,
   Text,
   TextField,
   useTheme,
@@ -199,7 +198,6 @@ export default function EmailCampaignCreateForm(props) {
     emailSubject: "",
     emailContent: "",
     emailSender: "",
-    draft: false,
     emailLists: [],
   };
   const [name, setName] = React.useState(initialValues.name);
@@ -212,7 +210,6 @@ export default function EmailCampaignCreateForm(props) {
   const [emailSender, setEmailSender] = React.useState(
     initialValues.emailSender
   );
-  const [draft, setDraft] = React.useState(initialValues.draft);
   const [emailLists, setEmailLists] = React.useState(initialValues.emailLists);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -220,7 +217,6 @@ export default function EmailCampaignCreateForm(props) {
     setEmailSubject(initialValues.emailSubject);
     setEmailContent(initialValues.emailContent);
     setEmailSender(initialValues.emailSender);
-    setDraft(initialValues.draft);
     setEmailLists(initialValues.emailLists);
     setCurrentEmailListsValue(undefined);
     setCurrentEmailListsDisplayValue("");
@@ -251,7 +247,6 @@ export default function EmailCampaignCreateForm(props) {
     emailSubject: [{ type: "Required" }],
     emailContent: [{ type: "Required" }],
     emailSender: [{ type: "Required" }],
-    draft: [{ type: "Required" }],
     emailLists: [
       { type: "Required", validationMessage: "EmailList is required." },
     ],
@@ -286,7 +281,6 @@ export default function EmailCampaignCreateForm(props) {
           emailSubject,
           emailContent,
           emailSender,
-          draft,
           emailLists,
         };
         const validationResponses = await Promise.all(
@@ -330,7 +324,6 @@ export default function EmailCampaignCreateForm(props) {
             emailSubject: modelFields.emailSubject,
             emailContent: modelFields.emailContent,
             emailSender: modelFields.emailSender,
-            draft: modelFields.draft,
           };
           const emailCampaign = await DataStore.save(
             new EmailCampaign(modelFieldsToSave)
@@ -378,7 +371,6 @@ export default function EmailCampaignCreateForm(props) {
               emailSubject,
               emailContent,
               emailSender,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -407,7 +399,6 @@ export default function EmailCampaignCreateForm(props) {
               emailSubject: value,
               emailContent,
               emailSender,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -436,7 +427,6 @@ export default function EmailCampaignCreateForm(props) {
               emailSubject,
               emailContent: value,
               emailSender,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -465,7 +455,6 @@ export default function EmailCampaignCreateForm(props) {
               emailSubject,
               emailContent,
               emailSender: value,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -481,35 +470,6 @@ export default function EmailCampaignCreateForm(props) {
         hasError={errors.emailSender?.hasError}
         {...getOverrideProps(overrides, "emailSender")}
       ></TextField>
-      <SwitchField
-        label="Draft"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={draft}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              emailSubject,
-              emailContent,
-              emailSender,
-              draft: value,
-              emailLists,
-            };
-            const result = onChange(modelFields);
-            value = result?.draft ?? value;
-          }
-          if (errors.draft?.hasError) {
-            runValidationTasks("draft", value);
-          }
-          setDraft(value);
-        }}
-        onBlur={() => runValidationTasks("draft", draft)}
-        errorMessage={errors.draft?.errorMessage}
-        hasError={errors.draft?.hasError}
-        {...getOverrideProps(overrides, "draft")}
-      ></SwitchField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
@@ -519,7 +479,6 @@ export default function EmailCampaignCreateForm(props) {
               emailSubject,
               emailContent,
               emailSender,
-              draft,
               emailLists: values,
             };
             const result = onChange(modelFields);

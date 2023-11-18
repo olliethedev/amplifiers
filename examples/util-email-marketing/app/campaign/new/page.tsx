@@ -21,11 +21,11 @@ export default function CreateCampaign() {
     const sendEmailDetails: SendEmailsMutationVariables = {
       recipients: recipients,
       subject: 'Test Email',
-      body: '<p>This is a <b>test</b> email</p>',
+      body: payload.emailContent??'',
       sender: 'no-reply@amplifyui.com',
       bodyText: 'This is a test email',
     };
-    
+    console.log({sendEmailDetails});
     const sendEmailsResponse = await client.graphql({
       query: mutations.sendEmails,
       variables: sendEmailDetails
@@ -34,7 +34,7 @@ export default function CreateCampaign() {
     console.log(sendEmailsResponse);
     }
     call();
-  }, []);
+  }, [recipients]);
   return (
     <PageWrapper>
         <Heading level={1}>Create Campaign</Heading>
