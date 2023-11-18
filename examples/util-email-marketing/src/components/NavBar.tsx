@@ -23,7 +23,7 @@ Amplify.configure(awsExports);
 export const NavBar = () => {
 
   const links = [
-    { text: "Dashboard", href: "/dashboard" },
+    { text: "Dashboard", href: "/marketing/dashboard" },
   ];
   return (
     <>

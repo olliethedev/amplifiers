@@ -20,4 +20,6 @@ export { default as LogoWithText } from "./LogoWithText";
 export { default as MyIcon } from "./MyIcon";
 export { default as RecipientDataRow } from "./RecipientDataRow";
 export { default as RecipientDataRowCollection } from "./RecipientDataRowCollection";
+export { default as Tag } from "./Tag";
+export { default as TagCollection } from "./TagCollection";
 export { default as studioTheme } from "./studioTheme";

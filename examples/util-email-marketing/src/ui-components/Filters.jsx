@@ -7,7 +7,7 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps } from "./utils";
-import { Button, Flex, SelectField } from "@aws-amplify/ui-react";
+import { Button, Flex, SearchField, SelectField } from "@aws-amplify/ui-react";
 export default function Filters(props) {
   const { overrides, ...rest } = props;
   return (
@@ -23,6 +23,18 @@ export default function Filters(props) {
       {...getOverrideProps(overrides, "Filters")}
       {...rest}
     >
+      <SearchField
+        width="300px"
+        height="unset"
+        shrink="0"
+        label="Label"
+        placeholder="Placeholder"
+        size="small"
+        isDisabled={false}
+        labelHidden={false}
+        variation="default"
+        {...getOverrideProps(overrides, "SearchField")}
+      ></SearchField>
       <SelectField
         width="240px"
         height="unset"

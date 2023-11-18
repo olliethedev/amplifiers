@@ -8,8 +8,8 @@ export const CampaignList = () => {
     const router = useRouter()
   return (
     <Flex direction="column">
-        <Button onClick={() => {
-            router.push('/campaign/new')
+        <Button width="fit-content" onClick={() => {
+            router.push('/marketing/campaign/new')
         }}>Create Campaign</Button>
     <CampaignCardCollection/>
     </Flex>

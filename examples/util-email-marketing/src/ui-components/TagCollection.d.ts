@@ -5,7 +5,8 @@
  **************************************************************************/
 
 import * as React from "react";
-import { ButtonProps, FlexProps, SearchFieldProps, SelectFieldProps } from "@aws-amplify/ui-react";
+import { TagProps } from "./Tag";
+import { CollectionProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -17,13 +18,17 @@ export declare type Variant = {
     overrides: EscapeHatchProps;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type FiltersOverridesProps = {
-    Filters?: PrimitiveOverrideProps<FlexProps>;
-    SearchField?: PrimitiveOverrideProps<SearchFieldProps>;
-    SelectField?: PrimitiveOverrideProps<SelectFieldProps>;
-    Button?: PrimitiveOverrideProps<ButtonProps>;
+export declare type TagCollectionOverridesProps = {
+    TagCollection?: PrimitiveOverrideProps<CollectionProps>;
+    Tag?: TagProps;
 } & EscapeHatchProps;
-export declare type FiltersProps = React.PropsWithChildren<Partial<FlexProps> & {
-    overrides?: FiltersOverridesProps | undefined | null;
+export declare type TagCollectionProps = React.PropsWithChildren<Partial<CollectionProps<any>> & {
+    items?: any[];
+    overrideItems?: (collectionItem: {
+        item: any;
+        index: number;
+    }) => TagProps;
+} & {
+    overrides?: TagCollectionOverridesProps | undefined | null;
 }>;
-export default function Filters(props: FiltersProps): React.ReactElement;
+export default function TagCollection(props: TagCollectionProps): React.ReactElement;

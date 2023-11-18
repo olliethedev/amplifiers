@@ -5,7 +5,8 @@
  **************************************************************************/
 
 import * as React from "react";
-import { ButtonProps, FlexProps, SearchFieldProps, SelectFieldProps } from "@aws-amplify/ui-react";
+import { EmailList } from "../models";
+import { BadgeProps, FlexProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -17,13 +18,13 @@ export declare type Variant = {
     overrides: EscapeHatchProps;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type FiltersOverridesProps = {
-    Filters?: PrimitiveOverrideProps<FlexProps>;
-    SearchField?: PrimitiveOverrideProps<SearchFieldProps>;
-    SelectField?: PrimitiveOverrideProps<SelectFieldProps>;
-    Button?: PrimitiveOverrideProps<ButtonProps>;
+export declare type TagOverridesProps = {
+    Tag?: PrimitiveOverrideProps<FlexProps>;
+    Badge?: PrimitiveOverrideProps<BadgeProps>;
 } & EscapeHatchProps;
-export declare type FiltersProps = React.PropsWithChildren<Partial<FlexProps> & {
-    overrides?: FiltersOverridesProps | undefined | null;
+export declare type TagProps = React.PropsWithChildren<Partial<FlexProps> & {
+    emailList?: EmailList;
+} & {
+    overrides?: TagOverridesProps | undefined | null;
 }>;
-export default function Filters(props: FiltersProps): React.ReactElement;
+export default function Tag(props: TagProps): React.ReactElement;

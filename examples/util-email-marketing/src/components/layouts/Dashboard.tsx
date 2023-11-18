@@ -1,12 +1,12 @@
-"use client";
-import { PageWrapper } from "@/src/components/PageWrapper";
-import { CampaignList } from "@/src/components/layouts/CampaignList";
-import { EmailList } from "@/src/components/layouts/EmailList";
-import { RecipientList } from "@/src/components/layouts/RecipientList";
+'use client'
+import React from 'react'
 import { Authenticator, Card, Tabs } from "@aws-amplify/ui-react";
-import React from "react";
+import { PageWrapper } from "../PageWrapper";
+import { CampaignList } from "./CampaignList";
+import { EmailList } from "./EmailList";
+import { RecipientList } from "./RecipientList";
 
-export default () => {
+export const DashboardContent = () => {
   return (
     <PageWrapper>
       <Card>
@@ -25,5 +25,5 @@ export default () => {
         </Authenticator>
       </Card>
     </PageWrapper>
-  );
-};
+  )
+}
