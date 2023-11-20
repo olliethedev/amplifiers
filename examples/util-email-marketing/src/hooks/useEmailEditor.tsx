@@ -32,13 +32,13 @@ export const useEmailEditor = (initialContent: string) => {
     currentValue: string,
     getDisplayValue: (value: string) => string = (value) => value
   ) => {
-    console.log("runValidationTasks", { fieldName, currentValue });
+    
     const value =
       currentValue && getDisplayValue
         ? getDisplayValue(currentValue)
         : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
-    console.log("runValidationTasks", { validationResponse });
+    
     const updatedErrors = { ...errors, [fieldName]: validationResponse };
     setErrors(updatedErrors);
     return validationResponse;
@@ -96,7 +96,5 @@ export const useEmailEditor = (initialContent: string) => {
     />
   );
 
-  console.log("useEmailEditor", { layout, content, emailHtml, errors });
-
-  return { layout, content, emailHtml, setContent, errors, runAllValidationTasks };
+  return { layout, content, emailHtml, emailText, setContent, errors, runAllValidationTasks };
 };

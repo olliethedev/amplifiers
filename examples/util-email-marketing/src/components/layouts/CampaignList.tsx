@@ -27,6 +27,11 @@ export const CampaignList = () => {
           index: number;
         }) => ({
           tagPlaceholder: <CampaignEmailLists campaign={item} />,
+          overrides:{
+            SendButton:{
+              display: "none"
+            }
+          }
         })}/>
     </Flex>
   );

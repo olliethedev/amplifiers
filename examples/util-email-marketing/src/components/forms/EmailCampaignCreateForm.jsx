@@ -228,7 +228,6 @@ primos.
 
 `,
     emailSender: "",
-    draft: false,
     emailLists: [],
   };
   const [name, setName] = React.useState(initialValues.name);
@@ -245,6 +244,7 @@ primos.
     setContent: setEmailContent,
     content: inputContent,
     emailHtml,
+    emailText,
     errors: emailEditorErrors,
     runAllValidationTasks: runEmailEditorValidationTasks,
   } = useEmailEditor(initialValues.emailContent);
@@ -252,7 +252,6 @@ primos.
   const [emailSender, setEmailSender] = React.useState(
     initialValues.emailSender
   );
-  const [draft, setDraft] = React.useState(initialValues.draft);
   const [emailLists, setEmailLists] = React.useState(initialValues.emailLists);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -260,7 +259,6 @@ primos.
     setEmailSubject(initialValues.emailSubject);
     setEmailContent(initialValues.emailContent);
     setEmailSender(initialValues.emailSender);
-    setDraft(initialValues.draft);
     setEmailLists(initialValues.emailLists);
     setCurrentEmailListsValue(undefined);
     setCurrentEmailListsDisplayValue("");
@@ -291,7 +289,6 @@ primos.
     emailSubject: [{ type: "Required" }],
     emailContent: [{ type: "Required" }],
     emailSender: [{ type: "Required" }],
-    draft: [{ type: "Required" }],
     emailLists: [
       { type: "Required", validationMessage: "EmailList is required." },
     ],
@@ -324,7 +321,6 @@ primos.
       emailSubject,
       emailContent,
       emailSender,
-      draft,
       emailLists,
     };
     const validationResponses = await Promise.all(
@@ -349,9 +345,8 @@ primos.
     );
     const emailEditorValidationResponses =
       await runEmailEditorValidationTasks();
-    console.log(validationResponses);
-    console.log(emailEditorValidationResponses);
-    if (
+    
+      if (
       validationResponses.some((r) => r.hasError) ||
       emailEditorValidationResponses.some((r) => r.hasError)
     ) {
@@ -374,7 +369,6 @@ primos.
         emailSubject: modelFields.emailSubject,
         emailContent: modelFields.emailContent,
         emailSender: modelFields.emailSender,
-        draft: modelFields.draft,
       };
 
       console.log(modelFieldsToSave);
@@ -398,13 +392,12 @@ primos.
         try {
           const {modelFieldsToSave, modelFields} = await handleValidation();
 
-          throw new Error("testing end");
           const emailCampaign = await DataStore.save(
             new EmailCampaign(modelFieldsToSave)
           );
           const promises = [];
           promises.push(
-            ...emailLists.reduce((promises, emailList) => {
+            ...modelFields.emailLists.reduce((promises, emailList) => {
               promises.push(
                 DataStore.save(
                   new EmailListsEmailCampaigns({
@@ -417,8 +410,10 @@ primos.
             }, [])
           );
           await Promise.all(promises);
+          console.log("Saved EmailCampaign with id: ", emailCampaign.id);
+          console.log(onSuccess)
           if (onSuccess) {
-            onSuccess(modelFields);
+            onSuccess(modelFields, {emailText});
           }
           if (clearOnSuccess) {
             resetStateValues();
@@ -445,7 +440,6 @@ primos.
               emailSubject,
               emailContent,
               emailSender,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -474,7 +468,6 @@ primos.
               emailSubject: value,
               emailContent,
               emailSender,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -499,7 +492,6 @@ primos.
               emailSubject,
               emailContent,
               emailSender,
-              draft,
               emailLists: values,
             };
             const result = onChange(modelFields);
@@ -572,40 +564,6 @@ primos.
         ></Autocomplete>
       </ArrayField>
 
-      {/* <Flex>
-      <TextField
-        label="Email content"
-        isRequired={true}
-        isReadOnly={false}
-        value={emailContent}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              emailSubject,
-              emailContent: value,
-              emailSender,
-              draft,
-              emailLists,
-            };
-            const result = onChange(modelFields);
-            value = result?.emailContent ?? value;
-          }
-          if (errors.emailContent?.hasError) {
-            runValidationTasks("emailContent", value);
-          }
-          setEmailContent(value);
-        }}
-        onBlur={() => runValidationTasks("emailContent", emailContent)}
-        errorMessage={errors.emailContent?.errorMessage}
-        hasError={errors.emailContent?.hasError}
-        {...getOverrideProps(overrides, "emailContent")}
-      ></TextField>
-
-      
-      </Flex> */}
-
       {emailEditorLayout}
 
       <TextField
@@ -621,7 +579,6 @@ primos.
               emailSubject,
               emailContent,
               emailSender: value,
-              draft,
               emailLists,
             };
             const result = onChange(modelFields);
@@ -637,35 +594,6 @@ primos.
         hasError={errors.emailSender?.hasError}
         {...getOverrideProps(overrides, "emailSender")}
       ></TextField>
-      <SwitchField
-        label="Draft"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={draft}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              emailSubject,
-              emailContent,
-              emailSender,
-              draft: value,
-              emailLists,
-            };
-            const result = onChange(modelFields);
-            value = result?.draft ?? value;
-          }
-          if (errors.draft?.hasError) {
-            runValidationTasks("draft", value);
-          }
-          setDraft(value);
-        }}
-        onBlur={() => runValidationTasks("draft", draft)}
-        errorMessage={errors.draft?.errorMessage}
-        hasError={errors.draft?.hasError}
-        {...getOverrideProps(overrides, "draft")}
-      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -686,7 +614,7 @@ primos.
             onClick={async (event) => {
               event.preventDefault();
               const { modelFields} = await handleValidation();
-              onTest && onTest(modelFields);
+              onTest && onTest(modelFields, {emailText});
             }}
           ></Button>
         <Flex

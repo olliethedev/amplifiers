@@ -6,7 +6,7 @@
 
 import * as React from "react";
 import { AutocompleteProps, GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EmailList } from "../models";
+import { EmailList } from "../../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -29,6 +29,9 @@ export declare type EmailCampaignCreateFormInputValues = {
     emailSender?: string;
     draft?: boolean;
     emailLists?: EmailList[];
+};
+export declare type EmailCampaignCreateFormInputValuesExtraData = {
+    emailText?: string;
 };
 export declare type EmailCampaignCreateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -53,8 +56,8 @@ export declare type EmailCampaignCreateFormProps = React.PropsWithChildren<{
 } & {
     clearOnSuccess?: boolean;
     onSubmit?: (fields: EmailCampaignCreateFormInputValues) => EmailCampaignCreateFormInputValues;
-    onSuccess?: (fields: EmailCampaignCreateFormInputValues) => void;
-    onTest?: (fields: EmailCampaignCreateFormInputValues) => void;
+    onSuccess?: (fields: EmailCampaignCreateFormInputValues, extra: EmailCampaignCreateFormInputValuesExtraData) => void;
+    onTest?: (fields: EmailCampaignCreateFormInputValues, extra: EmailCampaignCreateFormInputValuesExtraData) => void;
     onError?: (fields: EmailCampaignCreateFormInputValues, errorMessage: string) => void;
     onChange?: (fields: EmailCampaignCreateFormInputValues) => EmailCampaignCreateFormInputValues;
     onValidate?: EmailCampaignCreateFormValidationValues;

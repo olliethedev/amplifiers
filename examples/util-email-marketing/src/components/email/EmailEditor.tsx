@@ -75,7 +75,7 @@ export const EmailEditor = ({
   setErrors,
   runValidationTasks
 }: EmailEditorProps) => {
-  console.log("EmailEditor", { content });
+  
   const [selectedTemplate, setSelectedTemplate] =
     React.useState<string>("Simple");
 
@@ -91,12 +91,6 @@ export const EmailEditor = ({
         return StripeLikeTemplate;
     }
   };
-
-
-
-
-  
-
 
   const SelectedTemplate = getSelectedTemplate();
   return (

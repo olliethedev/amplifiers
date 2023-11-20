@@ -60,11 +60,10 @@ const handler = async (event) => {
       },
     };
 
-    sendCount += emails.length;
-
     try {
       const command = new SendEmailCommand(params);
       const response = await sesClient.send(command);
+      sendCount += emails.length;
       console.log("Email sent:", JSON.stringify(response));
       return response;
     } catch (err) {
@@ -91,7 +90,7 @@ const handler = async (event) => {
     //      "Access-Control-Allow-Origin": "*",
     //      "Access-Control-Allow-Headers": "*"
     //  },
-    body: JSON.stringify(`${sendCount.length} emails sent`),
+    body: JSON.stringify(`${sendCount} emails sent`),
   };
 };
 
