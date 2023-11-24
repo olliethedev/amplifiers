@@ -30,6 +30,11 @@ export const CampaignList = () => {
           overrides:{
             SendButton:{
               display: "none"
+            },
+            ViewButton:{
+              onClick: () => {
+                router.push(`/marketing/campaign/${item.id}`);
+              }
             }
           }
         })}/>
